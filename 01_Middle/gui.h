@@ -6,9 +6,10 @@
 void drawBoard() //Example For Using imgui for our purposes
 {
 	ImGui::Text("This function works like printf. FPS = %f", ImGui::GetIO().Framerate);
-	static std::vector<std::string> vec(20 * 20, "0"); //not the 'static' here
+	static std::vector<std::string> vec(20 * 20, "0"); //note the 'static' here
 	float size = std::max(std::min(ImGui::GetContentRegionAvail().x, ImGui::GetContentRegionAvail().y+110),400.f);
 	float button_size = size /20-8;
+	ImGui::ProgressBar(ImGui::GetIO().Framerate / 300.0);
 	for(int i = 0; i < 20; ++i)
 	{
 		ImGui::PushID(i);		// If two objects have the same label, the imgui doesnt know which one you clicked on

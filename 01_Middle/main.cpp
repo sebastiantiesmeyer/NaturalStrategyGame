@@ -12,6 +12,7 @@
 
 // Our stuff
 #include "gui.h"
+#include "game_master.h"
 
 SDL_Window *win; //pointer to window
 SDL_GLContext context; //id of context created for opengl (also a pointer)
@@ -35,6 +36,9 @@ int quit_from_app(int stages = 4, const char* errormessage = "", const char* err
 
 int main( int argc, char* args[] )
 {
+	GameMaster game;
+	game.game();
+
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)	quit_from_app(0, "[SDL indítása]Hiba az SDL inicializálása közben: ", SDL_GetError());
 	// Setting up OpenGL framebuffers
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);

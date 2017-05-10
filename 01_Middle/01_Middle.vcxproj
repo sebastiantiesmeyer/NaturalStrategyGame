@@ -90,6 +90,9 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="abstract_player.h" />
+    <ClInclude Include="data_types.h" />
+    <ClInclude Include="game_master.h" />
     <ClInclude Include="gui.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
