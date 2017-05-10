@@ -29,15 +29,18 @@ int quit_from_app(int stages = 4, const char* errormessage = "", const char* err
 	case 0: break;
 	default: std::cout << "Invalid cleanup stage." << std::endl; break;
 	}
-	int ret = errormessage[0] == '\0';
-	if(ret) std::cin.get();
+	int ret = errormessage[0] != '\0';
+	if(ret)
+	{
+		std::cout << "Press any key to exit" << std::endl;
+		std::cin.get();
+	}
 	exit(ret);
 }
 
 int main( int argc, char* args[] )
 {
 	GameMaster game;
-	game.game();
 
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)	quit_from_app(0, "[SDL indítása]Hiba az SDL inicializálása közben: ", SDL_GetError());
 	// Setting up OpenGL framebuffers
@@ -98,8 +101,9 @@ int main( int argc, char* args[] )
 			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clears framebuffer (try without it!)
-
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
+		game.RenderUpdate();
+		game.Render();
 		drawBoard(); //CHECK gui.h !!!
 		ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();

@@ -11,11 +11,6 @@ enum UNIT_TYPE
 	ROCK = 0, SCISSOR = 1, PAPER = 2,
 };
 
-/*enum CELL_TYPE
-{
-	NORMAL, BASE, OUTPOST
-};*/
-
 struct Cell
 {
 	int id = 0; //empty
@@ -33,15 +28,6 @@ struct Unit
 	bool moved = false;
 };
 
-
-/*enum DIRECTION
-{
-	NONE = 0,
-	NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4,
-	UP = 1, RIGHT = 2, DOWN = 3, LEFT = 4,
-};*/
-
-
 struct Command
 {
 	int id;
@@ -57,7 +43,6 @@ struct UnitProgress
 };
 
 typedef std::map<int, Unit> Units;
-//typedef std::vector<Cell> Board;
 
 struct Board
 {
@@ -79,7 +64,25 @@ struct CommandQueue
 	UNIT_TYPE train;
 };
 
-Position auto_rotate(Position dir, int i) //i = player
+static Position auto_rotate(const Position &dir, int i) //i = player
 {
 	return (i == 0 ? dir : Position(game_size-1) - dir);
 }
+
+enum GAME_STATUS
+{
+	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2
+};
+
+
+/*enum DIRECTION
+{
+	NONE = 0,
+	NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4,
+	UP = 1, RIGHT = 2, DOWN = 3, LEFT = 4,
+};*/
+
+/*enum CELL_TYPE
+{
+	NORMAL, BASE, OUTPOST
+};*/
