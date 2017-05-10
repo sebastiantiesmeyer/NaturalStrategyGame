@@ -40,7 +40,6 @@ int quit_from_app(int stages = 4, const char* errormessage = "", const char* err
 
 int main( int argc, char* args[] )
 {
-	GameMaster game;
 
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)	quit_from_app(0, "[SDL indítása]Hiba az SDL inicializálása közben: ", SDL_GetError());
 	// Setting up OpenGL framebuffers
@@ -81,6 +80,8 @@ int main( int argc, char* args[] )
 	SDL_Event ev;		//Keyboard, Mouse, Window resize, Quit, ect events are stored in this
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f); //background color [0,1]-RGBA
 	
+	GameMaster game;
+
 	while (!quit)	//the main 'infinite' loop for rendering frame-by-frame
 	{
 		while ( SDL_PollEvent(&ev) ) //SDL has a stack for events. we empty the stack since last frame

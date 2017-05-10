@@ -27,19 +27,18 @@ bool GameMaster::RenderUpdate() //return true when the game is ended
 		player[1]->StartTurn(unit_progress[1]);
 		player_0_done = player_1_done = false;
 	}
-	else	//othervise, players are not finished
+	if(player[0]->RenderUpdate())
 	{
-		if(player[0]->RenderUpdate())
-		{
-			queue0 = &player[0]->GetCommandQueue();
-			player_0_done = true;
-		}
-		if(player[1]->RenderUpdate())
-		{
-			queue1 = &player[1]->GetCommandQueue();
-			player_1_done = true;
-		}
+		queue0 = &player[0]->GetCommandQueue();
+		player_0_done = true;
 	}
+	if(player[1]->RenderUpdate())
+	{
+		queue1 = &player[1]->GetCommandQueue();
+		player_1_done = true;
+	}
+
+	if(++cycle > max_cycles) game_status = DRAW;
 	return false;
 }
 
@@ -80,9 +79,9 @@ void GameMaster::simulate_board()
 	train_for_player(queue1->train, unit_progress[1], 1);
 
 	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
-	if(p1 && p2 || !p1 && !p2) game_status = DRAW; //Draw
-	if(p2) game_status = PLAYER1WON; //p2 lost p1 won
-	if(p1) game_status = PLAYER2WON; //vice versa
+	if(p1 && p2) game_status = DRAW; //Draw
+	else if(p2) game_status = PLAYER1WON; //p2 lost p1 won
+	else if(p1) game_status = PLAYER2WON; //vice versa
 }
 
 bool GameMaster::did_loose_player(int i)

@@ -5,7 +5,7 @@
 class AbstractPlayer
 {
 public:
-	AbstractPlayer(const Board &board, const Units &units, int ind = 0): board(board), units(units){}
+	AbstractPlayer(const Board &board, const Units &units, int ind): board(board), units(units), ind(ind){}
 
 	void StartTurn(UnitProgress _unit_progress)
 	{	//messages to the player the the turn has started. Dont do computation here, just initializations!
@@ -26,7 +26,7 @@ public:
 			do_Render();
 			ImGui::End();
 		}
-		return  0 == iteration; //returns true when there's 
+		return  0 == iteration; //returns true when aswer available
 	}
 
 	const CommandQueue& GetCommandQueue()
@@ -49,6 +49,7 @@ protected:
 };
 
 #include <string>
+#include <iostream>
 
 class DummyPlayer : public AbstractPlayer //Example Player implementation
 {
