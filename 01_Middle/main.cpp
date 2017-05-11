@@ -11,7 +11,6 @@
 #include <sstream>
 
 // Our stuff
-#include "gui.h"
 #include "game_master.h"
 
 SDL_Window *win; //pointer to window
@@ -105,7 +104,6 @@ int main( int argc, char* args[] )
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
 		game.RenderUpdate();
 		game.Render();
-		drawBoard(); //CHECK gui.h !!!
 		ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on

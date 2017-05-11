@@ -28,8 +28,8 @@ struct Command
 
 struct UnitProgress
 {
-	std::array<int,3> progress;
-	int total_time;
+	std::array<int, 3> progress = {0,0,0};
+	int total_time = 10;
 	int our_base_captured = 0;
 	int enemy_base_captured = 0;
 };

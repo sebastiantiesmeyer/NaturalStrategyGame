@@ -92,9 +92,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
+    <ClInclude Include="board_viewer.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
-    <ClInclude Include="gui.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_sdl_gl3.h" />

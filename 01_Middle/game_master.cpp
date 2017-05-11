@@ -1,5 +1,5 @@
 #include "game_master.h"
-
+#include "board_viewer.h"
 GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
@@ -48,6 +48,7 @@ void GameMaster::Render()
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "This Render function");
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Human player");
 		ImGui::Bullet(); ImGui::TextColored({ 0,0,1,1 }, "Time measurement");
+		view_board(board, 0);
 		ImGui::End();
 	}
 }
