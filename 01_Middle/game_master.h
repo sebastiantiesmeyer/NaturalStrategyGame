@@ -19,8 +19,8 @@ private:
 	bool did_loose_player(int i);
 	void train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int i);
 	
-	void kill_unit(int id);
-	void move_unit(int id, Position &newpos);
+	void kill_unit(Unit &unit);
+	void move_unit(Unit &unit, const Position &newpos);
 
 private:
 	int largest_id = 0;
@@ -33,7 +33,7 @@ private:
 	std::uniform_int_distribution<int> rnd_distribution;
 
 	int cycle = 0;
-	const int max_cycles = 1000;
+	const int max_cycles = 5000;
 	bool player_0_done = false;
 	bool player_1_done = false;
 

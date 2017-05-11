@@ -6,18 +6,10 @@
 
 const int game_size = 20;
 
-enum UNIT_TYPE
-{
-	ROCK = 0, SCISSOR = 1, PAPER = 2,
-};
+enum UNIT_TYPE{	ROCK = 0, SCISSOR = 1, PAPER = 2,};
 
-struct Cell
-{
-	int id = 0; //empty
-};
-
+typedef glm::ivec2 Position; //Board is indexed with Positions
 typedef glm::ivec2 Dir;
-typedef glm::ivec2 Position;
 
 struct Unit
 {
@@ -31,7 +23,7 @@ struct Unit
 struct Command
 {
 	int id;
-	Dir dir = Dir(0,0);
+	Dir dir = Dir(0,0);		// x,y offsets
 };
 
 struct UnitProgress
@@ -43,6 +35,12 @@ struct UnitProgress
 };
 
 typedef std::map<int, Unit> Units;
+
+struct Cell
+{
+	int id = 0; //empty // we may not even need this, just the pointer
+	Unit* unit = nullptr; // might be a lot faster
+};
 
 struct Board
 {
@@ -64,15 +62,12 @@ struct CommandQueue
 	UNIT_TYPE train;
 };
 
-static Position auto_rotate(const Position &dir, int i) //i = player
+inline Position auto_rotate(const Position &dir, int player)
 {
-	return (i == 0 ? dir : Position(game_size-1) - dir);
+	return (player == 0 ? dir : Position(game_size-1) - dir);
 }
 
-enum GAME_STATUS
-{
-	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2
-};
+enum GAME_STATUS{	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2};
 
 
 /*enum DIRECTION

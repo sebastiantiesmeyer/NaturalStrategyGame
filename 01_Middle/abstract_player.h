@@ -2,15 +2,26 @@
 #include "data_types.h"
 #include "imgui\imgui.h"
 
+struct AbstPlayerConstrParams //Simple constructors for Player classes
+{
+	const Board &board;
+	const Units &units;
+	const UnitProgress &unit_progress;
+	int ind;
+};
+
 class AbstractPlayer
 {
 public:
-	AbstractPlayer(const Board &board, const Units &units, int ind): board(board), units(units), ind(ind){}
+	AbstractPlayer(const AbstPlayerConstrParams &pars)
+		: board(pars.board), units(pars.units), unit_progress(pars.unit_progress), ind(pars.ind)
+	{
+		queue.train = ROCK; //Just in case
+	}
 
-	void StartTurn(UnitProgress _unit_progress)
+	void StartTurn()
 	{	//messages to the player the the turn has started. Dont do computation here, just initializations!
 		iteration = 1;
-		unit_progress = _unit_progress;
 		queue.unitcmds.clear();
 		do_StartTurn();
 	}
@@ -20,6 +31,7 @@ public:
 		if(0 != iteration)
 		{
 			if(do_Update()) iteration = 0; //only return true when you end your turn!
+			else ++iteration; // my mistake
 		}
 		if(ImGui::Begin((0 == ind ? "Player 1" : "Player 2")))
 		{	//creates a window for this player, do_Render only runs when window is active!
@@ -41,7 +53,7 @@ protected:
 	virtual void do_Render() = 0;		// draws stuff you want to draw
 protected:
 	CommandQueue queue;
-	UnitProgress unit_progress;
+	const UnitProgress &unit_progress;
 	const Board &board;
 	const Units &units;
 	int ind = 0;
@@ -54,18 +66,59 @@ protected:
 class DummyPlayer : public AbstractPlayer //Example Player implementation
 {
 public:
-	DummyPlayer(const Board &board, const Units &units, int ind = 0) : AbstractPlayer::AbstractPlayer(board,units, ind){}
+	DummyPlayer(const AbstPlayerConstrParams &pars) : AbstractPlayer::AbstractPlayer(pars){}
 
-	virtual void do_StartTurn(){}
+	virtual void do_StartTurn()
+	{
+		endturn = false;
+	}
 
 	virtual void do_Render()
 	{
-		ImGui::TextUnformatted("Whatever");
+		if(iteration != 0)
+		{
+			ImGui::TextColored({ 1,0,1,1 }, "Thinking hard");
+		}
+		else
+		{
+			ImGui::TextColored({ 0,1,0,1 }, "Not my turn");
+		}
+		ImGui::Separator(); char buff[256];
+
+		sprintf_s(buff, "%d/%d", unit_progress.progress[ROCK], unit_progress.total_time);
+		ImGui::RadioButton("Rock", (int*)&queue.train, (int)ROCK); ImGui::SameLine(100);
+		if(queue.train == ROCK) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+		ImGui::ProgressBar(unit_progress.progress[ROCK] / (float)unit_progress.total_time, { -1,0 }, buff);
+		if(queue.train == ROCK) ImGui::PopStyleColor();
+
+		sprintf_s(buff, "%d/%d", unit_progress.progress[SCISSOR], unit_progress.total_time);
+		ImGui::RadioButton("Scissor", (int*)&queue.train, (int)SCISSOR); ImGui::SameLine(100);
+		if(queue.train == SCISSOR) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+		ImGui::ProgressBar(unit_progress.progress[SCISSOR] / (float)unit_progress.total_time, { -1,0 }, buff);
+		if(queue.train == SCISSOR) ImGui::PopStyleColor();
+
+		sprintf_s(buff, "%d/%d", unit_progress.progress[PAPER], unit_progress.total_time);
+		ImGui::RadioButton("Paper", (int*)&queue.train, (int)PAPER); ImGui::SameLine(100);
+		if(queue.train == PAPER) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+		ImGui::ProgressBar(unit_progress.progress[PAPER] / (float)unit_progress.total_time, { -1,0 }, buff);
+		if(queue.train == PAPER) ImGui::PopStyleColor();
+
+		ImGui::Separator();
+
+		if(iteration != 0)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, { 0,0,1,0.5 });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0,0,1,0.75 });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0,0,1,1 });
+			endturn = ImGui::Button("End Turn", { -1,45 });
+			ImGui::PopStyleColor(3);
+		}
 	}
 
 	virtual bool do_Update()
 	{
-		queue.train = (UNIT_TYPE)(iteration % 3);
-		return iteration < 10;
+		return endturn;
 	}
+	int max_iterations = 20;
+	bool endturn = false;
 };
