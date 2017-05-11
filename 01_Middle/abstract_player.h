@@ -1,6 +1,7 @@
 #pragma once
 #include "data_types.h"
 #include "imgui\imgui.h"
+#include "board_viewer.h"
 
 struct AbstPlayerConstrParams //Simple constructors for Player classes
 {
@@ -36,8 +37,8 @@ public:
 		if(ImGui::Begin((0 == ind ? "Player 1" : "Player 2")))
 		{	//creates a window for this player, do_Render only runs when window is active!
 			do_Render();
-			ImGui::End();
 		}
+		ImGui::End();
 		return  0 == iteration; //returns true when aswer available
 	}
 
@@ -76,13 +77,9 @@ public:
 	virtual void do_Render()
 	{
 		if(iteration != 0)
-		{
 			ImGui::TextColored({ 1,0,1,1 }, "Thinking hard");
-		}
 		else
-		{
 			ImGui::TextColored({ 0,1,0,1 }, "Not my turn");
-		}
 		ImGui::Separator(); char buff[256];
 
 		sprintf_s(buff, "%d/%d", unit_progress.progress[ROCK], unit_progress.total_time);
@@ -104,6 +101,7 @@ public:
 		if(queue.train == PAPER) ImGui::PopStyleColor();
 
 		ImGui::Separator();
+		view_board_and_add_command(board, queue, ind);
 
 		if(iteration != 0)
 		{

@@ -49,8 +49,8 @@ void GameMaster::Render()
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Human player");
 		ImGui::Bullet(); ImGui::TextColored({ 0,0,1,1 }, "Time measurement");
 		view_board(board, 0);
-		ImGui::End();
 	}
+		ImGui::End();
 }
 
 void GameMaster::simulate_board()
@@ -106,7 +106,7 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 		new_unit.type = what_to_train;
 		new_unit.pos = auto_rotate(pos, i); //rotate back
 		units.emplace(std::make_pair(largest_id, new_unit));
-		board[pos].id != largest_id; //updating cell
+		board[pos].id = largest_id; //updating cell
 		board[pos].unit = &units.at(largest_id);
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times

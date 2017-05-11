@@ -40,6 +40,9 @@
     <ClCompile Include="game_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="board_view.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
