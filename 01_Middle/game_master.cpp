@@ -4,7 +4,7 @@ GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
 	player[0] = new DummyPlayer({ board, units, unit_progress[0], 0 });
-	player[1] = new DummyPlayer({ board, units, unit_progress[1], 1 });
+	player[1] = new RandomPlayer({ board, units, unit_progress[1], 1 });
 	unit_progress[0].progress = { 0,0,0 };
 	unit_progress[0].total_time = 10;
 	unit_progress[0].our_base_captured = 0;
