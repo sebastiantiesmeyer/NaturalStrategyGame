@@ -18,11 +18,13 @@ const glm::vec4 selctd = glm::vec4(0.20f, 0.20f, 0.20f, 0.20f); // Highlight sel
 //faction (additive)
 const glm::vec4 fridly = glm::vec4(1.00f, 0.00f, 0.00f, 1.00f);
 const glm::vec4 enemys = glm::vec4(0.00f, 0.00f, 1.00f, 1.00f);
+const glm::vec4 playr0 = glm::vec4(1.00f, 1.00f, 0.00f, 1.00f);
+const glm::vec4 playr1 = glm::vec4(1.00f, 0.00f, 1.00f, 1.00f);
 const glm::vec4 naturl = glm::vec4(0.00f, 1.00f, 0.00f, 1.00f);
 //Unit names
 static const char* RSP[3] = {"R", "S", "P" };
 
-void view_board(const Board &board, int player);
+void view_board(const Board &board);
 
 void view_board_and_add_command(const Board &board, CommandQueue &queue, int player);
 

@@ -48,9 +48,9 @@ void GameMaster::Render()
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "This Render function");
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Human player");
 		ImGui::Bullet(); ImGui::TextColored({ 0,0,1,1 }, "Time measurement");
-		view_board(board, 0);
+		view_board(board);
 	}
-		ImGui::End();
+	ImGui::End();
 }
 
 void GameMaster::simulate_board()
@@ -81,23 +81,23 @@ void GameMaster::simulate_board()
 	if(++cycle > max_cycles) game_status = DRAW;
 }
 
-bool GameMaster::did_loose_player(int i)
+bool GameMaster::did_loose_player(int player)
 {
 	//int id = board[auto_rotate(Position(0, 0), i)].id; //base of player i
-	Unit * unitptr = board[auto_rotate(Position(0, 0), i)].unit; //pointer to the unit on that position
+	Unit * unitptr = board(Position(0, 0), player).unit; //pointer to the unit on that position
 	if(unitptr == nullptr) return false;
-	unit_progress[i].our_base_captured += (int)(unitptr->player != i); //enemy standing on our base
-	unit_progress[1 - i].enemy_base_captured = unit_progress[i].our_base_captured;
-	return unit_progress[i].our_base_captured > 20; //after 20 cycles player i looses
+	unit_progress[player].our_base_captured += (int)(unitptr->player != player); //enemy standing on our base
+	unit_progress[1 - player].enemy_base_captured = unit_progress[player].our_base_captured;
+	return unit_progress[player].our_base_captured > 20; //after 20 cycles player i looses
 }
 
-void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int i)
+void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
 {
 	++unit_progress.progress[what_to_train];
-	Position pos = auto_rotate(Position(0, 0), i);
-	if(board[pos].unit != nullptr) return; //cell not empty, do nothing else
+	Position pos = Position(0, 0);
+	if(board(pos, player).unit != nullptr) return; //cell not empty, do nothing else
 
-	int numoops = (int)(board.op1 == i) + (int)(board.op2 == i);
+	int numoops = (int)(board.op1 == player) + (int)(board.op2 == player);
 
 	if(unit_progress.progress[what_to_train] >= unit_progress.total_time * (4-numoops)/4)
 	{
@@ -105,67 +105,67 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 		Unit new_unit;
 		new_unit.id = largest_id;
 		new_unit.moved = false;
-		new_unit.player = i;
+		new_unit.player = player;
 		new_unit.type = what_to_train;
-		new_unit.pos = auto_rotate(pos, i); //rotate back
+		new_unit.pos = pos;
 		units.emplace(std::make_pair(largest_id, new_unit));
-		board[pos].id = largest_id; //updating cell
-		board[pos].unit = &units.at(largest_id);
+		board(pos, player).id = largest_id; //updating cell
+		board(pos, player).unit = &units.at(largest_id);
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}
 }
 
-void GameMaster::kill_unit(Unit &unit)
+void GameMaster::kill_unit(Unit &unit, int player)
 {
-	board[unit.pos].id = 0;
-	board[unit.pos].unit = nullptr;
+	board(unit.pos, player).id = 0;
+	board(unit.pos, player).unit = nullptr;
 	units.erase(unit.id);
 }
-void GameMaster::move_unit(Unit &unit, const Position &newpos)
+void GameMaster::move_unit(Unit &unit, const Position &newpos, int player)
 {
-	board[newpos].id = board[unit.pos].id;
-	board[unit.pos].id = 0;
-	board[newpos].unit = board[unit.pos].unit;
-	board[unit.pos].unit = nullptr;
+	board(newpos, player).id = board(unit.pos, player).id;
+	board(unit.pos, player).id = 0;
+	board(newpos, player).unit = board(unit.pos, player).unit;
+	board(unit.pos, player).unit = nullptr;
 	unit.pos = newpos;
 	unit.moved = true; //we forgot this! :)
 }
 
-void GameMaster::execute_command_for_player(const Command &command, int i)
+void GameMaster::execute_command_for_player(const Command &command, int player)
 {
 	Unit &unit = units.at(command.id); //the command commands this unit
 	Dir dir = command.dir;
 	dir.x = glm::clamp(dir.x, -1, 1); //no cheating
 	dir.y = glm::clamp(dir.y, -1, 1);
-	dir = (i == 0 ? dir : -dir); //change direction for other player's perspective
+	//dir = (player == 0 ? dir : -dir); //change direction for other player's perspective
 	Position newpos = unit.pos + dir;
 	if(!unit.moved						//unit did not move in this cycle
-	   && unit.player == i				//cannot move enemy's player!! we forgot this as well
+	   && unit.player == player				//cannot move enemy's player!! we forgot this as well
 	   && abs(dir.x) + abs(dir.y) == 1	//no diagonal move
 	   && 0 <= newpos.x && newpos.x < game_size
 	   && 0 <= newpos.y && newpos.y < game_size)
 	{ //othervise we dont move
-		if(board[unit.pos + dir].unit == nullptr) //empty cell
+		if(board(unit.pos + dir, player).unit == nullptr) //empty cell
 		{
-			move_unit(unit, newpos);
+			move_unit(unit, newpos, player);
 		}
 		else
 		{
 			//Unit &other_unit = units.at(board[newpos].id); //the unit on the target cell
-			Unit &other_unit = *board[newpos].unit; //the unit on the target cell
-			if(other_unit.player != i) //enemy
+			Unit &other_unit = *board(newpos, player).unit; //the unit on the target cell
+			if(other_unit.player != player) //enemy
 			{
 				switch((unit.type - other_unit.type) % 3)
 				{
 				case 0: //both die
-					kill_unit(unit);
-					kill_unit(other_unit);
+					kill_unit(unit, player);
+					kill_unit(other_unit, player);
 				case 1: //we die
-					kill_unit(unit);
+					kill_unit(unit, player);
 				case 2: //yeah
-					kill_unit(other_unit);
-					move_unit(unit, newpos);
+					kill_unit(other_unit, player);
+					move_unit(unit, newpos, player);
 				default:
 					break;
 				}
@@ -173,52 +173,3 @@ void GameMaster::execute_command_for_player(const Command &command, int i)
 		}
 	}
 }
-
-/* OLD GAME
-int game()
-{
-player[0] = new DummyPlayer(board, units, 0);
-player[1] = new DummyPlayer(board, units, 1);
-unit_progress[0].progress = { 0,0,0 };
-unit_progress[0].total_time = 10;
-unit_progress[0].our_base_captured = 0;
-unit_progress[0].enemy_base_captured = 0;
-unit_progress[1] = unit_progress[0];
-
-bool p1 = false, p2 = false;
-
-for(int cycle = 0; cycle < max_cycles; ++cycle)
-{
-const CommandQueue &queue0 = player[0]->move(unit_progress[0]);
-const CommandQueue &queue1 = player[1]->move(unit_progress[1]);
-int i = 0, j = 0;
-while(i != queue0.unitcmds.size() && j != queue1.unitcmds.size())
-{
-if(rnd_distribution(rnd_engine) % 2)
-{
-execute_command_for_player(queue0.unitcmds[i], 0);
-++i;
-}
-else
-{
-execute_command_for_player(queue1.unitcmds[j], 1);
-++j;
-}
-}
-for(; i != queue0.unitcmds.size(); ++i)
-execute_command_for_player(queue0.unitcmds[i], 0);
-for(; j != queue1.unitcmds.size(); ++j)
-execute_command_for_player(queue1.unitcmds[j], 1);
-
-train_for_player(queue0.train, unit_progress[0], 0);
-train_for_player(queue1.train, unit_progress[1], 1);
-
-p1 = did_loose_player(0);
-p2 = did_loose_player(1);
-if(p1 || p2) break;
-}
-
-if(p1 && p2 || !p1 && !p2) return 0; //Draw
-if(p2) return 1; //p2 lost p1 won
-if(p1) return 2; //vice versa
-}*/

@@ -1,6 +1,6 @@
 #include "board_viewer.h"
 
-void view_board(const Board &board, int player)
+void view_board(const Board &board)
 {
 	float w = clamp(ImGui::GetContentRegionAvail().x, 200.f, 600.f);
 	float h = clamp(ImGui::GetContentRegionAvail().y + 110.f, 200.f, 600.f);
@@ -14,32 +14,29 @@ void view_board(const Board &board, int player)
 		for(int j = 0; j < game_size; ++j)
 		{
 			glm::vec4 base = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1))); //(bi)linear interpolation
-			const Cell &cell = board[Position(i, j)];
+			const Cell &cell = board.at(Position(i, j));
 
 			glm::vec4 color = base;
-			if (cell.unit && cell.unit->player == player || i == 0 && j == 0)
+			if (cell.unit && cell.unit->player == 0 || i == 0 && j == 0)
 				color += fridly;
-			else if (cell.unit && cell.unit->player != player || i == game_size - 1 && j == game_size - 1)
+			else if (cell.unit && cell.unit->player != 0 || i == game_size - 1 && j == game_size - 1)
 				color += enemys;
 			else if (i == 0 && j == game_size - 1)
 			{
-				//color = naturl;
 				switch (board.op1)
 				{
-				case 1: color = fridly; break;
-				case 0: color = enemys; break;
+				case -1: color = naturl; break;
+				case 1: color = playr1; break;
+				case 0: color = playr0; break;
 				}
 			}
 			else if (j == 0 && i == game_size - 1)
 			{
-				switch (board.op2)
+				switch(board.op2)
 				{
-				case 1:
-					color = fridly;
-					break;
-				case 0:
-					color = enemys;
-					break;
+				case -1: color = naturl; break;
+				case 1: color = playr1; break;
+				case 0: color = playr0; break;
 				}
 			}
 			ImGui::PushID(j);
@@ -73,8 +70,8 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 		for(int j = 0; j < game_size; ++j)
 		{
 			glm::vec4 base = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1)));
-			Position pos = auto_rotate(Position(i, j), player);
-			const Cell &cell = board[pos];
+			Position pos = Position(i, j);
+			const Cell &cell = board(pos, player);
 
 			glm::vec4 color = base;
 
@@ -93,24 +90,21 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 				color += enemys;
 			else if (i == 0 && j == game_size - 1)
 			{
-				//color = naturl;
-				switch (board.op1)
-				{
-				case 1: color = fridly; break;
-				case 0: color = enemys; break;
-				}
-			}
-			else if (j == 0 && i == game_size - 1)
-			{
-				switch (board.op2)
-				{
-				case 1:
+				if(board.op1 == player)
 					color = fridly;
-					break;
-				case 0:
+				else if(board.op1 == -1)
+					color = naturl;
+				else
 					color = enemys;
-					break;
-				}
+			}
+			else if(j == 0 && i == game_size - 1)
+			{
+				if(board.op2 == player)
+					color = fridly;
+				else if(board.op2 == -1)
+					color = naturl;
+				else
+					color = enemys;
 			}
 
 			ImGui::PushID(j);
@@ -124,22 +118,22 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			ImGui::SameLine(); //Next Button appears on the same line
 
 			if(clicked && !selected[player] &&		// nothing is selected, and the cell has a our unit inside:
-			   board[pos].unit && board[pos].unit->player == player)
+			   board(pos, player).unit && board(pos, player).unit->player == player)
 			{
 				selected[player] = true;
 				lastclikk[player] = pos;
 			}
 			else if(clicked && selected[player]) // a unit is selected
 			{
-				Dir dir = lastclikk[player] - pos;
+				Dir dir = pos - lastclikk[player];
 				if(norm1(dir) == 1)			//selecting a neighbour
 				{
-					Command cmd;	cmd.id = board[lastclikk[player]].id;	cmd.dir = dir;
+					Command cmd;	cmd.id = board(lastclikk[player], player).id;	cmd.dir = dir;
 					queue.unitcmds.push_back(cmd);
 					selected[player] = false;
 				}
 				else if(norm1(dir) > 1 &&	//selecting another unit
-						board[pos].unit && board[pos].unit->player == player)
+						board(pos, player).unit && board(pos, player).unit->player == player)
 					lastclikk[player] = pos;
 				else						// deselecting unit
 					selected[player] = false;
@@ -152,7 +146,11 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 
 void command_editor(CommandQueue &queue, const Units &units, const Board &board, int player)
 {
-	if(!ImGui::BeginChild(player, { 0,0 }, true)) return;
+	if(!ImGui::BeginChild(player, { 0,0 }, true))
+	{
+		ImGui::EndChild();
+		return;
+	}
 	static bool show_unit_data[2] = { true,true };
 	static bool show_cell_data[2] = {true,true};
 	ImGui::Checkbox("Show Unit Data", &show_unit_data[player]);
@@ -187,7 +185,7 @@ void command_editor(CommandQueue &queue, const Units &units, const Board &board,
 		{
 			ImGui::SameLine();
 			const Unit& unit = units.at(command.id);
-			const Cell cell = board[unit.pos];
+			const Cell cell = board(unit.pos, player);
 			ImGui::TextDisabled("id=%d", cell.id);
 		}
 		ImGui::PopID();

@@ -56,14 +56,21 @@ struct Board
 	{
 		return board[pos.y*game_size + pos.x];
 	}
-	inline const Cell& operator[] (const Position &pos) const
+	inline const Cell& at(const Position &pos) const
 	{
 		return board[pos.y*game_size + pos.x];
 	}
 	inline const Cell& operator()(const Position &pos, int player) const
 	{
-		return this->operator[](auto_rotate(pos, player));
+		Position p = auto_rotate(pos, player);
+		return board[p.y*game_size + p.x];
 	}
+	inline Cell& operator()(const Position &pos, int player)
+	{
+		Position p = auto_rotate(pos, player);
+		return board[p.y*game_size + p.x];
+	}
+	int op1 = -1, op2 = -1;
 };
 
 struct CommandQueue
