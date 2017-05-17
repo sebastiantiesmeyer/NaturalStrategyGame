@@ -20,8 +20,8 @@ private:
 	void train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int i);
 	void set_outpost_ownership();
 	
-	void kill_unit(Unit &unit, int player);
-	void move_unit(Unit &unit, const Position &newpos, int player);
+	void kill_unit(Unit &unit);
+	void move_unit(Unit &unit, const Position &newpos);
 
 private:
 	int largest_id = 0;

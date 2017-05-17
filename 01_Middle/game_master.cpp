@@ -5,11 +5,6 @@ GameMaster::GameMaster()
 	board.board.resize(game_size*game_size);
 	player[0] = new DummyPlayer({ board, units, unit_progress[0], 0 });
 	player[1] = new DummyPlayer({ board, units, unit_progress[1], 1 });
-	unit_progress[0].progress = { 0,0,0 };
-	unit_progress[0].total_time = 10;
-	unit_progress[0].our_base_captured = 0;
-	unit_progress[0].enemy_base_captured = 0;
-	unit_progress[1] = unit_progress[0];
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }
@@ -94,13 +89,16 @@ bool GameMaster::did_loose_player(int player)
 
 void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
 {
+	const float multipiers[3] = { 1.0, 0.75, 0.5 }; //training time modifiers
+
 	++unit_progress.progress[what_to_train];
 	Position pos = Position(0, 0);
 	if(board(pos, player).unit != nullptr) return; //cell not empty, do nothing else
 
-	int numoops = (int)(board.op1 == player) + (int)(board.op2 == player);
+	int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
+	unit_progress.current_train_time = (int)(unit_progress.total_time * multipiers[numoops]);
 
-	if(unit_progress.progress[what_to_train] >= unit_progress.total_time * (4-numoops)/4)
+	if(unit_progress.progress[what_to_train] >= unit_progress.current_train_time)
 	{
 		++largest_id; // new player at 0,0 (or 19,19)
 		Unit new_unit;
@@ -121,30 +119,32 @@ void GameMaster::set_outpost_ownership()
 {
 	Position p01 = Position(0, game_size - 1);
 	if(board.at(p01).unit != nullptr)
-		board.op1 = board.at(p01).unit->player;
+		board.outposts[0] = board.at(p01).unit->player;
 	Position p10 = Position(game_size - 1, 0);
 	if(board.at(p10).unit != nullptr)
-		board.op2 = board.at(p10).unit->player;
+		board.outposts[1] = board.at(p10).unit->player;
 }
 
-void GameMaster::kill_unit(Unit &unit, int player)
+void GameMaster::kill_unit(Unit &unit)
 {
-	board(unit.pos, player).id = 0;
-	board(unit.pos, player).unit = nullptr;
+	board(unit.pos, unit.player).id = 0;
+	board(unit.pos, unit.player).unit = nullptr;
 	units.erase(unit.id);
 }
-void GameMaster::move_unit(Unit &unit, const Position &newpos, int player)
+void GameMaster::move_unit(Unit &unit, const Position &newpos)
 {
-	board(newpos, player).id = board(unit.pos, player).id;
-	board(unit.pos, player).id = 0;
-	board(newpos, player).unit = board(unit.pos, player).unit;
-	board(unit.pos, player).unit = nullptr;
+	if(board(newpos, unit.player).unit != nullptr) throw std::exception("Not an empty cell!");
+	board(newpos, unit.player).id = board(unit.pos, unit.player).id;
+	board(unit.pos, unit.player).id = 0;
+	board(newpos, unit.player).unit = board(unit.pos, unit.player).unit;
+	board(unit.pos, unit.player).unit = nullptr;
 	unit.pos = newpos;
 	unit.moved = true; //we forgot this! :)
 }
 
 void GameMaster::execute_command_for_player(const Command &command, int player)
 {
+	if(units.count(command.id) == 0) return;
 	Unit &unit = units.at(command.id); //the command commands this unit
 	Dir dir = command.dir;
 	dir.x = glm::clamp(dir.x, -1, 1); //no cheating
@@ -159,24 +159,24 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 	{ //othervise we dont move
 		if(board(unit.pos + dir, player).unit == nullptr) //empty cell
 		{
-			move_unit(unit, newpos, player);
+			move_unit(unit, newpos);
 		}
 		else
 		{
-			//Unit &other_unit = units.at(board[newpos].id); //the unit on the target cell
 			Unit &other_unit = *board(newpos, player).unit; //the unit on the target cell
 			if(other_unit.player != player) //enemy
 			{
 				switch((unit.type - other_unit.type) % 3)
 				{
-				case 1: //we die
-					kill_unit(unit, player);
 				case 0: //both die
-					kill_unit(other_unit, player);
+					kill_unit(other_unit);
+					//no break
+				case 1: //we die
+					kill_unit(unit);
 					break;
 				case 2: //yeah
-					kill_unit(other_unit, player);
-					move_unit(unit, newpos, player);
+					kill_unit(other_unit);
+					move_unit(unit, newpos);
 					break;
 				default:					break;
 				}

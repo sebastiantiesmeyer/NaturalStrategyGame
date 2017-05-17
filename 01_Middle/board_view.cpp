@@ -18,25 +18,25 @@ void view_board(const Board &board)
 
 			glm::vec4 color = base;
 			if (cell.unit && cell.unit->player == 0 || i == 0 && j == 0)
-				color += fridly;
+				color = glm::mix(color, playr0, interp);
 			else if (cell.unit && cell.unit->player != 0 || i == game_size - 1 && j == game_size - 1)
-				color += enemys;
+				color = glm::mix(color, playr1, interp);
 			else if (i == 0 && j == game_size - 1)
 			{
-				switch (board.op1)
+				switch (board.getPlayerAtOutpost(0, 0))
 				{
-				case -1: color = naturl; break;
-				case 1: color = playr1; break;
-				case 0: color = playr0; break;
+				case -1:	color = glm::mix(color,naturl, interp); break;
+				case 0:		color = glm::mix(color,playr0, interp); break;
+				case 1:		color = glm::mix(color,playr1, interp); break;
 				}
 			}
 			else if (j == 0 && i == game_size - 1)
 			{
-				switch(board.op2)
+				switch(board.getPlayerAtOutpost(1, 0))
 				{
-				case -1: color = naturl; break;
-				case 1: color = playr1; break;
-				case 0: color = playr0; break;
+				case -1:	color = glm::mix(color, naturl, interp); break;
+				case 0:		color = glm::mix(color, playr0, interp); break;
+				case 1:		color = glm::mix(color, playr1, interp); break;
 				}
 			}
 			ImGui::PushID(j);
@@ -85,26 +85,22 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			}
 
 			if(cell.unit && cell.unit->player == player || pos.x == 0 && pos.y == 0)
-				color += fridly;
+				color = glm::mix(color, fridly, interp);
 			else if(cell.unit && cell.unit->player != player || pos.x == game_size - 1 && pos.y == game_size - 1)
-				color += enemys;
-			else if (i == 0 && j == game_size - 1)
+				color = glm::mix(color, enemys, interp);
+			else if(i == 0 && j == game_size - 1) //first outpost
 			{
-				if(board.op1 == player)
-					color += fridly;
-				else if(board.op1 == -1)
-					color += naturl;
-				else
-					color += enemys;
+				int op = board.getPlayerAtOutpost(0, player);
+				if(op == -1)			color = glm::mix(color, naturl, interp);
+				else if(op == player)	color = glm::mix(color, fridly, interp);
+				else					color = glm::mix(color, enemys, interp);
 			}
-			else if(j == 0 && i == game_size - 1)
+			else if(j == 0 && i == game_size - 1) //second outpost
 			{
-				if(board.op2 == player)
-					color += fridly;
-				else if(board.op2 == -1)
-					color += naturl;
-				else
-					color += enemys;
+				int op = board.getPlayerAtOutpost(1, player);
+				if(op == -1)			color = glm::mix(color, naturl, interp);
+				else if(op == player)	color = glm::mix(color, fridly, interp);
+				else					color = glm::mix(color, enemys, interp);
 			}
 
 			ImGui::PushID(j);

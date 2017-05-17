@@ -29,8 +29,9 @@ struct Command
 
 struct UnitProgress
 {
-	std::array<int, 3> progress = {0,0,0};
+	std::array<int, 3> progress = {9,9,9};
 	int total_time = 10;
+	int current_train_time = 10;
 	int our_base_captured = 0;
 	int enemy_base_captured = 0; 
 };
@@ -70,7 +71,13 @@ struct Board
 		Position p = auto_rotate(pos, player);
 		return board[p.y*game_size + p.x];
 	}
-	int op1 = -1, op2 = -1;
+	//int op1 = -1, op2 = -1;
+	int outposts[2] = {-1,-1};
+
+	inline int getPlayerAtOutpost(int outpost, int player) const
+	{
+		return outposts[(outpost + player) % 2]; //change view
+	}
 };
 
 struct CommandQueue

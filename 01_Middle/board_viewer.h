@@ -16,7 +16,8 @@ const glm::vec4 active = glm::vec4(1.00f, 0.95f, 1.00f, 1.00f);
 const glm::vec4 neighb = glm::vec4(0.20f, 0.20f, 0.20f, 0.20f); // Neighbour highlight(additive)
 const glm::vec4 darken = glm::vec4(0.70f, 0.70f, 0.70f, 0.70f); // Darkening others (multiplicative)
 const glm::vec4 selctd = glm::vec4(0.20f, 0.20f, 0.20f, 0.20f); // Highlight selected (additive)
-//faction (additive)
+//faction (linear interpolation)
+const glm::vec4 interp = glm::vec4(0.9f); //larger value means the colors below have larger weight
 const glm::vec4 fridly = glm::vec4(0.00f, 0.00f, 1.00f, 1.00f);
 const glm::vec4 enemys = glm::vec4(1.00f, 0.00f, 0.00f, 1.00f);
 const glm::vec4 playr0 = glm::vec4(1.00f, 1.00f, 0.00f, 1.00f);
