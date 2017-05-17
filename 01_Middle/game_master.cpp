@@ -73,6 +73,7 @@ void GameMaster::simulate_board()
 
 	train_for_player(queue0->train, unit_progress[0], 0);
 	train_for_player(queue1->train, unit_progress[1], 1);
+	set_outpost_ownership();
 
 	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
 	if(p1 && p2) game_status = DRAW; //Draw
@@ -114,6 +115,16 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}
+}
+
+void GameMaster::set_outpost_ownership()
+{
+	Position p01 = Position(0, game_size - 1);
+	if(board.at(p01).unit != nullptr)
+		board.op1 = board.at(p01).unit->player;
+	Position p10 = Position(game_size - 1, 0);
+	if(board.at(p10).unit != nullptr)
+		board.op2 = board.at(p10).unit->player;
 }
 
 void GameMaster::kill_unit(Unit &unit, int player)
@@ -158,16 +169,16 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 			{
 				switch((unit.type - other_unit.type) % 3)
 				{
-				case 0: //both die
-					kill_unit(unit, player);
-					kill_unit(other_unit, player);
 				case 1: //we die
 					kill_unit(unit, player);
+				case 0: //both die
+					kill_unit(other_unit, player);
+					break;
 				case 2: //yeah
 					kill_unit(other_unit, player);
 					move_unit(unit, newpos, player);
-				default:
 					break;
+				default:					break;
 				}
 			}
 		}

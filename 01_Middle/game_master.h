@@ -18,6 +18,7 @@ private:
 	void execute_command_for_player(const Command &command, int i);
 	bool did_loose_player(int i);
 	void train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int i);
+	void set_outpost_ownership();
 	
 	void kill_unit(Unit &unit, int player);
 	void move_unit(Unit &unit, const Position &newpos, int player);

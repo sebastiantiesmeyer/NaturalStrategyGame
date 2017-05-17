@@ -91,20 +91,20 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			else if (i == 0 && j == game_size - 1)
 			{
 				if(board.op1 == player)
-					color += fridly;
+					color = fridly;
 				else if(board.op1 == -1)
-					color += naturl;
+					color = naturl;
 				else
-					color += enemys;
+					color = enemys;
 			}
 			else if(j == 0 && i == game_size - 1)
 			{
 				if(board.op2 == player)
-					color += fridly;
+					color = fridly;
 				else if(board.op2 == -1)
-					color += naturl;
+					color = naturl;
 				else
-					color += enemys;
+					color = enemys;
 			}
 
 			ImGui::PushID(j);
