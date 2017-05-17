@@ -43,20 +43,27 @@ struct Cell
 	Unit* unit = nullptr; // might be a lot faster
 };
 
+inline Position auto_rotate(const Position &dir, int player)
+{
+	return (player == 0 ? dir : Position(game_size-1) - dir);
+}
+
 struct Board
 {
 	std::vector<Cell> board = std::vector<Cell>(game_size*game_size);
 
-	Cell& operator[] (const Position &pos)
+	inline Cell& operator[] (const Position &pos)
 	{
 		return board[pos.y*game_size + pos.x];
 	}
-	const Cell& operator[] (const Position &pos) const
+	inline const Cell& operator[] (const Position &pos) const
 	{
 		return board[pos.y*game_size + pos.x];
 	}
-
-	int op1 = -1, op2 = 1; // outposts: -1: empty, 0:  player1 has it, 1: player2 has it
+	inline const Cell& operator()(const Position &pos, int player) const
+	{
+		return this->operator[](auto_rotate(pos, player));
+	}
 };
 
 struct CommandQueue
@@ -64,11 +71,6 @@ struct CommandQueue
 	std::vector<Command> unitcmds;
 	UNIT_TYPE train;
 };
-
-inline Position auto_rotate(const Position &dir, int player)
-{
-	return (player == 0 ? dir : Position(game_size-1) - dir);
-}
 
 enum GAME_STATUS{	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2};
 

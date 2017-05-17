@@ -149,3 +149,49 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 		ImGui::NewLine();	   //Next row below
 	}
 }
+
+void command_editor(CommandQueue &queue, const Units &units, const Board &board, int player)
+{
+	if(!ImGui::BeginChild(player, { 0,0 }, true)) return;
+	static bool show_unit_data[2] = { true,true };
+	static bool show_cell_data[2] = {true,true};
+	ImGui::Checkbox("Show Unit Data", &show_unit_data[player]);
+	ImGui::SameLine();
+	ImGui::Checkbox("Show Cell Data", &show_cell_data[player]);
+	const char* names[3] = { "Rock", "Scizzor", "Paper" };
+	int id = 0;
+	ImGui::PushItemWidth(100); //small input ints
+	for(int i = 0; i < queue.unitcmds.size(); ++i)
+	{
+		Command &command = queue.unitcmds[i];
+		ImGui::PushID(id++);
+		ImGui::Separator();
+		if(ImGui::InputInt("##x", &command.dir.x, 1.0F,-1,1) && norm1(command.dir) > 1)
+			command.dir = Dir(0);
+		ImGui::SameLine();
+		if(ImGui::SmallButton("^") && i > 0)
+			std::swap(command, queue.unitcmds[i - 1]);
+		if(show_unit_data[player])
+		{
+			ImGui::SameLine();
+			const Unit& unit = units.at(command.id);
+			ImGui::TextDisabled("%s at (%d,%d) id=%d", names[unit.type], unit.pos.x, unit.pos.y, unit.id);
+		}
+		//next line
+		if(ImGui::InputInt("##y", &command.dir.y, 1.0F, -1, 1) && norm1(command.dir) > 1)
+			command.dir = Dir(0);
+		ImGui::SameLine();
+		if(ImGui::SmallButton("v") && i < queue.unitcmds.size() - 1)
+			std::swap(command, queue.unitcmds[i + 1]);
+		if(show_unit_data[player] && show_cell_data[player])
+		{
+			ImGui::SameLine();
+			const Unit& unit = units.at(command.id);
+			const Cell cell = board[unit.pos];
+			ImGui::TextDisabled("id=%d", cell.id);
+		}
+		ImGui::PopID();
+	}
+	ImGui::PopItemWidth();
+	ImGui::EndChild();
+}

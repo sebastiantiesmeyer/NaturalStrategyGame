@@ -25,3 +25,5 @@ static const char* RSP[3] = {"R", "S", "P" };
 void view_board(const Board &board, int player);
 
 void view_board_and_add_command(const Board &board, CommandQueue &queue, int player);
+
+void command_editor(CommandQueue &queue, const Units &units, const Board &board, int player);
