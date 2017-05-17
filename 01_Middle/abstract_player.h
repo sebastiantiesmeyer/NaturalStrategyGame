@@ -102,6 +102,7 @@ public:
 
 		ImGui::Separator();
 		view_board_and_add_command(board, queue, ind);
+		ImGui::Separator();
 
 		if(iteration != 0)
 		{
@@ -111,6 +112,7 @@ public:
 			endturn = ImGui::Button("End Turn", { -1,45 });
 			ImGui::PopStyleColor(3);
 		}
+		command_editor(queue, units, board, ind);
 	}
 
 	virtual bool do_Update()

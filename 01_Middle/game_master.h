@@ -11,7 +11,7 @@ public:
 
 	bool RenderUpdate();
 	void Render();
-	GAME_STATUS GetTrainStatus() { return game_status; }
+	inline GAME_STATUS GetTrainStatus() { return game_status; }
 private:
 	void simulate_board();
 
