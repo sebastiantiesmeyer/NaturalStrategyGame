@@ -32,7 +32,7 @@ struct UnitProgress
 	std::array<int, 3> progress = {0,0,0};
 	int total_time = 10;
 	int our_base_captured = 0;
-	int enemy_base_captured = 0;
+	int enemy_base_captured = 0; 
 };
 
 typedef std::map<int, Unit> Units;
@@ -55,6 +55,8 @@ struct Board
 	{
 		return board[pos.y*game_size + pos.x];
 	}
+
+	int op1 = -1, op2 = 1; // outposts: -1: empty, 0:  player1 has it, 1: player2 has it
 };
 
 struct CommandQueue

@@ -96,7 +96,10 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 	++unit_progress.progress[what_to_train];
 	Position pos = auto_rotate(Position(0, 0), i);
 	if(board[pos].unit != nullptr) return; //cell not empty, do nothing else
-	if(unit_progress.progress[what_to_train] >= unit_progress.total_time)
+
+	int numoops = (int)(board.op1 == i) + (int)(board.op2 == i);
+
+	if(unit_progress.progress[what_to_train] >= unit_progress.total_time * (4-numoops)/4)
 	{
 		++largest_id; // new player at 0,0 (or 19,19)
 		Unit new_unit;

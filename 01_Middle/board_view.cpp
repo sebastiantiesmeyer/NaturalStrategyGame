@@ -17,13 +17,31 @@ void view_board(const Board &board, int player)
 			const Cell &cell = board[Position(i, j)];
 
 			glm::vec4 color = base;
-			if(cell.unit && cell.unit->player == player || i == 0 && j == 0)
+			if (cell.unit && cell.unit->player == player || i == 0 && j == 0)
 				color += fridly;
-			else if(cell.unit && cell.unit->player != player || i == game_size - 1 && j == game_size - 1)
+			else if (cell.unit && cell.unit->player != player || i == game_size - 1 && j == game_size - 1)
 				color += enemys;
-			else if(i == 0 && j == game_size - 1 || i == game_size - 1 && j == 0)
-				color += naturl;
-
+			else if (i == 0 && j == game_size - 1)
+			{
+				//color = naturl;
+				switch (board.op1)
+				{
+				case 1: color = fridly; break;
+				case 0: color = enemys; break;
+				}
+			}
+			else if (j == 0 && i == game_size - 1)
+			{
+				switch (board.op2)
+				{
+				case 1:
+					color = fridly;
+					break;
+				case 0:
+					color = enemys;
+					break;
+				}
+			}
 			ImGui::PushID(j);
 			ImGui::PushStyleColor(ImGuiCol_Button, conv(color*normal));
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, conv(color*hoover));
@@ -73,8 +91,27 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 				color += fridly;
 			else if(cell.unit && cell.unit->player != player || pos.x == game_size - 1 && pos.y == game_size - 1)
 				color += enemys;
-			else if(pos.x == 0 && pos.y == game_size - 1 || pos.x == game_size - 1 && pos.y == 0)
-				color += naturl;
+			else if (i == 0 && j == game_size - 1)
+			{
+				//color = naturl;
+				switch (board.op1)
+				{
+				case 1: color = fridly; break;
+				case 0: color = enemys; break;
+				}
+			}
+			else if (j == 0 && i == game_size - 1)
+			{
+				switch (board.op2)
+				{
+				case 1:
+					color = fridly;
+					break;
+				case 0:
+					color = enemys;
+					break;
+				}
+			}
 
 			ImGui::PushID(j);
 			ImGui::PushStyleColor(ImGuiCol_Button, conv(color*normal));
