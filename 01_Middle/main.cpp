@@ -53,7 +53,7 @@ int main( int argc, char* args[] )
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
 	SDL_GL_SetSwapInterval(1);
 	// Creating an SDL window
-    win = SDL_CreateWindow( "Hello SDL&OpenGL&Imgui!",100,100,640,480,SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    win = SDL_CreateWindow( "Hello SDL&OpenGL&Imgui!",100,100,800,600,SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if(win == 0) quit_from_app(1, "[Creating window] Error creating SDL window", SDL_GetError());
 	// Creating the virtual 'workplace' for opengl to operate in 
 	context	= SDL_GL_CreateContext(win);

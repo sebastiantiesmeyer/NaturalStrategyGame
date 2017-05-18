@@ -3,7 +3,7 @@
 GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
-	player[0] = new DummyPlayer({ board, units, unit_progress[0], 0 });
+	player[0] = new RandomPlayer({ board, units, unit_progress[0], 0 });
 	player[1] = new RandomPlayer({ board, units, unit_progress[1], 1 });
 	player[0]->StartTurn();
 	player[1]->StartTurn();
@@ -39,9 +39,8 @@ void GameMaster::Render()
 	if(ImGui::Begin("Game Master"))
 	{
 		ImGui::TextColored({ 1,0,0,1 }, "TODO:");
-		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Outpost dynamics!");
+		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Fast end game when no more players!");
 		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "This Render function");
-		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Human player");
 		ImGui::Bullet(); ImGui::TextColored({ 0,0,1,1 }, "Time measurement");
 		view_board(board);
 	}
@@ -153,11 +152,11 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 	Position newpos = unit.pos + dir;
 	if(!unit.moved						//unit did not move in this cycle
 	   && unit.player == player				//cannot move enemy's player!! we forgot this as well
-	   && abs(dir.x) + abs(dir.y) == 1	//no diagonal move
+	   && norm1(dir) == 1	//no diagonal move
 	   && 0 <= newpos.x && newpos.x < game_size
 	   && 0 <= newpos.y && newpos.y < game_size)
 	{ //othervise we dont move
-		if(board(unit.pos + dir, player).unit == nullptr) //empty cell
+		if(board(newpos, player).unit == nullptr) //empty cell
 		{
 			move_unit(unit, newpos);
 		}
@@ -166,11 +165,12 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 			Unit &other_unit = *board(newpos, player).unit; //the unit on the target cell
 			if(other_unit.player != player) //enemy
 			{
-				switch((unit.type - other_unit.type) % 3)
+				switch((unit.type - other_unit.type+3) % 3)
 				{
 				case 0: //both die
+					kill_unit(unit);
 					kill_unit(other_unit);
-					//no break
+					break;
 				case 1: //we die
 					kill_unit(unit);
 					break;

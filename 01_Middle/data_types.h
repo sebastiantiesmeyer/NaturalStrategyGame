@@ -5,7 +5,7 @@
 #include <glm\glm.hpp>
 #include "imgui\imgui.h"
 
-const int game_size = 5;
+const int game_size = 10;
 
 enum UNIT_TYPE{	ROCK = 0, SCISSOR = 1, PAPER = 2,};
 

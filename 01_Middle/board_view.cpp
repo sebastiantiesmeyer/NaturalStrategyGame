@@ -109,6 +109,12 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, conv(color*active));
 
 			bool clicked = ImGui::Button((cell.unit ? RSP[cell.unit->type] : " "), ImVec2(button_size, button_size));
+			if(cell.unit && ImGui::IsItemHovered())
+			{
+				ImGui::BeginTooltip();
+				ImGui::Text("id= %d", cell.unit->id);
+				ImGui::EndTooltip();
+			}
 			ImGui::PopStyleColor(3); //Pop 3 colors at once from the color stack
 			ImGui::PopID();	//Have to pop button id
 			ImGui::SameLine(); //Next Button appears on the same line
