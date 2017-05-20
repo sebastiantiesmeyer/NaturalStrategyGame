@@ -24,7 +24,7 @@ private:
 	void move_unit(Unit &unit, const Position &newpos);
 
 private:
-	int largest_id = 0;
+	int largest_id[2] = { 1,-1 };
 	Units units;
 	Board board;
 	AbstractPlayer *player[2];

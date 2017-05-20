@@ -1,5 +1,6 @@
 #include "game_master.h"
 #include "board_viewer.h"
+#include "SimplePlayer.h"
 GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
@@ -104,16 +105,16 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 
 	if(unit_progress.progress[what_to_train] >= unit_progress.current_train_time)
 	{
-		++largest_id; // new player at 0,0 (or 19,19)
+		largest_id[player]+=(player == 0 ? 1 : -1); // new player at 0,0 (or 19,19)
 		Unit new_unit;
-		new_unit.id = largest_id;
+		new_unit.id = largest_id[player];
 		new_unit.moved = false;
 		new_unit.player = player;
 		new_unit.type = what_to_train;
 		new_unit.pos = pos;
-		units.emplace(std::make_pair(largest_id, new_unit));
-		board(pos, player).id = largest_id; //updating cell
-		board(pos, player).unit = &units.at(largest_id);
+		units.emplace(std::make_pair(largest_id[player], new_unit));
+		board(pos, player).id = largest_id[player]; //updating cell
+		board(pos, player).unit = &units.at(largest_id[player]);
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}
@@ -143,7 +144,7 @@ void GameMaster::move_unit(Unit &unit, const Position &newpos)
 	board(newpos, unit.player).unit = board(unit.pos, unit.player).unit;
 	board(unit.pos, unit.player).unit = nullptr;
 	unit.pos = newpos;
-	unit.moved = true; //we forgot this! :)
+	unit.moved = true;
 }
 
 void GameMaster::execute_command_for_player(const Command &command, int player)

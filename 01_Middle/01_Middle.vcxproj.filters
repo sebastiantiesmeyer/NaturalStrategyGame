@@ -43,6 +43,12 @@
     <ClCompile Include="board_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="local.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SimplePlayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -78,7 +84,10 @@
     <ClInclude Include="board_viewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="local3x3.h">
+    <ClInclude Include="local.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplePlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

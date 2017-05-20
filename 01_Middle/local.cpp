@@ -1,96 +1,97 @@
-#pragma once
-#include "data_types.h"
-#include <array>
+#include "local.h"
 #include <random>
 
 static std::default_random_engine rnd_engine(0);
 static std::uniform_real_distribution<float> rnd_distribution;
 
-union Options
+Dir Options::choose()
 {
-	struct { float up, left, still, right, down; };
-	float data[5];
-	Dir choose()
+	float sums[5] = { data[0] };
+	for(int i = 1; i < 5; ++i)
+		sums[i] = sums[i - 1] + data[i];
+	int ind = 0;	float rnd = rnd_distribution(rnd_engine);
+	while(rnd*sums[4] > sums[ind]) ++ind;
+	switch(ind)
 	{
-		float sums[5] = { data[0] };
-		for(int i = 1; i < 5; ++i)
-		{
-			sums[i] = sums[i-1] + data[i];
-		}
-		int ind = 0;	float rnd = rnd_distribution(rnd_engine);
-		while(rnd*sums[4] > sums[ind]) ++ind;
-		switch(ind)
-		{
-		case 0: return Dir(0, -1); break; //up
-		case 1: return Dir(-1, 0); break; //left
-		case 2: return Dir(0, 0); break; //still
-		case 3: return Dir(1, 0); break; //right
-		case 4: return Dir(0, 1); break; //down
-		default: throw std::exception("Switch error"); break;
-		}
+	case 0: return Dir(-1, 0); break; //up
+	case 1: return Dir(0, -1); break; //left
+	case 2: return Dir(0, 0); break; //still
+	case 3: return Dir(0, 1); break; //right
+	case 4: return Dir(1, 0); break; //down
+	default: throw std::exception("Switch error"); break;
 	}
-private:
+}
 
-};
-
-static Options getOptions(const Unit& unit, const Board &board)
+void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 {
-	const int window_size = 4;
+	if(unit.pos.x > 0)
+	{
+		Unit *other_unit = board(unit.pos + Dir(-1, 0), unit.player).unit;
+		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
+			options.up = options.still = 0;
+	}
+	else options.up = 0;
+	if(unit.pos.x < game_size - 1)
+	{
+		Unit *other_unit = board(unit.pos + Dir(+1, 0), unit.player).unit;
+		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
+			options.down = options.still = 0;
+	}
+	else options.down = 0;
+	if(unit.pos.y > 0)
+	{
+		Unit *other_unit = board(unit.pos + Dir(0, -1), unit.player).unit;
+		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
+			options.left = options.still = 0;
+	}
+	else options.left = 0;
+	if(unit.pos.y < game_size - 1)
+	{
+		Unit *other_unit = board(unit.pos + Dir(0, +1), unit.player).unit;
+		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
+			options.right = options.still = 0;
+	}
+	else options.right = 0;
+}
+
+void localNxN(const Unit& unit, const Board &board, Options &options)
+{
+	const int window_size = 3;
 	int xlb = std::max(unit.pos.x - window_size, 0);
 	int xub = std::min(unit.pos.x + window_size, game_size - 1);
 	int ylb = std::max(unit.pos.y - window_size, 0);
 	int yub = std::min(unit.pos.y + window_size, game_size - 1);
-	const float reaction[3] = { -1, -12.0, +12.0 }; //{both die, we die, we win}
+	const float reaction[3] = { -1, -19.0, +19.0 }; //{both die, we die, we win}
 	const float panicing[3] = { +1.2, +4.0, +0.2 }; //{both die, we die, we win}
 	glm::vec2 vec = glm::vec2(0);
-	float panic = 0.5;
+	float panic = 0.5; int num = 0;
 	for(int x = xlb; x < xub; ++x) for(int y = ylb; y < yub; ++y)
 	{
-		Position pos = Position(x, y);
+		Position pos = Position(x,y);
 		Dir dir = pos - unit.pos;
 		Unit *other_unit = board(pos, unit.player).unit;
 		if(other_unit && other_unit->player != unit.player) //enemy
 		{
 			int outcome = (unit.type - other_unit->type + 3) % 3;
-			vec += static_cast<glm::vec2>(dir) / ((float)norm1(dir) + 0.1f) * reaction[outcome];
+			vec += glm::vec2((float)dir.x, (float)dir.y) / ((float)norm1(dir) + 0.1f) * reaction[outcome];
 			panic *= panicing[outcome];
+			++num;
 		}
 	}
 	Options ret = { panic, panic, 1.f/(panic + 1.0), panic, panic };
-	ret.down	+= std::max(0.f, +vec.y);
-	ret.up		+= std::max(0.f, -vec.y);
-	ret.right	+= std::max(0.f, +vec.x);
-	ret.left	+= std::max(0.f, -vec.x);
-	ret.still	+= 0.5/(abs(vec.x) + abs(vec.y) + 1.0);
-	if(unit.pos.x > 0)
-	{
-		Unit *other_unit = board(unit.pos + Dir(-1, 0), unit.player).unit;
-		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
-			ret.left = ret.still = 0;
-	}
-	else ret.left = 0;
-	if(unit.pos.x < game_size-1)
-	{
-		Unit *other_unit = board(unit.pos + Dir(+1, 0), unit.player).unit;
-		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
-			ret.right = ret.still = 0;
-	}
-	else ret.right = 0;
-	if(unit.pos.y > 0)
-	{
-		Unit *other_unit = board(unit.pos + Dir(0, -1), unit.player).unit;
-		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
-			ret.up = ret.still = 0;
-	}
-	else ret.up = 0;
-	if(unit.pos.y < game_size - 1)
-	{
-		Unit *other_unit = board(unit.pos + Dir(0, +1), unit.player).unit;
-		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
-			ret.down = ret.still = 0;
-	}
-	else ret.down = 0;
-	return ret;
+	options.down *= panic;
+	options.up *= panic;
+	options.right *= panic;
+	options.left *= panic;
+	options.still *= 0.7 * panic / (panic*panic + 1.0);
+
+	options.down	+= std::max(0.f, +vec.y);
+	options.up		+= std::max(0.f, -vec.y);
+	options.right	+= std::max(0.f, +vec.x);
+	options.left	+= std::max(0.f, -vec.x);
+	options.still	+= 0.5/(abs(vec.x) + abs(vec.y) + 1.0);
+	unit.movementvec = vec;
+	unit.numberofenemys = num;
 }
 
 //Ellen : 0=R, 1=P, 2=S

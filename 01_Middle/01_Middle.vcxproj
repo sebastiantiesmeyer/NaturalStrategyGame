@@ -89,7 +89,9 @@
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
     <ClCompile Include="imgui\imgui_impl_sdl_gl3.cpp" />
+    <ClCompile Include="local.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="SimplePlayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
@@ -103,7 +105,8 @@
     <ClInclude Include="imgui\stb_rect_pack.h" />
     <ClInclude Include="imgui\stb_textedit.h" />
     <ClInclude Include="imgui\stb_truetype.h" />
-    <ClInclude Include="local3x3.h" />
+    <ClInclude Include="local.h" />
+    <ClInclude Include="SimplePlayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,4 +1,5 @@
 #include "board_viewer.h"
+#include "local.h"
 
 void view_board(const Board &board)
 {
@@ -57,6 +58,63 @@ void view_board(const Board &board)
 	}
 }
 
+void draw_unit_tooltip(const Cell &cell, int player) //sorry a bit overly complicated
+{
+	ImGui::BeginTooltip();
+	ImGui::Text("id= %d, vec = (%f,%f), enemy count = %d", cell.unit->id, cell.unit->movementvec.x, cell.unit->movementvec.y, cell.unit->numberofenemys);
+	if(cell.unit->options && cell.unit->command)
+	{
+		cell.unit->options->normalize();
+		const float size = 70;
+		const int idxs0[5] = { 0,1,2,3,4 };
+		const int idxs1[5] = { 4,3,2,1,0 };
+		const int * idxs = (cell.unit->player == player ? idxs0 : idxs1);
+		int dir_multipier = (cell.unit->player == player ? 1 : -1);
+		ImGui::Indent(size+8);
+		if(cell.unit->command->dir == dir_multipier * Dir(-1, 0))
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5f,1,1 });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogramHovered, { 1,0.8f,1,1 });
+		}
+		ImGui::PlotHistogram("##up", cell.unit->options->data + idxs[0], 1, 0, nullptr, 0, 0.9f, { size,size }, 1);
+		if(cell.unit->command->dir == dir_multipier * Dir(-1, 0)) ImGui::PopStyleColor(2);
+		ImGui::Unindent(size+8);
+		if(cell.unit->command->dir == dir_multipier * Dir(0, -1))
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5f,1,1 });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogramHovered, { 1,0.8f,1,1 });
+		}
+		ImGui::PlotHistogram("##le", cell.unit->options->data + idxs[1], 1, 0, nullptr, 0, 0.9f, { size,size }, 1);
+		if(cell.unit->command->dir == dir_multipier * Dir(0, -1)) ImGui::PopStyleColor(2);
+		ImGui::SameLine();
+		if(cell.unit->command->dir == dir_multipier * Dir(0, 0))
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5f,1,1 });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogramHovered, { 1,0.8f,1,1 });
+		}
+		ImGui::PlotHistogram("##st", cell.unit->options->data + idxs[2], 1, 0, nullptr, 0, 0.9f, { size,size }, 1);
+		if(cell.unit->command->dir == dir_multipier * Dir(0, 0)) ImGui::PopStyleColor(2);
+		ImGui::SameLine();
+		if(cell.unit->command->dir == dir_multipier * Dir(0, 1))
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5f,1,1 });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogramHovered, { 1,0.8f,1,1 });
+		}
+		ImGui::PlotHistogram("##ri", cell.unit->options->data + idxs[3], 1, 0, nullptr, 0, 0.9f, { size,size }, 1);
+		if(cell.unit->command->dir == dir_multipier * Dir(0, 1)) ImGui::PopStyleColor(2);
+		ImGui::Indent(size+8);
+		if(cell.unit->command->dir == dir_multipier * Dir(1, 0))
+		{
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5f,1,1 });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogramHovered, { 1,0.8f,1,1 });
+		}
+		ImGui::PlotHistogram("##do", cell.unit->options->data + idxs[4], 1, 0, nullptr, 0, 0.7f, { size,size }, 1);
+		if(cell.unit->command->dir == dir_multipier * Dir(1, 0)) ImGui::PopStyleColor(2);
+		ImGui::Unindent(size+8);
+	}
+	ImGui::EndTooltip();
+}
+
 void view_board_and_add_command(const Board &board, CommandQueue &queue, int player)
 {
 	float w = clamp(ImGui::GetContentRegionAvail().x, 200.f, 600.f);
@@ -113,12 +171,7 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, conv(color*active));
 
 			bool clicked = ImGui::Button((cell.unit ? RSP[cell.unit->type] : " "), ImVec2(button_size, button_size));
-			if(cell.unit && ImGui::IsItemHovered())
-			{
-				ImGui::BeginTooltip();
-				ImGui::Text("id= %d", cell.unit->id);
-				ImGui::EndTooltip();
-			}
+			if(cell.unit && ImGui::IsItemHovered()) draw_unit_tooltip(cell, player);
 			ImGui::PopStyleColor(3); //Pop 3 colors at once from the color stack
 			ImGui::PopID();	//Have to pop button id
 			ImGui::SameLine(); //Next Button appears on the same line
@@ -169,6 +222,7 @@ void command_editor(CommandQueue &queue, const Units &units, const Board &board,
 	{
 		Command &command = queue.unitcmds[i];
 		ImGui::PushID(id++);
+		ImGui::BeginGroup();
 		ImGui::Separator();
 		if(ImGui::InputInt("##x", &command.dir.x, 1.0F,-1,1) && norm1(command.dir) > 1)
 			command.dir = Dir(0);
@@ -197,6 +251,13 @@ void command_editor(CommandQueue &queue, const Units &units, const Board &board,
 		ImGui::SameLine();
 		if(ImGui::Button("Delete"))
 			queue.unitcmds.erase(queue.unitcmds.begin() + i);
+		ImGui::EndGroup();
+		if(show_unit_data[player] && show_cell_data[player])
+		{
+			const Unit& unit = units.at(command.id);
+			const Cell cell = board(unit.pos, player);
+			if(ImGui::IsItemHovered()) draw_unit_tooltip(cell, player);
+		}
 		ImGui::PopID();
 	}
 	ImGui::PopItemWidth();

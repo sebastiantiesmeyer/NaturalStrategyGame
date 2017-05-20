@@ -5,12 +5,20 @@
 #include <glm\glm.hpp>
 #include "imgui\imgui.h"
 
-const int game_size = 10;
+const int game_size = 5;
 
 enum UNIT_TYPE{	ROCK = 0, SCISSOR = 1, PAPER = 2,};
 
 typedef glm::ivec2 Position; //Board is indexed with Positions
 typedef glm::ivec2 Dir;
+
+struct Options; //forward declarations
+
+struct Command
+{
+	int id;
+	Dir dir = Dir(0,0);		// x,y offsets
+};
 
 struct Unit
 {
@@ -19,19 +27,19 @@ struct Unit
 	Position pos;
 	UNIT_TYPE type;
 	bool moved = false;
+	//debugging:
+	mutable Options * options = nullptr; //so we are allowed to change it
+	mutable Command * command = nullptr;
+	mutable glm::vec2 movementvec = glm::vec2(0);
+	mutable int numberofenemys = 0;
 };
 
-struct Command
-{
-	int id;
-	Dir dir = Dir(0,0);		// x,y offsets
-};
 
 struct UnitProgress
 {
 	std::array<int, 3> progress = {9,9,9};
-	int total_time = 10;
-	int current_train_time = 10;
+	int total_time = game_size/2;
+	int current_train_time = game_size/4;
 	int our_base_captured = 0;
 	int enemy_base_captured = 0; 
 };
