@@ -13,13 +13,16 @@ void view_board(const Board &board)
 		ImGui::PushID(i);
 		for(int j = 0; j < game_size; ++j)
 		{
-			glm::vec4 base = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1))); //(bi)linear interpolation
+			glm::vec4 color = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1))); //(bi)linear interpolation
 			const Cell &cell = board.at(Position(i, j));
 
-			glm::vec4 color = base;
-			if (cell.unit && cell.unit->player == 0 || i == 0 && j == 0)
+			if(i == game_size - 1 && j == game_size - 1) color = glm::mix(color, playr1, interp);
+			else if(i == 0 && j == 0)					 color = glm::mix(color, playr0, interp);
+
+
+			if (cell.unit && cell.unit->player == 0)
 				color = glm::mix(color, playr0, interp);
-			else if (cell.unit && cell.unit->player != 0 || i == game_size - 1 && j == game_size - 1)
+			else if (cell.unit && cell.unit->player != 0)
 				color = glm::mix(color, playr1, interp);
 			else if (i == 0 && j == game_size - 1)
 			{
@@ -69,11 +72,12 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 		ImGui::PushID(i);
 		for(int j = 0; j < game_size; ++j)
 		{
-			glm::vec4 base = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1)));
+			glm::vec4 color = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1)));
 			Position pos = Position(i, j);
 			const Cell &cell = board(pos, player);
 
-			glm::vec4 color = base;
+			if(i == game_size - 1 && j == game_size - 1) color = glm::mix(color, enemys, interp);
+			else if(i == 0 && j == 0)					 color = glm::mix(color, fridly, interp);
 
 			bool is_neighbour = false;
 			if(selected[player]) //a selection is active
@@ -84,9 +88,9 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 				if(norm1(dir) == 0)	color += selctd;
 			}
 
-			if(cell.unit && cell.unit->player == player || pos.x == 0 && pos.y == 0)
+			if(cell.unit && cell.unit->player == player)
 				color = glm::mix(color, fridly, interp);
-			else if(cell.unit && cell.unit->player != player || pos.x == game_size - 1 && pos.y == game_size - 1)
+			else if(cell.unit && cell.unit->player != player)
 				color = glm::mix(color, enemys, interp);
 			else if(i == 0 && j == game_size - 1) //first outpost
 			{

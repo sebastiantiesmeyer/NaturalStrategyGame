@@ -167,14 +167,6 @@ public:
 		view_board_and_add_command(board, queue, ind);
 		ImGui::Separator();
 
-		if (iteration != 0)
-		{
-			ImGui::PushStyleColor(ImGuiCol_Button, { 0,0,1,0.5 });
-			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0,0,1,0.75 });
-			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0,0,1,1 });
-			endturn = ImGui::Button("End Turn", { -1,45 });
-			ImGui::PopStyleColor(3);
-		}
 		command_editor(queue, units, board, ind);
 	}
 
@@ -190,7 +182,7 @@ public:
 			}
 
 			//parse through all units
-			for(const auto unit : units)
+			for(const auto &unit : units)
 			{
 				int r = std::rand() % 4;
 				if(r < 4)
@@ -204,8 +196,82 @@ public:
 				}
 			}
 		}
-		return iteration == 100;
+		//return iteration == 100;
+		return true;
 	}
 	int max_iterations = 20;
+	bool endturn = false;
+};
+
+#include "local3x3.h"
+
+class SimplePlayer : public AbstractPlayer
+{
+public:
+	SimplePlayer(const AbstPlayerConstrParams &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+protected:
+	virtual void do_StartTurn()
+	{
+		if(std::rand() % 6 > 2)
+			queue.train = UNIT_TYPE(std::rand() % 3);
+
+		for(const auto &unit : units)
+		{
+			if(unit.second.player == ind)
+			{
+				Options options = getOptions(unit.second, board);
+				if(unit.second.pos.x == game_size - 1 && unit.second.pos.y == game_size - 1)
+					options.still *= 20; //captureing enemy
+				else if(unit_progress.our_base_captured) //defence
+				{
+					options.up *= 13.5 + 30.f/norm1(unit.second.pos);
+					options.left *= 13.5 + 30.f / norm1(unit.second.pos);
+				}
+				else if(unit.second.id % 3 == 0  && norm1(unit.second.pos) > 1) //not too close the base
+				{
+					options.up *= 13.5;
+					options.left *= 13.5;
+				}
+				else if(board.getPlayerAtOutpost(1, ind) != ind && unit.second.id % 3 == 1)
+				{
+					options.right *= 13.5;
+					options.up *= 12.5;
+				}
+				else if(board.getPlayerAtOutpost(0, ind) != ind && unit.second.id % 3 == 2)
+				{
+					options.down *= 13.5; //target is the enemy base
+					options.left *= 12.5;
+				}
+				else
+				{
+					options.right *= 13; //target is the enemy base
+					options.down *= 13;
+				}
+				Command cmd;
+				cmd.dir = options.choose();
+				cmd.id = unit.first;
+				queue.unitcmds.push_back(cmd);
+			}
+		}
+		endturn = false;
+	}
+	virtual void do_Render()
+	{
+		view_board_and_add_command(board, queue, ind);
+		if(iteration != 0)
+		{
+			ImGui::PushStyleColor(ImGuiCol_Button, { 0,0,1,0.5 });
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0,0,1,0.75 });
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0,0,1,1 });
+			endturn = ImGui::Button("End Turn", { -1,45 });
+			ImGui::PopStyleColor(3);
+		}
+		command_editor(queue,units,board,ind);
+	}
+	virtual bool do_Update()
+	{
+
+		return endturn || iteration == 100;
+	}
 	bool endturn = false;
 };

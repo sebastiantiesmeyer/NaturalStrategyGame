@@ -78,5 +78,8 @@
     <ClInclude Include="board_viewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="local3x3.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

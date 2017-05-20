@@ -97,6 +97,7 @@ inline ImVec2 conv(const glm::vec2 &vec) { return{ vec.x,vec.y}; } //conversion 
 
 inline int norm1(const glm::ivec2 &v) { return abs(v.x) + abs(v.y); }
 
+
 /*enum DIRECTION
 {
 	NONE = 0,

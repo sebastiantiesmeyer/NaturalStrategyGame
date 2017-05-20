@@ -3,8 +3,8 @@
 GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
-	player[0] = new RandomPlayer({ board, units, unit_progress[0], 0 });
-	player[1] = new RandomPlayer({ board, units, unit_progress[1], 1 });
+	player[0] = new SimplePlayer({ board, units, unit_progress[0], 0 });
+	player[1] = new SimplePlayer({ board, units, unit_progress[1], 1 });
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }
@@ -80,10 +80,15 @@ bool GameMaster::did_loose_player(int player)
 {
 	//int id = board[auto_rotate(Position(0, 0), i)].id; //base of player i
 	Unit * unitptr = board(Position(0, 0), player).unit; //pointer to the unit on that position
-	if(unitptr == nullptr) return false;
-	unit_progress[player].our_base_captured += (int)(unitptr->player != player); //enemy standing on our base
+	if(unitptr == nullptr || unitptr->player == player)
+	{
+		unit_progress[player].our_base_captured = 0; //enemy standing on our base
+		unit_progress[1 - player].enemy_base_captured = 0;
+		return false;
+	}
+	++unit_progress[player].our_base_captured; //enemy standing on our base
 	unit_progress[1 - player].enemy_base_captured = unit_progress[player].our_base_captured;
-	return unit_progress[player].our_base_captured > 20; //after 20 cycles player i looses
+	return unit_progress[player].our_base_captured > game_size;
 }
 
 void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
@@ -165,7 +170,7 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 			Unit &other_unit = *board(newpos, player).unit; //the unit on the target cell
 			if(other_unit.player != player) //enemy
 			{
-				switch((unit.type - other_unit.type+3) % 3)
+				switch((unit.type - other_unit.type + 3) % 3)
 				{
 				case 0: //both die
 					kill_unit(unit);
