@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
+    <ClInclude Include="abstract_game.h" />
     <ClInclude Include="board_viewer.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
