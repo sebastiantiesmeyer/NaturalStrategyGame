@@ -205,7 +205,7 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 
 void command_editor(CommandQueue &queue, const Units &units, const Board &board, int player)
 {
-	if(!ImGui::BeginChild(player, { 0,0 }, true))
+	if(!ImGui::BeginChild(player, { 0,300 }, true))
 	{
 		ImGui::EndChild();
 		return;
