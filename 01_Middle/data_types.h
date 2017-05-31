@@ -100,9 +100,6 @@ enum GAME_STATUS{	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2};
 template<typename T> T clamp(const T &x, const T &m, const T &M)
 { return (x < m ? m : (x > M ? M : x)); }
 
-inline ImVec4 conv(const glm::vec4 &vec) { return{ vec.x,vec.y,vec.z,vec.w }; } //conversion to ImVec4
-inline ImVec2 conv(const glm::vec2 &vec) { return{ vec.x,vec.y}; } //conversion to ImVec4
-
 inline int norm1(const glm::ivec2 &v) { return abs(v.x) + abs(v.y); }
 
 
