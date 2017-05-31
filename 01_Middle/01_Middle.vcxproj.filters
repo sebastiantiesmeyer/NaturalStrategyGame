@@ -99,5 +99,8 @@
     <ClInclude Include="abstract_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="battle_arena.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

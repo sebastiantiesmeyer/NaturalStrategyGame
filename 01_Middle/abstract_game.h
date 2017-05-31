@@ -8,7 +8,7 @@ class AbstractGame
 public:
 	bool Update();
 	bool Render() const;
-	AbstractGame(AbstractPlayer&, AbstractPlayer&, int board_size);
+	AbstractGame(AbstractPlayer*, AbstractPlayer*, int board_size);
 	virtual glm::dvec2 getPlayerScore() const = 0;
 protected:
 	virtual void extra_rules() = 0; //eg. train units, check winning, and outposts
