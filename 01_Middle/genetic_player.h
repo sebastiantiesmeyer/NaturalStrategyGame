@@ -9,18 +9,22 @@ public:
 	GeneticPlayer(const AbstPlayerConstrParams &pars) : AbstractPlayer::AbstractPlayer(pars) {}
 protected:
 
+	typedef std::vector<float> strang;
+	typedef std::vector<strang> matrix;
+
 	std::default_random_engine rnd_engine;
 
+	static constexpr int n_output = 5;
+	static constexpr int n_input = 18;
+	int output[n_output] ;
+	int input[n_input];
 
-	int output[5] ;
-	int input[18];
-
-	float weights[sizeof(output)][sizeof(input)];
+	matrix weights = matrix(n_input, strang(n_output,0));
 
 	void init_weights(float scope);
 	void forward_pass();
 	void mutate(float scope);
-	void cross_over();
+	void cross_over(matrix& genome, float scope);
 
 
 	virtual void do_StartTurn();
