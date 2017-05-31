@@ -95,20 +95,27 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 	int ylb = std::max(unit.pos.y - window_size, 0);
 	int yub = std::min(unit.pos.y + window_size, game_size - 1);
 	const float reaction[3] = { -1, -19.0, +19.0 }; //{both die, we die, we win}
-	const float panicing[3] = { +1.2, +4.0, +0.2 }; //{both die, we die, we win}
+	const float panicing[3] = { 0.9, 1.3, 0.2 }; //{both die, we die, we win}
+	const float mid_favr = 1.f/(float)window_size;
 	glm::vec2 vec = glm::vec2(0);
 	float panic = 0.5; int num = 0;
-	for(int x = xlb; x < xub; ++x) for(int y = ylb; y < yub; ++y)
+	for(int x = xlb; x <= xub; ++x) for(int y = ylb; y <= yub; ++y)
 	{
 		Position pos = Position(x,y);
 		Dir dir = pos - unit.pos;
 		Unit *other_unit = board(pos, unit.player).unit;
 		if(other_unit && other_unit->player != unit.player) //enemy
 		{
+			float dist = powf((float)norm1(dir), 2) + 1.f;
 			int outcome = (unit.type - other_unit->type + 3) % 3;
-			vec += glm::vec2((float)dir.x, (float)dir.y) / ((float)norm1(dir) + 0.1f) * reaction[outcome];
+			vec += glm::vec2((float)dir.x, (float)dir.y) / dist * reaction[outcome];
 			panic *= panicing[outcome];
 			++num;
+		}
+		else if(other_unit)
+		{
+			float dist = powf((float)norm1(dir)*0.5, 4) + 1.f;
+			vec += glm::vec2((float)dir.x, (float)dir.y)*mid_favr / dist;
 		}
 	}
 	Options ret = { panic, panic, 1.f/(panic + 1.0), panic, panic };
@@ -118,234 +125,11 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 	options.left *= panic;
 	options.still *= 0.7 * panic / (panic*panic + 1.0);
 
-	options.down	+= std::max(0.f, +vec.y);
-	options.up		+= std::max(0.f, -vec.y);
-	options.right	+= std::max(0.f, +vec.x);
-	options.left	+= std::max(0.f, -vec.x);
+	options.down	+= std::max(0.f, +vec.x);
+	options.up		+= std::max(0.f, -vec.x);
+	options.right	+= std::max(0.f, +vec.y);
+	options.left	+= std::max(0.f, -vec.y);
 	options.still	+= 0.5/(abs(vec.x) + abs(vec.y) + 1.0);
 	unit.movementvec = vec;
 	unit.numberofenemys = num;
 }
-
-//Ellen : 0=R, 1=P, 2=S
-//Mienk : 3=r, 4=p, 5=s
-/*
-void stepOptions(Table &T, const size_t i, const size_t j)
-{
-	Options ret = { 1,
-				1,	1,	1,
-					1 };
-	const float p0 = 0.f, p1 = 0.f;
-	switch(T.m[i][j])
-	{
-	case 3: // 0
-	{
-		if(i != 19) switch(T.m[i + 1][j])
-		{
-		case 0:	ret[2] *= p0;	break;
-		case 1:	ret[3] *= p0; ret[2] *= p0;	break;
-		case 2:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(i != 0) switch(T.m[i - 1][j])
-		{
-		case 0:	ret[2] *= p0;	break;
-		case 1:	ret[1] *= p0;	ret[2] *= p0; break;
-		case 2:	ret[0] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19) switch(T.m[i][j + 1])
-		{
-		case 0: ret[2] *= p0; break;
-		case 1: ret[4] *= p0; ret[2] *= p0; break;
-		case 2:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[3] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0) switch(T.m[i][j - 1])
-		{
-		case 0: ret[2] *= p0; break;
-		case 1: ret[0] *= p0; ret[2] *= p0; break;
-		case 2:	ret[1] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		//SARKOK
-		if(j != 0 && i != 0) switch(T.m[i - 1][j - 1])
-		{
-		case 0: break;
-		case 1: ret[0] *= p1; ret[1] *= p1; break;
-		case 2:	ret[3] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 19) switch(T.m[i + 1][j + 1])
-		{
-		case 0: break;
-		case 1: ret[3] *= p1; ret[4] *= p1; break;
-		case 2:	ret[0] *= p0; ret[1] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0 && i != 19) switch(T.m[i + 1][j - 1])
-		{
-		case 0: break;
-		case 1: ret[0] *= p1; ret[3] *= p1; break;
-		case 2:	ret[1] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 0) switch(T.m[i - 1][j + 1])
-		{
-		case 0: break;
-		case 1: ret[1] *= p1; ret[4] *= p1;	break;
-		case 2:	ret[0] *= p0; ret[3] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-	}	break;
-	case 4: //1
-	{
-
-		if(i != 19) switch(T.m[i + 1][j])
-		{
-		case 1:	ret[2] *= p0;	break;
-		case 2:	ret[3] *= p0; ret[2] *= p0;	break;
-		case 0:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(i != 0) switch(T.m[i - 1][j])
-		{
-		case 1:	ret[2] *= p0;	break;
-		case 2:	ret[1] *= p0;	ret[2] *= p0; break;
-		case 0:	ret[0] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19) switch(T.m[i][j + 1])
-		{
-		case 1: ret[2] *= p0; break;
-		case 2: ret[4] *= p0; ret[2] *= p0; break;
-		case 0:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[3] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0) switch(T.m[i][j - 1])
-		{
-		case 1: ret[2] *= p0; break;
-		case 2: ret[0] *= p0; ret[2] *= p0; break;
-		case 0:	ret[1] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		//SARKOK
-		if(j != 0 && i != 0) switch(T.m[i - 1][j - 1])
-		{
-		case 1: break;
-		case 2: ret[0] *= p1; ret[1] *= p1; break;
-		case 0:	ret[3] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 19) switch(T.m[i + 1][j + 1])
-		{
-		case 1: break;
-		case 2: ret[3] *= p1; ret[4] *= p1; break;
-		case 0:	ret[0] *= p0; ret[1] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0 && i != 19) switch(T.m[i + 1][j - 1])
-		{
-		case 1: break;
-		case 2: ret[0] *= p1; ret[3] *= p1; break;
-		case 0:	ret[1] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 0) switch(T.m[i - 1][j + 1])
-		{
-		case 1: break;
-		case 2: ret[1] *= p1; ret[4] *= p1;	break;
-		case 0:	ret[0] *= p0; ret[3] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-	}break;
-	case 5: //1
-	{
-
-		if(i != 19) switch(T.m[i + 1][j])
-		{
-		case 2:	ret[2] *= p0;	break;
-		case 0:	ret[3] *= p0; ret[2] *= p0;	break;
-		case 1:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(i != 0) switch(T.m[i - 1][j])
-		{
-		case 2:	ret[2] *= p0;	break;
-		case 0:	ret[1] *= p0;	ret[2] *= p0; break;
-		case 1:	ret[0] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19) switch(T.m[i][j + 1])
-		{
-		case 2: ret[2] *= p0; break;
-		case 0: ret[4] *= p0; ret[2] *= p0; break;
-		case 1:	ret[0] *= p0; ret[1] *= p0; ret[2] *= p0; ret[3] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0) switch(T.m[i][j - 1])
-		{
-		case 2: ret[2] *= p0; break;
-		case 0: ret[0] *= p0; ret[2] *= p0; break;
-		case 1:	ret[1] *= p0; ret[2] *= p0; ret[3] *= p0; ret[4] *= p0;	break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		//SARKOK
-		if(j != 0 && i != 0) switch(T.m[i - 1][j - 1])
-		{
-		case 2: break;
-		case 0: ret[0] *= p1; ret[1] *= p1; break;
-		case 1:	ret[3] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 19) switch(T.m[i + 1][j + 1])
-		{
-		case 2: break;
-		case 0: ret[3] *= p1; ret[4] *= p1; break;
-		case 1:	ret[0] *= p0; ret[1] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 0 && i != 19) switch(T.m[i + 1][j - 1])
-		{
-		case 2: break;
-		case 0: ret[0] *= p1; ret[3] *= p1; break;
-		case 1:	ret[1] *= p0; ret[4] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-		if(j != 19 && i != 0) switch(T.m[i - 1][j + 1])
-		{
-		case 2: break;
-		case 0: ret[1] *= p1; ret[4] *= p1;	break;
-		case 1:	ret[0] *= p0; ret[3] *= p0; break;
-		case -1: case 3: case 4: case 5: break;
-		default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-		}
-	}break;
-	default: cerr << __LINE__ << " csabixkodjaban\n"; break;
-	}
-	T.o[i][j] = ret;
-}
-*/

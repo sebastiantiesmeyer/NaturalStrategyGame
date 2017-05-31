@@ -81,9 +81,6 @@
     <ClInclude Include="game_master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="abstract_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="board_viewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -94,6 +91,27 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="orderCommands.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="battle_arena.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="official_game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_tactics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_player_OLD.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

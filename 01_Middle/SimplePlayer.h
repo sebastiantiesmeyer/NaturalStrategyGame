@@ -5,7 +5,7 @@
 class SimplePlayer : public AbstractPlayer
 {
 public:
-	SimplePlayer(const AbstPlayerConstrParams &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	SimplePlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
 protected:
 	virtual void do_StartTurn();
 	virtual void do_Render();

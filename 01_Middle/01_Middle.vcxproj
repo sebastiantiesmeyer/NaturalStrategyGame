@@ -96,6 +96,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
+    <ClInclude Include="abstract_player_OLD.h" />
+    <ClInclude Include="abstract_game.h" />
+    <ClInclude Include="abstract_strategy.h" />
+    <ClInclude Include="abstract_tactics.h" />
+    <ClInclude Include="battle_arena.h" />
     <ClInclude Include="board_viewer.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
@@ -107,6 +112,7 @@
     <ClInclude Include="imgui\stb_textedit.h" />
     <ClInclude Include="imgui\stb_truetype.h" />
     <ClInclude Include="local.h" />
+    <ClInclude Include="official_game.h" />
     <ClInclude Include="orderCommands.h" />
     <ClInclude Include="SimplePlayer.h" />
   </ItemGroup>
