@@ -1,27 +1,12 @@
 #pragma once
 #include "data_types.h"
-#include "abstract_tactics.h"
-#include "abstract_strategy.h"
 
-struct Order //is given to local strategy (tactics)
-{
-	Unit *unit = nullptr;	// The unit that has to "order" 'guides'
-	Position target;		// The unit has to move towards this position
-	float sacrifice = 0.5;	// Any value between 0 and 1, examples:
-							//  0.0 means it will run from the same kind
-							//  0.5 means it will not run, but will not attack either
-							//  1.0 means it will attack its kind
-};
-
-typedef std::vector<Order> Orders; // First order is the top-priority
 struct PlayerParameters //Simple constructors for Player classes
 {
 	const Board &board;
 	const Units &units;
 	const UnitProgress &unit_progress;
 	int ind;
-	const AbstractTactic* tactic;
-	const AbstractStrategy* strategy;
 };
 
 class AbstractPlayer

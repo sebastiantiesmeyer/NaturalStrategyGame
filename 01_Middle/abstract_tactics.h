@@ -1,15 +1,13 @@
 #pragma once
 #include "data_types.h"
+#include "sup_player.h"
 
 class AbstractTactic
 {
 public:
-	AbstractTactic(const Unit &unit) :unit(unit) {}
-	virtual Command step(const Orders & order_list) //call this
+	AbstractTactic(){}
+	virtual Command step(const Unit &unit, const OrderList &order_list) //call this
 	{	return do_step(order_list);	}
 protected:
-	virtual Command do_step(const Orders &order_list) = 0;
-
-protected:
-	const Unit &unit;
+	virtual Command do_step(const OrderList &order_list) = 0;
 };

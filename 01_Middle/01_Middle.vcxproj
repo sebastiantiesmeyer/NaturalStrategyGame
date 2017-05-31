@@ -115,6 +115,7 @@
     <ClInclude Include="official_game.h" />
     <ClInclude Include="orderCommands.h" />
     <ClInclude Include="SimplePlayer.h" />
+    <ClInclude Include="sup_player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
