@@ -13,7 +13,7 @@ public:
 protected:
 	virtual void extra_rules() = 0; //eg. train units, check winning, and outposts
 	void simulate_board();
-	void execute_command(const Command &command, int i);
+	void execute_command(const Command &command, int player);
 private:
 	void kill_unit(Unit &unit);
 	void move_unit(Unit &unit, const Position &newpos);
