@@ -24,11 +24,13 @@ Dir Options::choose()
 
 void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 {
-	if(unit.pos.x > 0)
+	if (unit.pos.x > 0)
 	{
 		Unit *other_unit = board(unit.pos + Dir(-1, 0), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
 			options.up = options.still = 0;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 2)
+			options.up = 3;
 	}
 	else options.up = 0;
 	if(unit.pos.x < game_size - 1)
@@ -36,22 +38,53 @@ void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 		Unit *other_unit = board(unit.pos + Dir(+1, 0), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
 			options.down = options.still = 0;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 2)
+			options.down = 3;
 	}
 	else options.down = 0;
-	if(unit.pos.y > 0)
+	if (unit.pos.y > 0)
 	{
 		Unit *other_unit = board(unit.pos + Dir(0, -1), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
 			options.left = options.still = 0;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 2)
+			options.left = 3;
 	}
 	else options.left = 0;
+
 	if(unit.pos.y < game_size - 1)
 	{
 		Unit *other_unit = board(unit.pos + Dir(0, +1), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
 			options.right = options.still = 0;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 2)
+			options.right = 3;
 	}
 	else options.right = 0;
+
+	if (unit.pos.x > 0 && unit.pos.y > 0)
+	{
+		Unit *other_unit = board(unit.pos + Dir(-1, -1), unit.player).unit;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.up = options.left = 0.1;
+	}
+
+	if (unit.pos.x > 0 && unit.pos.y < game_size - 1)
+	{
+		Unit *other_unit = board(unit.pos + Dir(-1, 1), unit.player).unit;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.up = options.right = 0.1;
+	}
+	
+	if (unit.pos.x < game_size - 1 && unit.pos.y > 0)
+	{
+		Unit *other_unit = board(unit.pos + Dir(1, -1), unit.player).unit;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.down = options.left = 0.1;
+	}
+	
+	if (unit.pos.x < game_size - 1 && unit.pos.y < game_size - 1)
+	{
+		Unit *other_unit = board(unit.pos + Dir(1, 1), unit.player).unit;
+		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.down = options.right = 0.1;
+	}
 }
 
 void localNxN(const Unit& unit, const Board &board, Options &options)

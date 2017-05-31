@@ -4,8 +4,8 @@
 GameMaster::GameMaster()
 {
 	board.board.resize(game_size*game_size);
-	player[0] = new DummyPlayer({ board, units, unit_progress[0], 0 });
-	player[1] = new DummyPlayer({ board, units, unit_progress[1], 1 });
+	player[0] = new SimplePlayer({ board, units, unit_progress[0], 0 });
+	player[1] = new SimplePlayer({ board, units, unit_progress[1], 1 });
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }

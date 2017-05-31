@@ -1,5 +1,5 @@
 #include "SimplePlayer.h"
-#include "orderCommands.h"
+//#include "orderCommands.h"
 
 #include "local.h"
 
@@ -17,7 +17,7 @@ void SimplePlayer::do_StartTurn()
 		{
 			//Options options = getOptions(unit, board);
 			Options options = { 1,1,1,1,1 };
-			localNxN(unit, board, options);
+			//localNxN(unit, board, options);
 			localAvoid3x3(unit, board, options);
 			int unit_job = abs(unit.id % 3); //0 = defend base; {1, 2} = attack outpost {0, 1} then enemy base
 			if(unit.pos.x == game_size - 1 && unit.pos.y == game_size - 1)
