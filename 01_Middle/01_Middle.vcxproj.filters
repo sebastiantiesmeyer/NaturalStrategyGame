@@ -52,6 +52,9 @@
     <ClCompile Include="orderCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="genetic_player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -112,6 +115,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="abstract_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="genetic_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
