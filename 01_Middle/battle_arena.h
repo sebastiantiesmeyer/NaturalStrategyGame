@@ -1,7 +1,7 @@
 #pragma once
 #include "abstract_game.h"
 
-class BattleArena : AbstractGame
+class BattleArena : public AbstractGame
 {
 public:
 	virtual glm::dvec2 getPlayerScore(); //Score eg. the cycles survived or 1/cycles needed to catch...
