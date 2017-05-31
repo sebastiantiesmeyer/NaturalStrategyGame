@@ -2,7 +2,7 @@
 #include "data_types.h"
 #include "imgui\imgui.h"
 #include "board_viewer.h"
-
+#include "orderCommands.h"
 struct AbstPlayerConstrParams //Simple constructors for Player classes
 {
 	const Board &board;
@@ -72,6 +72,7 @@ public:
 	virtual void do_StartTurn()
 	{
 		endturn = false;
+		q2.unitcmds.clear();
 	}
 
 	virtual void do_Render()
@@ -103,7 +104,7 @@ public:
 		if(queue.train == PAPER) ImGui::PopStyleColor();
 
 		ImGui::Separator();
-		view_board_and_add_command(board, queue, ind);
+		view_board_and_add_command(board, q2, ind);
 		ImGui::Separator();
 
 		if(iteration != 0)
@@ -114,9 +115,13 @@ public:
 			endturn = ImGui::Button("End Turn", { -1,45 });
 			ImGui::PopStyleColor(3);
 		}
+		command_editor(q2, units, board, ind);
+		auto train = queue.train;
+		queue = sortCommands(q2, units);
+		queue.train = train;
 		command_editor(queue, units, board, ind);
 	}
-
+	CommandQueue q2;
 	virtual bool do_Update()
 	{
 		return endturn;
