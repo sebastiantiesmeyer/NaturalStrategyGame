@@ -86,6 +86,7 @@
     <ClCompile Include="board_view.cpp" />
     <ClCompile Include="game_master.cpp" />
     <ClCompile Include="genetic_player.cpp" />
+    <ClCompile Include="gene_master.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -106,6 +107,7 @@
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
     <ClInclude Include="genetic_player.h" />
+    <ClInclude Include="gene_master.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_sdl_gl3.h" />

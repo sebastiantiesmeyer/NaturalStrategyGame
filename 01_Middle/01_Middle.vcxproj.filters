@@ -55,6 +55,9 @@
     <ClCompile Include="genetic_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="gene_master.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -118,6 +121,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="genetic_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="sup_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="gene_master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
