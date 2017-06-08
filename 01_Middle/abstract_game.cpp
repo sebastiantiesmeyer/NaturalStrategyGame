@@ -1,7 +1,27 @@
 #include "abstract_game.h"
+#include "board_viewer.h"
 
 bool AbstractGame::Update()
 {
+	if (score != glm::dvec2(0.0, 0.0)) return true;
+
+	if (player_0_done && player_1_done)
+	{	//we can apply the rules
+		simulate_board();
+		player[0]->StartTurn();
+		player[1]->StartTurn();
+		player_0_done = player_1_done = false;
+	}
+	if (player[0]->RenderUpdate())
+	{
+		queue0 = &player[0]->GetCommandQueue();
+		player_0_done = true;
+	}
+	if (player[1]->RenderUpdate())
+	{
+		queue1 = &player[1]->GetCommandQueue();
+		player_1_done = true;
+	}
 	return false;
 }
 
@@ -16,9 +36,16 @@ bool AbstractGame::Render() const
 		view_board(board);
 	}
 	ImGui::End();
+	player[0]->RenderUpdate();
+	player[1]->RenderUpdate();
 }
-AbstractGame::AbstractGame(AbstractPlayer *, AbstractPlayer *, int board_size)
+AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
 {
+	board.board.resize(game_size*game_size);
+	player[0] = p0;
+	player[1] = p1;
+	player[0]->StartTurn();
+	player[1]->StartTurn();
 }
 
 void AbstractGame::simulate_board()

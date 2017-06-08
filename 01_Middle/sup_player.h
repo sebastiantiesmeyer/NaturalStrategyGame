@@ -19,8 +19,13 @@ struct Order //is given to local strategy (tactics)
 
 typedef std::vector<Order> OrderList; // First order is the top-priority
 typedef std::map<const Unit*, OrderList> AllOrders;
+//AllOrders = map<Unit*, OrderList> it maps a unit to its order list
+//OrdeList = vector<Order> the priority list of orders, usually just one
+//Order = struct{Unit*, Position, float sacrafice} subject to change!
 
 //Super player
+//Create a general player from a tactic (local strategy) and a strategy (global)
+// usage: pass the strategies
 class SupPlayer : protected AbstractPlayer
 {
 public:
@@ -42,8 +47,14 @@ protected:
 		queue = sortCommands(queue, units);
 		strategy->train();
 	}
-	bool do_Update(); //todo real time
-	void do_Render(); //todo real time
+	bool do_Update() //todo real time
+	{
+		return strategy->Update();
+	}
+	void do_Render() //todo real time
+	{
+		strategy->Redner();
+	}
 
 
 

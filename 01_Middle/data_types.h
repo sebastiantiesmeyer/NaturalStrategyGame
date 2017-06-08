@@ -33,7 +33,6 @@ struct Unit
 	mutable int numberofenemys = 0;
 };
 
-
 struct UnitProgress
 {
 	std::array<int, 3> progress = {9,9,9};

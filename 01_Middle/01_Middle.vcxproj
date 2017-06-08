@@ -84,6 +84,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="abstract_game.cpp" />
+    <ClCompile Include="battle_arena.cpp" />
     <ClCompile Include="board_view.cpp" />
     <ClCompile Include="game_master.cpp" />
     <ClCompile Include="genetic_player.cpp" />
@@ -94,6 +95,7 @@
     <ClCompile Include="imgui\imgui_impl_sdl_gl3.cpp" />
     <ClCompile Include="local.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="official_game.cpp" />
     <ClCompile Include="orderCommands.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
   </ItemGroup>
