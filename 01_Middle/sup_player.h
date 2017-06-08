@@ -33,6 +33,7 @@ public:
 		AbstractPlayer::AbstractPlayer(params), strategy(strategy), tactic(tactic)
 	{
 		strategy->setParams(queue, params);
+		tactic->setBoard(board);
 	}
 
 protected:

@@ -110,6 +110,7 @@
     <ClInclude Include="abstract_tactics.h" />
     <ClInclude Include="battle_arena.h" />
     <ClInclude Include="board_viewer.h" />
+    <ClInclude Include="cyborg_strategy.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
     <ClInclude Include="genetic_game_master.h" />

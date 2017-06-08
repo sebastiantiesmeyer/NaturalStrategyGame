@@ -3,9 +3,9 @@
 
 struct PlayerParameters //Simple constructors for Player classes
 {
-	const Board &board;
-	const Units &units;
-	const UnitProgress &unit_progress;
+	Board &const board;
+	Units &const units;
+	UnitProgress &const unit_progress;
 	int ind;
 };
 
@@ -52,9 +52,9 @@ protected:
 	virtual void do_Render() = 0;		// draws stuff you want to draw
 protected:
 	CommandQueue queue;
-	const UnitProgress &unit_progress;
-	const Board &board;
-	const Units &units;
+	UnitProgress &const unit_progress;
+	Board &const board;
+	Units &const units;
 	int ind = 0;
 	int iteration; // zero if anser has already been provided
 };
