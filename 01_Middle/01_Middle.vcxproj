@@ -94,6 +94,7 @@
     <ClCompile Include="imgui\imgui_impl_sdl_gl3.cpp" />
     <ClCompile Include="local.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="official_game.cpp" />
     <ClCompile Include="orderCommands.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
   </ItemGroup>
