@@ -83,6 +83,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="abstract_game.cpp" />
     <ClCompile Include="board_view.cpp" />
     <ClCompile Include="game_master.cpp" />
     <ClCompile Include="genetic_player.cpp" />
