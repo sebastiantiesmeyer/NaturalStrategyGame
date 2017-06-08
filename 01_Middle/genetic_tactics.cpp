@@ -16,6 +16,12 @@ void GeneticTactics::init_gweights(float scope)
 {
 }
 
+Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
+{
+	return Command();
+}
+
+
 Command GeneticTactics::do_step(const OrderList & order_list)
 {
 	return Command();
