@@ -6,6 +6,10 @@ GeneMaster::GeneMaster()
 	board.board.resize(game_size*game_size);
 	player[0] = new GeneticPlayer({ board, units, unit_progress[0], 0 });
 	player[1] = new GeneticPlayer({ board, units, unit_progress[1], 1 });
+	player[0]->init_gweights;
+	player[1]->init_weights;
+	player[0]->init_gweights;
+	player[1]->init_weights;
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }
@@ -71,15 +75,23 @@ void GeneMaster::simulate_board()
 	for (auto &id_unit : units) //we forgot to set the unit movements back to false!
 		id_unit.second.moved = false;
 
-	train_for_player(queue0->train, unit_progress[0], 0);
-	train_for_player(queue1->train, unit_progress[1], 1);
+	//train_for_player(queue0->train, unit_progress[0], 0);
+	//train_for_player(queue1->train, unit_progress[1], 1);
 	set_outpost_ownership();
 
+	int loseint = 2;
 	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
 	if (p1 && p2) game_status = DRAW; //Draw
-	else if (p2) game_status = PLAYER1WON; //p2 lost p1 won
-	else if (p1) game_status = PLAYER2WON; //vice versa
+	else if (p2) {
+		game_status = PLAYER1WON; loseint = 0;
+	} //p2 lost p1 won
+	else if (p1) { game_status = PLAYER2WON; loseint = 1; }//vice versa
 	if (++cycle > max_cycles) game_status = DRAW;
+	
+	//do the genetic mutations, cross-overs...
+	if (loseint<2) {
+		player[loseint] -> mutate(0.2);
+	}
 }
 
 bool GeneMaster::did_loose_player(int player)

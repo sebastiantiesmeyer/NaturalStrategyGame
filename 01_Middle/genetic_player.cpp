@@ -7,10 +7,19 @@ GeneticPlayer::GeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::Abs
 
 void GeneticPlayer::init_weights(float scope)
 {
-	for (int i = 0; i> sizeof(weights); i++) {
-		for (int j = 0; j > sizeof(weights[i]); j++) {
+	init_abst_weights(weights, scope);
+}
+void GeneticPlayer::init_gweights(float scope)
+{
+	init_abst_weights(gweights, scope);
+}
+
+void GeneticPlayer::init_abst_weights(matrix lweights, float scope)
+{
+	for (int i = 0; i> sizeof(lweights); i++) {
+		for (int j = 0; j > sizeof(lweights[i]); j++) {
 			float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX / scope));
-			weights[i][j] = r - (r / 2);
+			lweights[i][j] = r - (r / 2);
 		}
 	}
 }
@@ -23,13 +32,21 @@ void GeneticPlayer::init_weights(float scope)
 13: bias
 */
 
-int * GeneticPlayer::forward_pass(int input[])
+int * GeneticPlayer::gpass(int input[]) {
+	forward_pass(gweights, input);
+}
+
+int * GeneticPlayer::wpass(int input[]) {
+	forward_pass(weights, input);
+}
+
+int * GeneticPlayer::forward_pass(matrix lweights, int input[])
 {
 	int output[n_output];
 	for (int o = 0; o < sizeof(output); o++) {
 		output[o] = 0;
 		for (int a = 0; a < sizeof(input); a++) {
-			output[o] += input[a] * weights[o][a];
+			output[o] += input[a] * lweights[o][a];
 		}
 
 	}
@@ -119,18 +136,47 @@ void GeneticPlayer::do_StartTurn()
 			input[index] = 1;
 			index++;
 
-			int* output = forward_pass(input);
-			Command command ={ 0,0 };
+			
+
+			gindex = 0;
+
+			for (int i = 0; i < game_size; i++) {
+				for (int j = 0; j < game_size; j++) {
+					Unit *other_unit = board(new Position(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
+					if (other_unit && other_unit->player != ind) { 
+						ginput[(other_unit->type) + (3*(game_size/i))+(6*(game_size/j))]++;
+
+					}
+				}
+			}
+
+			gindex += 12;
+			ginput[gindex++] = board.getPlayerAtOutpost(0, ind) != ind;
+			ginput[gindex++] = board.getPlayerAtOutpost(1, ind) != ind;
+			ginput[gindex++] = board.at(new Position(0,0)).unit ->player != ind;
+			
+
+			int* goutput = gpass(ginput);
+			for (int i = 0; i < sizeof(goutput); i++) {
+				input[index++] = goutput[i];
+			}
+
+			int* output = wpass(input);
+
+			//Options options = output;
+			
 			int maxpos = 0;
 			int max = output[0];
 			for (int i = 0; i < sizeof(output); i++) {
 				if (output[i] < max) maxpos = i;
 			}
 			int cmd_int = output[max];
-			if (cmd_int == 4) command = { 0,0 };
+
+			Command cmd;
+			if (cmd_int == 4) cmd.dir = { 0,0 };
 			else {
-				command[0] = (cmd_int % 2) * 2 - 1;
-				command[1] = (cmd_int / 2) * 2 - 1;
+				cmd.dir[0] = (cmd_int % 2) * 2 - 1;
+				cmd.dir[1] = (cmd_int / 2) * 2 - 1;
 			}
 
 			 
@@ -166,9 +212,9 @@ void GeneticPlayer::do_StartTurn()
 				options.right *= 3; //target is the enemy base
 				options.down *= 3;
 			}*/
-			Command cmd;
-			cmd.dir = options.choose();
-			stored_options.push_back(options);
+			//Command cmd;
+			//cmd.dir = options.choose();
+			//stored_options.push_back(options);
 			cmd.id = pair.first;
 			queue.unitcmds.push_back(cmd);
 			unit.options = &stored_options.back();
