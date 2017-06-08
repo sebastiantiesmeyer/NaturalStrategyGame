@@ -133,7 +133,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sup_player.h">
-      <Filter>Header Files\abstract classes</Filter>
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
