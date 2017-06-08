@@ -6,7 +6,7 @@
 class GeneticPlayer : public AbstractPlayer
 {
 public:
-	GeneticPlayer(const AbstPlayerConstrParams &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	GeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
 protected:
 
 	typedef std::vector<float> strang;
@@ -22,7 +22,7 @@ protected:
 	matrix weights = matrix(n_input, strang(n_output,0));
 
 	void init_weights(float scope);
-	void forward_pass();
+	int * forward_pass(int input[]);
 	void mutate(float scope);
 	void cross_over(matrix& genome, float scope);
 
