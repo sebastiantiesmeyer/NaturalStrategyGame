@@ -44,6 +44,8 @@ struct UnitProgress
 };
 
 typedef std::map<int, Unit> Units;
+//typedef Units::iterator Unit_iterator;
+//typedef Units::const_iterator Unit_const_iterator;
 
 struct Cell
 {

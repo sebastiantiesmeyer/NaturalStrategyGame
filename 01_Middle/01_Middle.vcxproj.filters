@@ -22,6 +22,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{bc55c78a-ffb5-4b33-bb6f-11758d1f249e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\abstract classes">
+      <UniqueIdentifier>{ad635345-f6ba-421b-94dc-6be56bc99741}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -58,7 +61,7 @@
     <ClCompile Include="gene_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="official_game.cpp">
+    <ClCompile Include="abstract_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,35 +105,35 @@
     <ClInclude Include="orderCommands.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="abstract_game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="battle_arena.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="official_game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gene_master.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="abstract_tactics.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\abstract classes</Filter>
     </ClInclude>
-    <ClInclude Include="abstract_strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="abstract_player_OLD.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="abstract_game.h">
+      <Filter>Header Files\abstract classes</Filter>
     </ClInclude>
     <ClInclude Include="abstract_player.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\abstract classes</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_player_OLD.h">
+      <Filter>Header Files\abstract classes</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_strategy.h">
+      <Filter>Header Files\abstract classes</Filter>
     </ClInclude>
     <ClInclude Include="genetic_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sup_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gene_master.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\abstract classes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
