@@ -3,13 +3,13 @@
 #include "local.h"
 #include <random>
 
-class GeneticPlayer : public AbstractPlayer
+class OLDGeneticPlayer : public AbstractPlayer
 {
 public:
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 
-	GeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	OLDGeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
 	void mutate(float scope);
 	void cross_over(matrix& genome, float scope);
 	void init_weights(float scope);

@@ -8,11 +8,14 @@ struct Order //is given to local strategy (tactics)
 {
 	Unit *unit = nullptr;	// The unit that has to "order" 'guides'
 	Position target = glm::ivec2(0,0);	// The unit has to move towards this RELATIVE position
+	std::vector<int> instruction = { 0, 0, 0, 0, 0, 0 };
 	float sacrifice = 0.5;	// Any value between 0 and 1, examples:
 							//  0.0 means it will run from the same kind
 							//  0.5 means it will not run, but will not attack either
 							//  1.0 means it will attack its kind
 };
+
+
 
 typedef std::vector<Order> OrderList; // First order is the top-priority
 typedef std::map<const Unit*, OrderList> AllOrders;
@@ -32,6 +35,7 @@ public:
 		strategy->setParams(queue, params);
 		tactic->setBoard(board);
 	}
+
 protected:
 	void do_StartTurn()
 	{
@@ -52,6 +56,8 @@ protected:
 	{
 		strategy->Redner();
 	}
+
+
 
 protected:
 	AbstractStrategy *strategy;

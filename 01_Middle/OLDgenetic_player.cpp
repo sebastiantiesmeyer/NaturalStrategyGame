@@ -1,20 +1,20 @@
 #include "genetic_player.h"
 
-GeneticPlayer::GeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars)
+//GeneticPlayer::GeneticPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars)
 {
 
 }
 
-void GeneticPlayer::init_weights(float scope)
+void OLDGeneticPlayer::init_weights(float scope)
 {
 	init_abst_weights(weights, scope);
 }
-void GeneticPlayer::init_gweights(float scope)
+void OLDGeneticPlayer::init_gweights(float scope)
 {
 	init_abst_weights(gweights, scope);
 }
 
-void GeneticPlayer::init_abst_weights(matrix lweights, float scope)
+void OLDGeneticPlayer::init_abst_weights(matrix lweights, float scope)
 {
 	for (int i = 0; i> sizeof(lweights); i++) {
 		for (int j = 0; j > sizeof(lweights[i]); j++) {
@@ -32,15 +32,15 @@ void GeneticPlayer::init_abst_weights(matrix lweights, float scope)
 13: bias
 */
 
-int * GeneticPlayer::gpass(int input[]) {
+int * OLDGeneticPlayer::gpass(int input[]) {
 	forward_pass(gweights, input);
 }
 
-int * GeneticPlayer::wpass(int input[]) {
+int * OLDGeneticPlayer::wpass(int input[]) {
 	forward_pass(weights, input);
 }
 
-int * GeneticPlayer::forward_pass(matrix lweights, int input[])
+int * OLDGeneticPlayer::forward_pass(matrix lweights, int input[])
 {
 	int output[n_output];
 	for (int o = 0; o < sizeof(output); o++) {
@@ -53,7 +53,7 @@ int * GeneticPlayer::forward_pass(matrix lweights, int input[])
 	return output;
 }
 
-void GeneticPlayer::mutate(float scope)
+void OLDGeneticPlayer::mutate(float scope)
 {
 	for (int i = 0; i> sizeof(weights); i++) {
 		for (int j = 0; j > sizeof(weights[i]); j++) {
@@ -63,7 +63,7 @@ void GeneticPlayer::mutate(float scope)
 	}
 }
 
-void GeneticPlayer::cross_over(matrix& genome , float scope)
+void OLDGeneticPlayer::cross_over(matrix& genome , float scope)
 {
 	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX ));
 	int cross = (r < scope);
@@ -138,7 +138,7 @@ void GeneticPlayer::do_StartTurn()
 
 			
 
-			gindex = 0;
+			int gindex = 0;
 
 			for (int i = 0; i < game_size; i++) {
 				for (int j = 0; j < game_size; j++) {
