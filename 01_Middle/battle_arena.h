@@ -1,6 +1,8 @@
 #pragma once
 #include "abstract_game.h"
 
+// A configurable battle arena for two players of any type.
+// Primary use for this is training tactics (local strategy)
 class BattleArena : public AbstractGame
 {
 public:
