@@ -19,7 +19,7 @@ public:
 		unit_progress = params.unit_progress;
 		board = params.board;	units = params.units;
 	}
-	//implement the following to define a global strategy
+	//IMPLEMENT the following TWO functions to define a global strategy
 	virtual void changeOrders(AllOrders &orders) = 0; // the main function
 						//AllOrders = map<Unit*, OrderList> it maps a unit to its order list
 						//OrdeList = vector<Order> the priority list of orders, usually just one
@@ -29,7 +29,7 @@ public:
 	virtual void Render() {}			   //this is called even after the turn is ended
 	virtual bool Update() { return true; } //return true when the turn is ended
 protected:
-	CommandQueue & const queue;
+	CommandQueue & const queue; //this means that the reference can change but the object
 	UnitProgress & const unit_progress;
 	Board & const board;
 	Units & const units;

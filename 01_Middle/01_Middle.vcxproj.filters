@@ -135,5 +135,11 @@
     <ClInclude Include="sup_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="gene_master.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cyborg_strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
