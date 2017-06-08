@@ -58,6 +58,9 @@
     <ClCompile Include="gene_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="official_game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
