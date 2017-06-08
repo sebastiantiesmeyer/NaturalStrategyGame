@@ -5,7 +5,7 @@ class OfficialGame : public AbstractGame
 {
 public:
 	virtual glm::dvec2 getPlayerScore();
-	OfficialGame(AbstractPlayer*, AbstractPlayer*, int board_size); //call AbstractGame constructor
+	OfficialGame(AbstractPlayer* p0, AbstractPlayer* p1, int board_size) : AbstractGame::AbstractGame(p0, p1, board_size) {}
 protected:
 	virtual void extra_rules();
 	bool did_loose_player(int player);
