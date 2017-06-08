@@ -55,25 +55,22 @@ void OfficialGame::set_outpost_ownership()
 
 void OfficialGame::extra_rules()
 {
-	largest_id[0] += 1; 
-	largest_id[1] += -1;
-	Unit new_unit0, new_unit1;
-	new_unit0.id = largest_id[0];
-	new_unit1.id = largest_id[1];
-	new_unit0.moved = false;
-	new_unit1.moved = false;
-	new_unit0.player = 0;
-	new_unit1.player = 1;
-	new_unit0.type = ROCK;
-	new_unit1.type = SCISSOR;
-	new_unit0.pos = Position(0, 0);
-	new_unit1.pos = Position(0, 0);
-	units.emplace(std::make_pair(largest_id[0], new_unit0));
-	units.emplace(std::make_pair(largest_id[1], new_unit1));
-	board(Position(0, 0), 0).id = largest_id[0]; //updating cell
-	board(Position(0,0), 1).id = largest_id[1]; //updating cell
-	board(Position(0, 0), 0).unit = &units.at(largest_id[0]);
-	board(Position(0,0), 1).unit = &units.at(largest_id[1]);
-	unit_progress.progress[what_to_train] = 0; // reset training
-	++unit_progress.total_time; //incresing construction times
+	train_for_player(queue0->train, unit_progress[0], 0);
+	train_for_player(queue1->train, unit_progress[1], 1);
+	set_outpost_ownership();
+
+	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
+	if (p1 && p2) score = glm::dvec2(1.0, 1.0); //Draw
+	else if (p2) score = glm::dvec2(1.0, 0.0); //p2 lost p1 won
+	else if (p1) score = glm::dvec2(0.0, 1.0); //vice versa
+	if (++cycle > max_cycles) score = glm::dvec2(1.0, 1.0);
+}
+
+glm::dvec2 OfficialGame::getPlayerScore()
+{
+	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
+	if (p1 && p2) score = glm::dvec2(1.0, 1.0); //Draw
+	else if (p2) score = glm::dvec2(1.0, 0.0); //p2 lost p1 won
+	else if (p1) score = glm::dvec2(0.0, 1.0); //vice versa
+	if (++cycle > max_cycles) score = glm::dvec2(1.0, 1.0);
 }

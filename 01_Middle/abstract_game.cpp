@@ -1,4 +1,5 @@
 #include "abstract_game.h"
+#include "board_viewer.h"
 
 bool AbstractGame::Update()
 {
@@ -17,8 +18,13 @@ bool AbstractGame::Render() const
 	}
 	ImGui::End();
 }
-AbstractGame::AbstractGame(AbstractPlayer *, AbstractPlayer *, int board_size)
+AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
 {
+	board.board.resize(game_size*game_size);
+	player[0] = p0;
+	player[1] = p1;
+	player[0]->StartTurn();
+	player[1]->StartTurn();
 }
 
 void AbstractGame::simulate_board()
