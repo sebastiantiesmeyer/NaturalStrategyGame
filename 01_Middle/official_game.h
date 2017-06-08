@@ -1,6 +1,7 @@
 #pragma once
 #include "abstract_game.h"
 
+//
 class OfficialGame : public AbstractGame
 {
 public:
