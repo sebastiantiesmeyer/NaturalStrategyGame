@@ -18,7 +18,7 @@ Dir Options::choose()
 	case 2: return Dir(0, 0); break; //still
 	case 3: return Dir(0, 1); break; //right
 	case 4: return Dir(1, 0); break; //down
-	default: throw std::exception("Switch error"); break;
+	//default: throw std::exception("Switch error"); break;
 	}
 }
 
@@ -33,7 +33,7 @@ void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 			options.up = 3;
 	}
 	else options.up = 0;
-	if(unit.pos.x < game_size - 1)
+	if(unit.pos.x < board.size() - 1)
 	{
 		Unit *other_unit = board(unit.pos + Dir(+1, 0), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
@@ -52,7 +52,7 @@ void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 	}
 	else options.left = 0;
 
-	if(unit.pos.y < game_size - 1)
+	if(unit.pos.y < board.size() - 1)
 	{
 		Unit *other_unit = board(unit.pos + Dir(0, +1), unit.player).unit;
 		if(other_unit && (unit.type - other_unit->type + 3) % 3 == 1)
@@ -68,19 +68,19 @@ void localAvoid3x3(const Unit& unit, const Board &board, Options &options)
 		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.up = options.left = 0.1;
 	}
 
-	if (unit.pos.x > 0 && unit.pos.y < game_size - 1)
+	if (unit.pos.x > 0 && unit.pos.y < board.size() - 1)
 	{
 		Unit *other_unit = board(unit.pos + Dir(-1, 1), unit.player).unit;
 		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.up = options.right = 0.1;
 	}
 	
-	if (unit.pos.x < game_size - 1 && unit.pos.y > 0)
+	if (unit.pos.x < board.size() - 1 && unit.pos.y > 0)
 	{
 		Unit *other_unit = board(unit.pos + Dir(1, -1), unit.player).unit;
 		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.down = options.left = 0.1;
 	}
 	
-	if (unit.pos.x < game_size - 1 && unit.pos.y < game_size - 1)
+	if (unit.pos.x < board.size() - 1 && unit.pos.y < board.size() - 1)
 	{
 		Unit *other_unit = board(unit.pos + Dir(1, 1), unit.player).unit;
 		if (other_unit && (unit.type - other_unit->type + 3) % 3 == 1)	options.down = options.right = 0.1;
@@ -91,9 +91,9 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 {
 	const int window_size = 3;
 	int xlb = std::max(unit.pos.x - window_size, 0);
-	int xub = std::min(unit.pos.x + window_size, game_size - 1);
+	int xub = std::min(unit.pos.x + window_size, board.size() - 1);
 	int ylb = std::max(unit.pos.y - window_size, 0);
-	int yub = std::min(unit.pos.y + window_size, game_size - 1);
+	int yub = std::min(unit.pos.y + window_size, board.size() - 1);
 	const float reaction[3] = { -1, -19.0, +19.0 }; //{both die, we die, we win}
 	const float panicing[3] = { 0.9, 1.3, 0.2 }; //{both die, we die, we win}
 	const float mid_favr = 1.f/(float)window_size;

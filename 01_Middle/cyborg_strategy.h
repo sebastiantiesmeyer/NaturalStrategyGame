@@ -4,16 +4,16 @@
 class CyborgStrategy : public AbstractStrategy
 {
 public:
-	virtual void changeOrders(AllOrders &allorders)
+	/*virtual*/ void changeOrders(AllOrders &allorders)
 	{ //just like startTurn;
 		allorders = allorders;
 		endturn = false;
 	}
-	virtual bool Update() //return true when the turn is ended
+	/*virtual*/ bool Update() //return true when the turn is ended
 	{
 		return endturn;
 	}
-	virtual void Render();
+	/*virtual*/ void Render();
 public:
 	AllOrders &allorders;
 	bool endturn = false;

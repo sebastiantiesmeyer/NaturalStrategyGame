@@ -100,6 +100,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="official_game.cpp" />
     <ClCompile Include="orderCommands.cpp" />
+    <ClCompile Include="probabilistic_tactic.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
     <ClCompile Include="cyborg_strategy.cpp" />
   </ItemGroup>

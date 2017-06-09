@@ -71,13 +71,13 @@ struct Board
 	}
 
 	inline Cell& operator[] (const Position &pos)
-	{
-		return board[pos.y*board_size + pos.x];
-	}
+	{		return board[pos.y*board_size + pos.x];	}
+
+	//Safe player independent access for the board
 	inline const Cell& at(const Position &pos) const
-	{
-		return board[pos.y*board_size + pos.x];
-	}
+	{		return board[pos.y*board_size + pos.x];	}
+
+	//Use this for safe access of the board
 	inline const Cell& operator()(const Position &pos, int player) const
 	{
 		Position p = auto_rotate(pos, player, board_size);
@@ -94,9 +94,9 @@ struct Board
 	{
 		return outposts[(outpost + player) % 2]; //change view
 	}
+	//int op1 = -1, op2 = -1;
 	int outposts[2] = {-1,-1};
 private:
-	//int op1 = -1, op2 = -1;
 	int board_size = 0;
 	std::vector<Cell> board = std::vector<Cell>(board_size*board_size);
 };
@@ -115,6 +115,9 @@ template<typename T> T clamp(const T &x, const T &m, const T &M)
 
 inline int norm1(const glm::ivec2 &v) { return abs(v.x) + abs(v.y); }
 
+// return value 0 = both die, 1 =  we die, 2 = we win}
+inline int fight_output(const Unit &we, const Unit &enemy)
+{	return (we.type - enemy.type + 3) % 3;	}
 
 /*enum DIRECTION
 {
