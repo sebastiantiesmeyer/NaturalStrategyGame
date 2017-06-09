@@ -98,6 +98,7 @@
     <ClCompile Include="official_game.cpp" />
     <ClCompile Include="orderCommands.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
+    <ClCompile Include="cyborg_strategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="local.h" />
     <ClInclude Include="official_game.h" />
     <ClInclude Include="orderCommands.h" />
+    <ClInclude Include="probabilistic_tactic.h" />
     <ClInclude Include="SimplePlayer.h" />
     <ClInclude Include="sup_player.h" />
   </ItemGroup>

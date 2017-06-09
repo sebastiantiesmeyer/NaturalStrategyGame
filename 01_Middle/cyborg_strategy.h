@@ -13,10 +13,7 @@ public:
 	{
 		return endturn;
 	}
-	virtual void Render()
-	{
-
-	}
+	virtual void Render();
 public:
 	AllOrders &allorders;
 	bool endturn = false;

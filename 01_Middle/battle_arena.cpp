@@ -14,7 +14,7 @@ BattleArena::BattleArena(AbstractPlayer* p0, AbstractPlayer* p1, int board_size,
 	new_unit1.type = u1;
 	new_unit0.pos = pos0;
 	new_unit1.pos = pos1;
-	units.emplace(std::make_pair(1, new_unit0));
+	units.emplace(std::make_pair(+1, new_unit0));
 	units.emplace(std::make_pair(-1, new_unit1));
 	board(new_unit0.pos, new_unit0.player).id = new_unit0.id; //updating cell
 	board(new_unit1.pos, new_unit1.player).id = new_unit1.id; //updating cell

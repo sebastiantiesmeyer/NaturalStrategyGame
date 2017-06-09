@@ -41,7 +41,7 @@ bool AbstractGame::Render() const
 }
 AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
 {
-	board.board.resize(game_size*game_size);
+	board.resize(board_size);
 	player[0] = p0;
 	player[1] = p1;
 	player[0]->StartTurn();
@@ -82,8 +82,8 @@ void AbstractGame::execute_command(const Command & command, int player)
 	if (!unit.moved						//unit did not move in this cycle
 		&& unit.player == player				//cannot move enemy's player!! we forgot this as well
 		&& norm1(dir) == 1	//no diagonal move
-		&& 0 <= newpos.x && newpos.x < game_size
-		&& 0 <= newpos.y && newpos.y < game_size)
+		&& 0 <= newpos.x && newpos.x < board.size()
+		&& 0 <= newpos.y && newpos.y < board.size())
 	{ //othervise we dont move
 		if (board(newpos, player).unit == nullptr) //empty cell
 		{

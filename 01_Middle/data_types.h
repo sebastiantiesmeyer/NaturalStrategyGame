@@ -4,7 +4,7 @@
 #include <array>
 #include "imgui\imgui.h"
 
-const int game_size = 5;
+//const int game_size = 5;
 
 enum UNIT_TYPE{	ROCK = 0, SCISSOR = 1, PAPER = 2,};
 
@@ -21,7 +21,7 @@ struct Command
 
 struct Unit
 {
-	int id;
+	int id; //positive for player 0, and negative for player 1!!!
 	int player; //0 or 1
 	Position pos;
 	UNIT_TYPE type;
@@ -36,8 +36,8 @@ struct Unit
 struct UnitProgress
 {
 	std::array<int, 3> progress = {9,9,9};
-	int total_time = game_size/2;
-	int current_train_time = game_size/4;
+	int total_time = 10;
+	int current_train_time = 0;
 	int our_base_captured = 0;
 	int enemy_base_captured = 0; 
 };
@@ -52,40 +52,53 @@ struct Cell
 	Unit* unit = nullptr; // might be a lot faster
 };
 
-inline Position auto_rotate(const Position &dir, int player)
+inline Position auto_rotate(const Position &dir, int player, int board_size)
 {
-	return (player == 0 ? dir : Position(game_size-1) - dir);
+	return (player == 0 ? dir : Position(board_size - 1) - dir);
 }
 
 struct Board
 {
-	std::vector<Cell> board = std::vector<Cell>(game_size*game_size);
+	Board(int board_size = 0)
+		: board (std::vector<Cell>(board_size*board_size)), board_size(board_size)
+	{}
+	inline int size() const { return board_size; }
+
+	inline void resize(int newsize) // Are you sure??
+	{
+		board_size = newsize;
+		board.resize(board_size*board_size);
+	}
 
 	inline Cell& operator[] (const Position &pos)
 	{
-		return board[pos.y*game_size + pos.x];
+		return board[pos.y*board_size + pos.x];
 	}
 	inline const Cell& at(const Position &pos) const
 	{
-		return board[pos.y*game_size + pos.x];
+		return board[pos.y*board_size + pos.x];
 	}
 	inline const Cell& operator()(const Position &pos, int player) const
 	{
-		Position p = auto_rotate(pos, player);
-		return board[p.y*game_size + p.x];
+		Position p = auto_rotate(pos, player, board_size);
+		return board[p.y*board_size + p.x];
 	}
 	inline Cell& operator()(const Position &pos, int player)
 	{
-		Position p = auto_rotate(pos, player);
-		return board[p.y*game_size + p.x];
+		Position p = auto_rotate(pos, player, board_size);
+		return board[p.y*board_size + p.x];
 	}
-	//int op1 = -1, op2 = -1;
-	int outposts[2] = {-1,-1};
 
+	//retuns the player number at outpost i
 	inline int getPlayerAtOutpost(int outpost, int player) const
 	{
 		return outposts[(outpost + player) % 2]; //change view
 	}
+	int outposts[2] = {-1,-1};
+private:
+	//int op1 = -1, op2 = -1;
+	int board_size = 0;
+	std::vector<Cell> board = std::vector<Cell>(board_size*board_size);
 };
 
 struct CommandQueue

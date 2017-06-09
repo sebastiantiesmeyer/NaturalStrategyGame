@@ -22,6 +22,27 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{bc55c78a-ffb5-4b33-bb6f-11758d1f249e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\ABSTRACT">
+      <UniqueIdentifier>{3365bec9-12dc-42f1-9bea-649418ebd82e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OLD">
+      <UniqueIdentifier>{d82d6e0d-e8d8-4dfd-9484-92e42f016d0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\UTILITY">
+      <UniqueIdentifier>{2210ff82-ae17-4318-8461-87506ca1ae02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\STRATEGIES">
+      <UniqueIdentifier>{99c4ae1b-0db6-4c70-bf74-1c9507fc392a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\TACTICS">
+      <UniqueIdentifier>{36308df4-558b-4caa-b5e9-8749b7e96767}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PLAYERS">
+      <UniqueIdentifier>{9947fcae-4a8c-41cd-9b11-6ac9edb8a205}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GAMES">
+      <UniqueIdentifier>{1bded07e-56ec-4459-ba2c-6a36f5b96062}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -67,6 +88,9 @@
     <ClCompile Include="battle_arena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cyborg_strategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -90,56 +114,59 @@
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
-    <ClInclude Include="data_types.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="game_master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="board_viewer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimplePlayer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="orderCommands.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="abstract_tactics.h">
+      <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
     <ClInclude Include="abstract_game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="battle_arena.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="official_game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="abstract_tactics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="abstract_strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="abstract_player_OLD.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
     <ClInclude Include="abstract_player.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
-    <ClInclude Include="genetic_player.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="abstract_player_OLD.h">
+      <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
-    <ClInclude Include="sup_player.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="abstract_strategy.h">
+      <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
-    <ClInclude Include="gene_master.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="game_master.h">
+      <Filter>Header Files\OLD</Filter>
+    </ClInclude>
+    <ClInclude Include="local.h">
+      <Filter>Header Files\UTILITY</Filter>
+    </ClInclude>
+    <ClInclude Include="data_types.h">
+      <Filter>Header Files\UTILITY</Filter>
+    </ClInclude>
+    <ClInclude Include="board_viewer.h">
+      <Filter>Header Files\UTILITY</Filter>
+    </ClInclude>
+    <ClInclude Include="orderCommands.h">
+      <Filter>Header Files\UTILITY</Filter>
     </ClInclude>
     <ClInclude Include="cyborg_strategy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\STRATEGIES</Filter>
+    </ClInclude>
+    <ClInclude Include="sup_player.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="SimplePlayer.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="genetic_player.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="battle_arena.h">
+      <Filter>Header Files\GAMES</Filter>
+    </ClInclude>
+    <ClInclude Include="gene_master.h">
+      <Filter>Header Files\GAMES</Filter>
+    </ClInclude>
+    <ClInclude Include="official_game.h">
+      <Filter>Header Files\GAMES</Filter>
+    </ClInclude>
+    <ClInclude Include="probabilistic_tactic.h">
+      <Filter>Header Files\TACTICS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ void view_board(const Board &board)
 	float w = clamp(ImGui::GetContentRegionAvail().x, 200.f, 600.f);
 	float h = clamp(ImGui::GetContentRegionAvail().y + 110.f, 200.f, 600.f);
 
+	int game_size = board.size();
 	float button_size = std::min(w, h) / game_size - 8;
 	for(int i = 0; i < game_size; ++i)
 	{
@@ -122,6 +123,7 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 	static Position lastclikk[2] = { Position(0,0), Position(0, 0) };	// last click is saved per-player
 	static bool selected[2] = { false,false };							// player i selected a player
 
+	int game_size = board.size();
 	float button_size = std::min(w, h) / game_size - 8;
 	for(int i = 0; i < game_size; ++i)
 	{
