@@ -87,7 +87,10 @@
     <ClCompile Include="battle_arena.cpp" />
     <ClCompile Include="board_view.cpp" />
     <ClCompile Include="game_master.cpp" />
+    <ClCompile Include="genetic_game_master.cpp" />
     <ClCompile Include="genetic_player.cpp" />
+    <ClCompile Include="genetic_strategy.cpp" />
+    <ClCompile Include="genetic_tactics.cpp" />
     <ClCompile Include="gene_master.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
@@ -111,7 +114,10 @@
     <ClInclude Include="cyborg_strategy.h" />
     <ClInclude Include="data_types.h" />
     <ClInclude Include="game_master.h" />
+    <ClInclude Include="genetic_game_master.h" />
     <ClInclude Include="genetic_player.h" />
+    <ClInclude Include="genetic_strategy.h" />
+    <ClInclude Include="genetic_tactics.h" />
     <ClInclude Include="gene_master.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />

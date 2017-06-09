@@ -12,8 +12,12 @@ void GeneticGameMaster::play(int n_games)
 	for (int i = 0; i < n_games; i++) {
 		for (int s1 = 0; s1 < i; s1++) {
 			for (int s2 = 0; s2 < s1; s2++) {
+				Board board;
+				Units * units;
+				UnitProgress unit_progress[2];
+				SupPlayer * p1 = new SupPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
+				SupPlayer * p2 = new SupPlayer({ board, units, unit_progress[1], 1 }, strategy_pool[s2].gs, strategy_pool[s2].gt);
 
-				AbstractPlayer * p1 = new SupPlayer({ board, units, unit_progress[0], 0 },strategy_pool[s1].gs,strategy_pool[s1].gt);
 			}
 		}
 	}
