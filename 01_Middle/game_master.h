@@ -3,6 +3,7 @@
 #include "abstract_player.h"
 #include <random>
 
+//Depricted
 class GameMaster
 {
 public:

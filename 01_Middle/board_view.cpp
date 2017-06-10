@@ -1,5 +1,6 @@
 #include "board_viewer.h"
 #include "local.h"
+#include "imgui\imgui.h"
 
 void view_board(const Board &board)
 {
@@ -61,6 +62,7 @@ void view_board(const Board &board)
 
 void draw_unit_tooltip(const Cell &cell, int player) //sorry a bit overly complicated
 {
+	if(cell.unit == nullptr) return;
 	ImGui::BeginTooltip();
 	ImGui::Text("id= %d, vec = (%f,%f), enemy count = %d", cell.unit->id, cell.unit->movementvec.x, cell.unit->movementvec.y, cell.unit->numberofenemys);
 	if(cell.unit->options && cell.unit->command)
@@ -173,7 +175,7 @@ void view_board_and_add_command(const Board &board, CommandQueue &queue, int pla
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, color*active);
 
 			bool clicked = ImGui::Button((cell.unit ? RSP[cell.unit->type] : " "), ImVec2(button_size, button_size));
-			if(cell.unit && ImGui::IsItemHovered()) draw_unit_tooltip(cell, player);
+			if(ImGui::IsItemHovered()) draw_unit_tooltip(cell, player);
 			ImGui::PopStyleColor(3); //Pop 3 colors at once from the color stack
 			ImGui::PopID();	//Have to pop button id
 			ImGui::SameLine(); //Next Button appears on the same line

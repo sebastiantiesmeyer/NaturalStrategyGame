@@ -30,7 +30,7 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 
 	if (unit_progress.progress[what_to_train] >= unit_progress.current_train_time)
 	{
-		largest_id[player] += (player == 0 ? 1 : -1); // new player at 0,0 (or 19,19)
+		/*largest_id[player] += (player == 0 ? 1 : -1); // new player at 0,0 (or 19,19)
 		Unit new_unit;
 		new_unit.id = largest_id[player];
 		new_unit.moved = false;
@@ -39,7 +39,8 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 		new_unit.pos = pos;
 		units.emplace(std::make_pair(largest_id[player], new_unit));
 		board(pos, player).id = largest_id[player]; //updating cell
-		board(pos, player).unit = &units.at(largest_id[player]);
+		board(pos, player).unit = &units.at(largest_id[player]);*/
+		create_unit(pos, player, what_to_train); //NEW
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}

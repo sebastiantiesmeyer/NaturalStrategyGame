@@ -1,6 +1,6 @@
 #pragma once
 #include "abstract_game.h"
-#include "sup_player.h"
+#include "super_player.h"
 #include "genetic_tactics.h"
 
 struct strategy_wrapper{

@@ -73,9 +73,6 @@
     <ClCompile Include="orderCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gene_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -101,6 +98,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="probabilistic_tactic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="human_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -135,9 +135,6 @@
     <ClInclude Include="abstract_player.h">
       <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
-    <ClInclude Include="abstract_player_OLD.h">
-      <Filter>Header Files\ABSTRACT</Filter>
-    </ClInclude>
     <ClInclude Include="abstract_strategy.h">
       <Filter>Header Files\ABSTRACT</Filter>
     </ClInclude>
@@ -159,19 +156,7 @@
     <ClInclude Include="cyborg_strategy.h">
       <Filter>Header Files\STRATEGIES</Filter>
     </ClInclude>
-    <ClInclude Include="sup_player.h">
-      <Filter>Header Files\PLAYERS</Filter>
-    </ClInclude>
-    <ClInclude Include="SimplePlayer.h">
-      <Filter>Header Files\PLAYERS</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_player.h">
-      <Filter>Header Files\PLAYERS</Filter>
-    </ClInclude>
     <ClInclude Include="battle_arena.h">
-      <Filter>Header Files\GAMES</Filter>
-    </ClInclude>
-    <ClInclude Include="gene_master.h">
       <Filter>Header Files\GAMES</Filter>
     </ClInclude>
     <ClInclude Include="official_game.h">
@@ -187,6 +172,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="genetic_tactics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="human_player.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="abstract_player_OLD.h">
+      <Filter>Header Files\OLD</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_player.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="super_player.h">
+      <Filter>Header Files\PLAYERS</Filter>
+    </ClInclude>
+    <ClInclude Include="gene_master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

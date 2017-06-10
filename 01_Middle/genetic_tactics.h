@@ -3,6 +3,8 @@
 
 class GeneticTactics : public AbstractTactic
 {
+public:
+	GeneticTactics() = default;
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 

@@ -14,9 +14,9 @@ public:
 	/*virtual*/ glm::dvec2 getPlayerScore();
 protected:
 	/*virtual*/ void extra_rules();
+private:
 	bool did_loose_player(int player);
 	void train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player);
 	void set_outpost_ownership();
-protected:
-	int largest_id[2] = { 1,-1 };
+	//int largest_id[2] = { 1,-1 }; //REMOVED
 };

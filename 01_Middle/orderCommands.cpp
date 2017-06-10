@@ -1,4 +1,12 @@
 #include "orderCommands.h"
+#include <vector>
+#include <map>
+#include <set>
+#include <glm\glm.hpp>
+#include <utility>
+#include <list>
+
+using namespace std;
 
 bool dependent(const Units& units, const Command& c1, const Command& c2) //whether c1 is dependent on c2
 {
@@ -12,7 +20,7 @@ CommandQueue sortCommands(const CommandQueue& queue, const Units& units)
 {
 	CommandQueue newqueue;
 	int length = queue.unitcmds.size();
-	vector<list<int>> graph(length);
+	vector<list<int>> graph(length); //TODO: Build graph directly
 	for (int i = 0; i < queue.unitcmds.size(); ++i)
 	{
 		for (int j = 0; j < queue.unitcmds.size(); ++j)

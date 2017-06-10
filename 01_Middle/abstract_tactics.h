@@ -1,8 +1,8 @@
 #pragma once
 #include "data_types.h"
-#include "sup_player.h"
+#include "super_player.h"
 
-//Abstract class for tactics (local strategy) used by SupPlayer
+//Abstract class for tactics (local strategy) used by SuperPlayer
 // Local strategy is independent of the game situtation in large, for eg. outpost ownership
 // A local strategy converts an OrderList to a Command
 //	An OrderList consists of orders, the first one being the most important
