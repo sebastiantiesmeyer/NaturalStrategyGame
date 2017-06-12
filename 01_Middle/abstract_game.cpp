@@ -25,7 +25,7 @@ bool AbstractGame::Update()
 	return false;
 }
 
-bool AbstractGame::Render()
+void AbstractGame::Render()
 {
 	if (ImGui::Begin("Game Master"))
 	{
@@ -45,6 +45,8 @@ AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_s
 	board.resize(board_size);
 	player[0] = p0;
 	player[1] = p1;
+	player[0]->setPlayerParameters(board, units, unit_progress[0], 0);
+	player[1]->setPlayerParameters(board, units, unit_progress[1], 1);
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }

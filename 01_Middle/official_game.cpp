@@ -69,12 +69,12 @@ void OfficialGame::extra_rules()
 	if (++cycle > max_cycles) score = glm::dvec2(1.0, 1.0);
 }
 
-glm::dvec2 OfficialGame::getPlayerScore()
+glm::dvec2 OfficialGame::getPlayerScore() const
 {
-	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
+	/*bool p1 = did_loose_player(0), p2 = did_loose_player(1);
 	if ((p1 && p2) || (cycle > max_cycles)) score = glm::dvec2(1.0, 1.0); //Draw
 	else if (p2) score = glm::dvec2(1.0, 0.0); //p2 lost p1 won
 	else if (p1) score = glm::dvec2(0.0, 1.0); //vice versa
-	else score = glm::dvec2(0.0, 0.0);
+	else score = glm::dvec2(0.0, 0.0);*/
 	return score;
 }

@@ -1,6 +1,6 @@
 #include "game_master.h"
 #include "board_viewer.h"
-#include "SimplePlayer.h"
+#include "simple_player.h"
 GameMaster::GameMaster()
 {
 	board.resize(10); // SET SIZE

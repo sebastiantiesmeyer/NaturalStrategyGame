@@ -1,6 +1,5 @@
 #pragma once
 #include "data_types.h"
-#include "super_player.h"
 
 //Abstract strategy class, it has two purely virtual functions.
 // changeOrders: It generates an priority OrderList for every unit
@@ -14,11 +13,11 @@ public:
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time
 	// THEREFORE! create different instance for each player!!
-	void setParams(const CommandQueue &cqueue, const PlayerParameters &params)
+	void setParams(const CommandQueue &cqueue, const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player)
 	{
-		queue = cqueue;			player = params.ind;
-		unit_progress = params.unit_progress;
-		board = params.board;	units = params.units;
+		queue = cqueue;			player = _player;
+		unit_progress = _unit_progress;
+		board = _board;	units = _units;
 	}
 	
 	// The main function you have to implement, gives orders to units

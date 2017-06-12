@@ -130,14 +130,31 @@ inline int norm1(const glm::ivec2 &v) { return abs(v.x) + abs(v.y); }
 inline int fight_output(const Unit &we, const Unit &enemy)
 {	return (we.type - enemy.type + 3) % 3;	}
 
-/*enum DIRECTION
+//Order is given to local strategy (tactics) as target, or guide where to go/be.
+struct Order
 {
-	NONE = 0,
-	NORTH = 1, EAST = 2, SOUTH = 3, WEST = 4,
-	UP = 1, RIGHT = 2, DOWN = 3, LEFT = 4,
-};*/
+	Position target = glm::ivec2(0, 0);	// The unit has to move towards this RELATIVE position
+	float sacrifice = 0.5;	// Any value between 0 and 1, examples:
+							//  0.0 means it will run from the same kind
+							//  0.5 means it will not run, but will not attack either
+							//  1.0 means it will attack its kind
+	std::vector<int> instruction = { 0, 0, 0, 0, 0, 0 };
+};
 
-/*enum CELL_TYPE
+typedef std::vector<Order> OrderList; // First order is the top-priority order
+									  //maps Unit ptr to list of orders
+									  //ATTENTION! Dont try to access units thorugh dereferencing key values! Units may die.
+typedef std::map<const Unit*, OrderList> AllOrders;
+
+//AllOrders = map<Unit*, OrderList> it maps a unit to its order list
+//OrdeList = vector<Order> the priority list of orders, usually just one
+//Order = struct{Position, float sacrafice} subject to change!
+
+//More simple constructors for Player classes
+/*struct PlayerParameters
 {
-	NORMAL, BASE, OUTPOST
+	Board &const board;
+	Units &const units;
+	UnitProgress &const unit_progress;
+	int ind;
 };*/

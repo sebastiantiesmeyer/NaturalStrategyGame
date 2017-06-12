@@ -1,6 +1,7 @@
 #pragma once
 #include "abstract_strategy.h"
 #include "super_player.h"
+#include "imgui\imgui.h"
 
 //A human-controlled global strategy, ideal for testing tactics
 // Behaviour is similar to real-time strategy games.

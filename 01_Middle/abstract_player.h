@@ -1,23 +1,22 @@
 #pragma once
 #include "data_types.h"
-
-//More simple constructors for Player classes
-struct PlayerParameters
-{
-	Board &const board;
-	Units &const units;
-	UnitProgress &const unit_progress;
-	int ind;
-};
+#include "imgui\imgui.h"
 
 class AbstractPlayer
 {
 public: // AbstractGame and its children should call these functions only
 
-	AbstractPlayer(const PlayerParameters &pars)
-		: board(pars.board), units(pars.units), unit_progress(pars.unit_progress), player(pars.ind)
-	{	queue.train = ROCK; /*just in case*/	}
+	virtual void setPlayerParameters(const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player)
+	{
+		board = _board; 
+		units = _units; 
+		unit_progress = _unit_progress;
+		player = _player;
+		queue.train = ROCK;
 
+	}
+
+	//AbstractPlayer() = default;
 	// Messages to the player that the turn has started.
 	void StartTurn()
 	{

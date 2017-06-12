@@ -1,6 +1,5 @@
 #pragma once
 #include "data_types.h"
-#include "super_player.h"
 
 //Abstract class for tactics (local strategy) used by SuperPlayer
 // Local strategy is independent of the game situtation in large, for eg. outpost ownership

@@ -6,7 +6,7 @@
 class SimplePlayer : public AbstractPlayer
 {
 public:
-	SimplePlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	SimplePlayer() = default;
 protected:
 	virtual void do_StartTurn();
 	virtual void do_Render();

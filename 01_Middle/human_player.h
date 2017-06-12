@@ -6,7 +6,7 @@
 class HumanPlayer : public AbstractPlayer
 {
 public:
-	HumanPlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	HumanPlayer() = default;
 
 	/*virtual*/ void do_StartTurn();
 	/*virtual*/ void do_Render();
