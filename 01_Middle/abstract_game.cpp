@@ -12,12 +12,12 @@ bool AbstractGame::Update()
 		player[1]->StartTurn();
 		player_0_done = player_1_done = false;
 	}
-	if (player[0]->RenderUpdate())
+	if (player[0]->Update())
 	{
 		queue0 = &player[0]->GetCommandQueue();
 		player_0_done = true;
 	}
-	if (player[1]->RenderUpdate())
+	if (player[1]->Update())
 	{
 		queue1 = &player[1]->GetCommandQueue();
 		player_1_done = true;
@@ -25,7 +25,7 @@ bool AbstractGame::Update()
 	return false;
 }
 
-void AbstractGame::Render() const
+bool AbstractGame::Render()
 {
 	if (ImGui::Begin("Game Master"))
 	{
@@ -36,13 +36,13 @@ void AbstractGame::Render() const
 		view_board(board);
 	}
 	ImGui::End();
-	player[0]->RenderUpdate();
-	player[1]->RenderUpdate();
-
+	player[0]->Render();
+	player[1]->Render();
 }
+
 AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
 {
-	board.board.resize(game_size*game_size);
+	board.resize(board_size);
 	player[0] = p0;
 	player[1] = p1;
 	player[0]->StartTurn();
@@ -67,7 +67,7 @@ void AbstractGame::simulate_board()
 	for (auto &id_unit : units) //we forgot to set the unit movements back to false!
 		id_unit.second.moved = false;
 
-	extra_rules();
+	extra_rules(); // Implementation
 }
 
 
@@ -83,8 +83,8 @@ void AbstractGame::execute_command(const Command & command, int player)
 	if (!unit.moved						//unit did not move in this cycle
 		&& unit.player == player				//cannot move enemy's player!! we forgot this as well
 		&& norm1(dir) == 1	//no diagonal move
-		&& 0 <= newpos.x && newpos.x < game_size
-		&& 0 <= newpos.y && newpos.y < game_size)
+		&& 0 <= newpos.x && newpos.x < board.size()
+		&& 0 <= newpos.y && newpos.y < board.size())
 	{ //othervise we dont move
 		if (board(newpos, player).unit == nullptr) //empty cell
 		{
@@ -131,4 +131,17 @@ void AbstractGame::move_unit(Unit & unit, const Position & newpos)
 	board(unit.pos, unit.player).unit = nullptr;
 	unit.pos = newpos;
 	unit.moved = true;
+}
+
+bool AbstractGame::create_unit(const Position &rel_pos, int player, UNIT_TYPE type, Unit *extra)
+{
+	if(board(rel_pos, player).unit == nullptr) return false;
+	largest_id[player] += (player == 0 ? 1 : -1);
+	Unit unit = (extra ? *extra : Unit());
+	unit.player = player;	unit.id = largest_id[player];
+	unit.pos = rel_pos;		unit.type = type;
+	unit.moved = false;
+	board(rel_pos, player).id = largest_id[player]; //the following is tricky:
+	//Right side inserts the unit into the map, and returns where it was inserted, which is used to get the pointer
+	board(rel_pos, player).unit = &units.insert_or_assign(largest_id[player], unit).first->second;
 }

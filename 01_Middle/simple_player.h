@@ -2,6 +2,7 @@
 #include "abstract_player.h"
 #include "local.h"
 
+// Heuristics controlled player. Implemented before the use of AbstractTactics and AbstractStrategy, but still supported
 class SimplePlayer : public AbstractPlayer
 {
 public:

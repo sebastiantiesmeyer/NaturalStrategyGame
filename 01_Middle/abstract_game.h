@@ -15,34 +15,44 @@
 class AbstractGame
 {
 public:
-	bool Update(); //TODO
-	void Render() const; //TODO
 	AbstractGame(AbstractPlayer*, AbstractPlayer*, int board_size);
+	//This has to be called every frame for the game to progress
+	//	 Returns true when game ends
+	bool Update();
+	//Draws stuff and interacts with player. Calls other draw funtions
+	bool Render();
+	//Returns score of the players. Player 0 is x, and player 1 is y.
+	//	Inharited class has to implement it
 	virtual glm::dvec2 getPlayerScore() const = 0;
 protected:
+	//Implement it for rules that are not implemented in the AbstractGame();
 	virtual void extra_rules() = 0; //eg. train units, check winning, and outposts
+
+	//Use this function to create a unit easily. Optional parameter to set extra parameters of a Unit. Return true on success.
+	bool create_unit(const Position &rel_pos, int player, UNIT_TYPE type, Unit *extra = nullptr);
+
+private:	//following functions are used internally
 	void simulate_board();
 	void execute_command(const Command &command, int player);
-private:
 	void kill_unit(Unit &unit);
 	void move_unit(Unit &unit, const Position &newpos);
 protected:
-	int board_size;
-	Units units; //training is not done here
-	Board board;
-	AbstractPlayer *player[2];
-	UnitProgress unit_progress[2];
+	glm::dvec2 score = glm::dvec2(0.0, 0.0); //This is the game status. Modify to end game!!
+	UnitProgress unit_progress[2]; //change it as needed!
 
-	std::default_random_engine rnd_engine;
-	std::uniform_int_distribution<int> rnd_distribution;
+	Units units; //CHANGE THROUGH create_unit() only!!
+	Board board; //DON'T CHANGE 
 
-	int cycle = 0;
-	const int max_cycles = 5000;
-	bool player_0_done = false;
-	bool player_1_done = false;
+	int cycle = 0; //DON'T CHANGE the turn current turn or cycle number:
+	const int max_cycles = 5000; //game ends after max_cycles turnes/cycles.
+	bool player_0_done = false; //DON'T CHANGE 
+	bool player_1_done = false; //DON'T CHANGE 
 
+private:
+	std::default_random_engine rnd_engine; //Random generator
+	std::uniform_int_distribution<int> rnd_distribution; //Usage: "rnd_distribution(rnd_engine)" returns a random integer
+	AbstractPlayer *player[2]; //pointers to players
 	const CommandQueue *queue0 = nullptr;
 	const CommandQueue *queue1 = nullptr;
-	glm::dvec2 score = glm::dvec2(0.0, 0.0); //this is the new game status
-	//GAME_STATUS game_status = ONGOING; 
+	int largest_id[2] = { 1,-1 };
 };

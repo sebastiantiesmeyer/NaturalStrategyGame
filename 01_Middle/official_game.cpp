@@ -12,7 +12,7 @@ bool OfficialGame::did_loose_player(int player)
 	}
 	++unit_progress[player].our_base_captured; //enemy standing on our base
 	unit_progress[1 - player].enemy_base_captured = unit_progress[player].our_base_captured;
-	return unit_progress[player].our_base_captured > game_size;
+	return unit_progress[player].our_base_captured > board.size();
 }
 
 void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
@@ -22,13 +22,15 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 	++unit_progress.progress[what_to_train];
 	Position pos = Position(0, 0);
 	if (board(pos, player).unit != nullptr) return; //cell not empty, do nothing else
-
-	int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
+	int numoops = 0;
+	numoops += (int)(board.getPlayerAtOutpost(0, 0) == 0);
+	numoops += (int)(board.getPlayerAtOutpost(1, 0) == 0);
+	//int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
 	unit_progress.current_train_time = (int)(unit_progress.total_time * multipiers[numoops]);
 
 	if (unit_progress.progress[what_to_train] >= unit_progress.current_train_time)
 	{
-		largest_id[player] += (player == 0 ? 1 : -1); // new player at 0,0 (or 19,19)
+		/*largest_id[player] += (player == 0 ? 1 : -1); // new player at 0,0 (or 19,19)
 		Unit new_unit;
 		new_unit.id = largest_id[player];
 		new_unit.moved = false;
@@ -37,7 +39,8 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 		new_unit.pos = pos;
 		units.emplace(std::make_pair(largest_id[player], new_unit));
 		board(pos, player).id = largest_id[player]; //updating cell
-		board(pos, player).unit = &units.at(largest_id[player]);
+		board(pos, player).unit = &units.at(largest_id[player]);*/
+		create_unit(pos, player, what_to_train); //NEW
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}
@@ -45,10 +48,10 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 
 void OfficialGame::set_outpost_ownership()
 {
-	Position p01 = Position(0, game_size - 1);
+	Position p01 = Position(0, board.size() - 1);
 	if (board.at(p01).unit != nullptr)
 		board.outposts[0] = board.at(p01).unit->player;
-	Position p10 = Position(game_size - 1, 0);
+	Position p10 = Position(board.size() - 1, 0);
 	if (board.at(p10).unit != nullptr)
 		board.outposts[1] = board.at(p10).unit->player;
 }
