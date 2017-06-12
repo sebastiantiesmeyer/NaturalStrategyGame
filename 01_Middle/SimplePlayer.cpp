@@ -1,4 +1,5 @@
 #include "SimplePlayer.h"
+#include "board_viewer.h"
 //#include "orderCommands.h"
 
 #include "local.h"

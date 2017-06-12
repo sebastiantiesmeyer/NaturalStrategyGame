@@ -49,7 +49,7 @@ protected:
 	}
 	void do_Render() //todo real time
 	{
-		strategy->Redner();
+		strategy->Render();
 	}
 
 protected:

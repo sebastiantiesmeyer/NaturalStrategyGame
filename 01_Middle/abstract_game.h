@@ -16,7 +16,7 @@ class AbstractGame
 {
 public:
 	bool Update(); //TODO
-	bool Render() const; //TODO
+	void Render() const; //TODO
 	AbstractGame(AbstractPlayer*, AbstractPlayer*, int board_size);
 	virtual glm::dvec2 getPlayerScore() const = 0;
 protected:

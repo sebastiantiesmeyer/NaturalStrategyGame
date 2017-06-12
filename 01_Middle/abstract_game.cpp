@@ -25,7 +25,7 @@ bool AbstractGame::Update()
 	return false;
 }
 
-bool AbstractGame::Render() const
+void AbstractGame::Render() const
 {
 	if (ImGui::Begin("Game Master"))
 	{
@@ -38,6 +38,7 @@ bool AbstractGame::Render() const
 	ImGui::End();
 	player[0]->RenderUpdate();
 	player[1]->RenderUpdate();
+
 }
 AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
 {
