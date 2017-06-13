@@ -1,9 +1,9 @@
 #include "game_master.h"
 #include "board_viewer.h"
-#include "SimplePlayer.h"
+#include "simple_player.h"
 GameMaster::GameMaster()
 {
-	board.board.resize(game_size*game_size);
+	board.resize(10); // SET SIZE
 	player[0] = new SimplePlayer({ board, units, unit_progress[0], 0 });
 	player[1] = new SimplePlayer({ board, units, unit_progress[1], 1 });
 	player[0]->StartTurn();
@@ -89,7 +89,7 @@ bool GameMaster::did_loose_player(int player)
 	}
 	++unit_progress[player].our_base_captured; //enemy standing on our base
 	unit_progress[1 - player].enemy_base_captured = unit_progress[player].our_base_captured;
-	return unit_progress[player].our_base_captured > game_size;
+	return unit_progress[player].our_base_captured > board.size();
 }
 
 void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
@@ -99,8 +99,10 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 	++unit_progress.progress[what_to_train];
 	Position pos = Position(0, 0);
 	if(board(pos, player).unit != nullptr) return; //cell not empty, do nothing else
-
-	int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
+	int numoops = 0;
+	numoops += (int)(board.getPlayerAtOutpost(0, 0) == 0);
+	numoops += (int)(board.getPlayerAtOutpost(1, 0) == 0);
+	//int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
 	unit_progress.current_train_time = (int)(unit_progress.total_time * multipiers[numoops]);
 
 	if(unit_progress.progress[what_to_train] >= unit_progress.current_train_time)
@@ -122,10 +124,10 @@ void GameMaster::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_pr
 
 void GameMaster::set_outpost_ownership()
 {
-	Position p01 = Position(0, game_size - 1);
+	Position p01 = Position(0, board.size() - 1);
 	if(board.at(p01).unit != nullptr)
 		board.outposts[0] = board.at(p01).unit->player;
-	Position p10 = Position(game_size - 1, 0);
+	Position p10 = Position(board.size() - 1, 0);
 	if(board.at(p10).unit != nullptr)
 		board.outposts[1] = board.at(p10).unit->player;
 }
@@ -159,8 +161,8 @@ void GameMaster::execute_command_for_player(const Command &command, int player)
 	if(!unit.moved						//unit did not move in this cycle
 	   && unit.player == player				//cannot move enemy's player!! we forgot this as well
 	   && norm1(dir) == 1	//no diagonal move
-	   && 0 <= newpos.x && newpos.x < game_size
-	   && 0 <= newpos.y && newpos.y < game_size)
+	   && 0 <= newpos.x && newpos.x < board.size()
+	   && 0 <= newpos.y && newpos.y < board.size())
 	{ //othervise we dont move
 		if(board(newpos, player).unit == nullptr) //empty cell
 		{

@@ -86,12 +86,7 @@
     <ClCompile Include="abstract_game.cpp" />
     <ClCompile Include="battle_arena.cpp" />
     <ClCompile Include="board_view.cpp" />
-    <ClCompile Include="game_master.cpp" />
-    <ClCompile Include="genetic_game_master.cpp" />
-    <ClCompile Include="genetic_player.cpp" />
-    <ClCompile Include="genetic_strategy.cpp" />
-    <ClCompile Include="genetic_tactics.cpp" />
-    <ClCompile Include="gene_master.cpp" />
+    <ClCompile Include="human_player.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -100,7 +95,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="official_game.cpp" />
     <ClCompile Include="orderCommands.cpp" />
+    <ClCompile Include="probabilistic_tactic.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
+    <ClCompile Include="cyborg_strategy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
@@ -112,12 +109,7 @@
     <ClInclude Include="board_viewer.h" />
     <ClInclude Include="cyborg_strategy.h" />
     <ClInclude Include="data_types.h" />
-    <ClInclude Include="game_master.h" />
-    <ClInclude Include="genetic_game_master.h" />
-    <ClInclude Include="genetic_player.h" />
-    <ClInclude Include="genetic_strategy.h" />
-    <ClInclude Include="genetic_tactics.h" />
-    <ClInclude Include="gene_master.h" />
+    <ClInclude Include="human_player.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_sdl_gl3.h" />
@@ -128,8 +120,10 @@
     <ClInclude Include="local.h" />
     <ClInclude Include="official_game.h" />
     <ClInclude Include="orderCommands.h" />
-    <ClInclude Include="SimplePlayer.h" />
-    <ClInclude Include="sup_player.h" />
+    <ClInclude Include="probabilistic_tactic.h" />
+    <ClInclude Include="simple_player.h" />
+    <ClInclude Include="super_player.h" />
+    <ClInclude Include="Tester.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

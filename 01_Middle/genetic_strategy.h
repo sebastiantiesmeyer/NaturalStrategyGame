@@ -4,8 +4,8 @@
 
 class GeneticStrategy : public AbstractStrategy {
 public:
+	GeneticStrategy() = default;
 
-	GeneticStrategy();
 	void initiate_weights();
 	void forward_prop();
 	void cross_over(int scope);

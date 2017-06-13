@@ -2,10 +2,11 @@
 #include "abstract_player.h"
 #include "local.h"
 
+// Heuristics controlled player. Implemented before the use of AbstractTactics and AbstractStrategy, but still supported
 class SimplePlayer : public AbstractPlayer
 {
 public:
-	SimplePlayer(const PlayerParameters &pars) : AbstractPlayer::AbstractPlayer(pars) {}
+	SimplePlayer() = default;
 protected:
 	virtual void do_StartTurn();
 	virtual void do_Render();

@@ -37,9 +37,6 @@
     <ClCompile Include="imgui\imgui_impl_sdl_gl3.cpp">
       <Filter>imgui</Filter>
     </ClCompile>
-    <ClCompile Include="game_master.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="board_view.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,12 +49,6 @@
     <ClCompile Include="orderCommands.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_player.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="gene_master.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="official_game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,13 +58,13 @@
     <ClCompile Include="battle_arena.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_game_master.cpp">
+    <ClCompile Include="human_player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_strategy.cpp">
+    <ClCompile Include="probabilistic_tactic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_tactics.cpp">
+    <ClCompile Include="cyborg_strategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,16 +93,10 @@
     <ClInclude Include="data_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="game_master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="board_viewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="local.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimplePlayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="orderCommands.h">
@@ -138,26 +123,22 @@
     <ClInclude Include="abstract_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="genetic_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="sup_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="gene_master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_tactics.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_game_master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-
     <ClInclude Include="cyborg_strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="human_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="probabilistic_tactic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="simple_player.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tester.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="super_player.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -18,5 +18,8 @@ struct Options
 	}
 };
 
+// Probabilistic Heuristics for NxN avoidance tactic.
 void localNxN(const Unit& unit, const Board &board, Options &options);
+
+// Probabilistic 3x3 avoidance tactic, the survival instinct.
 void localAvoid3x3(const Unit& unit, const Board &board, Options &options);
