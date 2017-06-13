@@ -5,10 +5,9 @@ class GeneticTactics : public AbstractTactic
 {
 public:
 	GeneticTactics() = default;
+	GeneticTactics(Board  &const b);//AbstractTactic(Board  &const b);
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
-
-	//GeneticTactics() : AbstractTactic::AbstractTactic() {}
 
 	void mutate(float scope);
 	void cross_over(matrix& genome, float scope);

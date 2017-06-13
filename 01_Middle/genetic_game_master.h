@@ -8,7 +8,7 @@ struct strategy_wrapper{
 
 	float fitness = 0;
 	Board b;
-	GeneticStrategy * gs = new GeneticStrategy();
+	GeneticStrategy * gs ;
 	GeneticTactics * gt = new GeneticTactics(b);
 
 	bool operator <(const strategy_wrapper& p) {

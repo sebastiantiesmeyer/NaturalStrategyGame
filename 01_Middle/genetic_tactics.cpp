@@ -1,8 +1,8 @@
 #include "genetic_tactics.h"
 
-GeneticTactics() {
+//GeneticTactics() {
 
-}
+//}
 
 void GeneticTactics::mutate(float scope)
 {
