@@ -2,13 +2,14 @@
 #include "abstract_game.h"
 #include "sup_player.h"
 #include "genetic_tactics.h"
+#include <random>
 
 struct strategy_wrapper{
 
 	float fitness = 0;
-	
-	AbstractStrategy * gs = new GeneticStrategy();
-	AbstractTactic * gt = new GeneticTactics();
+	Board b;
+	GeneticStrategy * gs = new GeneticStrategy();
+	GeneticTactics * gt = new GeneticTactics(b);
 
 	bool operator <(const strategy_wrapper& p) {
 		return p.fitness < fitness;
@@ -17,6 +18,8 @@ struct strategy_wrapper{
 
 typedef std::vector<float> strang;
 typedef std::vector<strang> matrix;
+
+std::default_random_engine rnd_engine;
 
 class GeneticGameMaster
 {

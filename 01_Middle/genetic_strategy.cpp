@@ -1,8 +1,8 @@
 #include "genetic_strategy.h"
 
-//GeneticStrategy::GeneticStrategy()
-//{
-//}
+GeneticStrategy::GeneticStrategy()
+{
+}
 
 void GeneticStrategy::initiate_weights()
 {

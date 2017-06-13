@@ -3,10 +3,11 @@
 
 class GeneticTactics : public AbstractTactic
 {
+public:
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 
-	//GeneticTactics() : AbstractTactic::AbstractTactic() {}
+	GeneticTactics(Board &const board) : AbstractTactic::AbstractTactic(board) {}
 
 	void mutate(float scope);
 	void cross_over(matrix& genome, float scope);
