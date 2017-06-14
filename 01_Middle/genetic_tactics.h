@@ -7,8 +7,8 @@ typedef std::vector<strang> matrix;
 class GeneticTactics : public AbstractTactic
 {
 public:
-	GeneticTactics() = default;
-	GeneticTactics(Board  &const b);//AbstractTactic(Board  &const b);
+	//GeneticTactics() = default;
+	GeneticTactics(Board  &const b, int n_input, int n_output);//AbstractTactic(Board  &const b);
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 

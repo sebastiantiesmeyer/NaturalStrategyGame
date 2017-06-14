@@ -1,5 +1,9 @@
 #include "genetic_tactics.h"
 
+GeneticTactics::GeneticTactics(Board & const b, int n_input, int n_output)
+{
+}
+
 int * GeneticTactics::gpass(int input[]) {
 	forward_pass(gweights, input);
 }

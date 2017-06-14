@@ -65,6 +65,10 @@ int * GeneticStrategy::forward_pass(matrix lweights, int input[])
 	return output;
 }
 
+GeneticStrategy::GeneticStrategy(int n_intput, int n_output)
+{
+}
+
 void GeneticStrategy::mutate(float scope)
 {
 	for (int i = 0; i> sizeof(weights); i++) {
