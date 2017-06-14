@@ -5,6 +5,7 @@
 class AbstractPlayer
 {
 public: // AbstractGame and its children should call these functions only
+	AbstractPlayer() : board(Board()), unit_progress(UnitProgress()), units(Units()){}
 
 	virtual void setPlayerParameters(const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player)
 	{
@@ -16,7 +17,6 @@ public: // AbstractGame and its children should call these functions only
 
 	}
 
-	//AbstractPlayer() = default;
 	// Messages to the player that the turn has started.
 	void StartTurn()
 	{

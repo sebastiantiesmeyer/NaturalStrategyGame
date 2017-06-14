@@ -6,17 +6,21 @@
 #include "official_game.h"
 #include "simple_player.h"
 #include "super_player.h"
-
+#include "cyborg_strategy.h"
+#include "probabilistic_tactic.h"
 
 class Tester
 {
 public:
 
-	Tester() {
-		players.push_back(new SuperPlayer());
-		players.push_back(new SimplePlayer());
-		players.push_back(new HumanPlayer());
-		players.push_back(new HumanPlayer());
+	Tester()
+	{
+		AbstractStrategy * strategy = new CyborgStrategy();
+		AbstractTactic * tactic = new ProbabilisticTactic();
+		players.push_back((AbstractPlayer*)(new SuperPlayer(strategy, tactic)));
+		players.push_back((AbstractPlayer*)(new SimplePlayer()));
+		players.push_back((AbstractPlayer*)(new  HumanPlayer()));
+		players.push_back((AbstractPlayer*)(new  HumanPlayer()));
 
 		games.push_back(new OfficialGame(players[0], players[1], 10));
 		games.push_back(new OfficialGame(players[2], players[3], 8));

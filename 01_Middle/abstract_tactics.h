@@ -11,7 +11,7 @@
 class AbstractTactic
 {
 public:
-	AbstractTactic(Board &const board) : board(board) {}
+	AbstractTactic() : board(Board()){}
 	void setBoard(Board &const nboard) { board = nboard; }
 	//implement the following function to create a tactic:
 	virtual Command step(const Unit &unit, const OrderList &order_list) = 0;

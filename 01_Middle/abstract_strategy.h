@@ -8,7 +8,7 @@
 class AbstractStrategy
 {
 public:
-	AbstractStrategy() = default;
+	AbstractStrategy() : units(Units()), board(Board()), unit_progress(UnitProgress()), queue(CommandQueue()) {};
 	// The parameters for the strategy should be set via this function
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time

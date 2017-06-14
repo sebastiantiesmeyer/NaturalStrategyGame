@@ -8,18 +8,26 @@
 class CyborgStrategy : public AbstractStrategy
 {
 public:
-	/*virtual*/ void changeOrders(AllOrders &newallorders)
+	CyborgStrategy() : allorders(AllOrders()){}
+
+	virtual void changeOrders(AllOrders &newallorders)
 	{ //just like startTurn;
 		allorders = newallorders;
 		endturn = false;
 		iterations = 0;
 	}
-	/*virtual*/ bool Update() //return true when the turn is ended
+
+	virtual UNIT_TYPE train()
+	{
+		return ROCK; //TODO
+	}
+
+	virtual bool Update() //return true when the turn is ended
 	{
 		++iterations;
 		return iterations > wait;
 	}
-	/*virtual*/ void Render(); //implemented in cpp
+	virtual void Render(); //implemented in cpp
 public:
 	AllOrders &allorders;
 	bool endturn = false;
