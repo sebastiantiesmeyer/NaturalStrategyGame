@@ -20,14 +20,15 @@ AbstractStrategy issues Orders, which are executed by units via tactics. For exa
 #include "abstract_tactics.h"
 #include "abstract_strategy.h"
 #include "orderCommands.h"
+#include <memory>
 
 //Super player
 //Create a general player from a tactic (local strategy) and a strategy (global)
 //	usage: pass the pointer to strategy and tactic to constructor
-class SuperPlayer : protected AbstractPlayer
+class SuperPlayer : public AbstractPlayer
 {
 public:
-	SuperPlayer(AbstractStrategy *strategy, AbstractTactic *tactic) : strategy(strategy), tactic(tactic) {};
+	SuperPlayer(const std::shared_ptr<AbstractStrategy> &strategy, const std::shared_ptr<AbstractTactic> &tactic) : strategy(strategy), tactic(tactic) {};
 
 	virtual void setPlayerParameters(const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player) {
 		AbstractPlayer::setPlayerParameters(_board, _units, _unit_progress, _player);
@@ -63,7 +64,7 @@ protected:
 		strategy->Render();
 	}
 protected:
-	AbstractStrategy *strategy;
-	AbstractTactic *tactic;
+	std::shared_ptr<AbstractStrategy> strategy;
+	std::shared_ptr<AbstractTactic> tactic;
 	AllOrders all_orders; //maps Unit pointer to its OrderList as described above
 };

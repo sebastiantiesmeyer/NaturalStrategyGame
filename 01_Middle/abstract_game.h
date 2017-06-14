@@ -2,7 +2,7 @@
 #include "data_types.h"
 #include "abstract_player.h"
 #include <random>
-
+#include <memory>
 //Abstract Game class (for two players)
 //Handles the following game dynamics:
 // Board: a n times n grid of Cells that are empty, or has a unit on it
@@ -15,7 +15,7 @@
 class AbstractGame
 {
 public:
-	AbstractGame(AbstractPlayer*, AbstractPlayer*, int board_size);
+	AbstractGame(const std::shared_ptr<AbstractPlayer> &, const std::shared_ptr<AbstractPlayer> &, int board_size);
 	//This has to be called every frame for the game to progress
 	//	 Returns true when game ends
 	bool Update();
@@ -53,6 +53,6 @@ protected:
 private:
 	std::default_random_engine rnd_engine; //Random generator
 	std::uniform_int_distribution<int> rnd_distribution; //Usage: "rnd_distribution(rnd_engine)" returns a random integer
-	AbstractPlayer *player[2]; //pointers to players
+	std::shared_ptr<AbstractPlayer> player[2]; //pointers to players
 	int largest_id[2] = { 1,-1 };
 };
