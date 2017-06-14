@@ -7,5 +7,5 @@ class ProbabilisticTactic : public AbstractTactic
 public:
 	ProbabilisticTactic() : AbstractTactic::AbstractTactic(){}
 
-	/*virtual*/ Command step(const Unit &unit, const OrderList &order_list);
+	virtual Command step(const Unit &unit, const OrderList &order_list);
 };

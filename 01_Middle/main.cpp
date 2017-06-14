@@ -82,7 +82,7 @@ int main( int argc, char* args[] )
 	SDL_Event ev;		//Keyboard, Mouse, Window resize, Quit, ect events are stored in this
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f); //background color [0,1]-RGBA
 	
-	////
+	Tester gametester;
 	
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame
 	{
@@ -106,7 +106,7 @@ int main( int argc, char* args[] )
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clears framebuffer (try without it!)
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
 		
-		////
+		gametester.runGames();
 
 		ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();

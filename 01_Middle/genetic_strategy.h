@@ -5,6 +5,8 @@
 class GeneticStrategy : public AbstractStrategy {
 public:
 
+	GeneticStrategy(int n_intput, int n_output);
+
 	void mutate(float scope);
 	int * forward_pass(matrix lweights, int input[]);
 

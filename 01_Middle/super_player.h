@@ -25,7 +25,7 @@ AbstractStrategy issues Orders, which are executed by units via tactics. For exa
 //Super player
 //Create a general player from a tactic (local strategy) and a strategy (global)
 //	usage: pass the pointer to strategy and tactic to constructor
-class SuperPlayer : protected AbstractPlayer
+class SuperPlayer : public AbstractPlayer
 {
 public:
 	SuperPlayer(const std::shared_ptr<AbstractStrategy> &strategy, const std::shared_ptr<AbstractTactic> &tactic) : strategy(strategy), tactic(tactic) {};

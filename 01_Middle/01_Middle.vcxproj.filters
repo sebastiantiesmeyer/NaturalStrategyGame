@@ -67,15 +67,6 @@
     <ClCompile Include="cyborg_strategy.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="genetic_game_master.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="genetic_strategy.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="genetic_tactics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -148,15 +139,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="super_player.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_game_master.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_strategy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="genetic_tactics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
