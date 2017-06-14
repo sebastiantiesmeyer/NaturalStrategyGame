@@ -10,7 +10,7 @@ Command ProbabilisticTactic::step(const Unit & unit, const OrderList & order_lis
 	{
 		Position diff = unit.pos - order_list[0].target;
 		int len = norm1(diff);
-		Dir dir = glm::clamp<Dir>(diff, -1, 1);
+		Dir dir = clamp2(diff, -1, 1);
 		options.up    *= weights[1 - dir.x]; //+1 is down ==> up*=smallest if dir.x=+1
 		options.down  *= weights[1 + dir.x]; //similarly -1 is up
 		options.left  *= weights[1 - dir.y]; //-1 is left

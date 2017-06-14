@@ -120,8 +120,13 @@ struct CommandQueue
 enum GAME_STATUS{	ONGOING = 0, DRAW = -1, PLAYER1WON = 1, PLAYER2WON = 2};
 
 // clamp values, needs less operator ( < ).
-template<typename T> T clamp(const T &x, const T &m, const T &M)
+template<typename T> inline T clamp(const T &x, const T &m, const T &M)
 { return (x < m ? m : (M < x ? M : x)); }
+
+inline glm::ivec2 clamp2(const glm::ivec2 &p, int m, int M)
+{
+	return glm::ivec2(p.x < m ? m : (M < p.x ? M : p.x), p.y < m ? m : (M < p.y ? M : p.y));
+}
 
 //first-norm implementation for integer valued 2D vectors
 inline int norm1(const glm::ivec2 &v) { return abs(v.x) + abs(v.y); }

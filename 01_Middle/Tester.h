@@ -19,16 +19,17 @@ public:
 		std::shared_ptr<AbstractStrategy> strategy;
 		//AbstractTactic * tactic = new ProbabilisticTactic(); //clean it up
 		std::shared_ptr<AbstractTactic> tactic;
-		players.push_back(new SuperPlayer(strategy, tactic));
-		players.push_back(new SimplePlayer());
-		players.push_back(new  HumanPlayer());
-		players.push_back(new  HumanPlayer());
 
-		games.push_back(new OfficialGame(players[0], players[1], 10));
-		games.push_back(new OfficialGame(players[2], players[3], 8));
+		players.push_back(std::shared_ptr<SuperPlayer>(new SuperPlayer(strategy, tactic)));
+		players.push_back(std::shared_ptr<SimplePlayer>(new SimplePlayer()));
+		players.push_back(std::shared_ptr<HumanPlayer>(new HumanPlayer()));
+		players.push_back(std::shared_ptr<HumanPlayer>(new HumanPlayer()));
+
+		games.push_back(std::shared_ptr<OfficialGame>(new OfficialGame(players[0], players[1], 10)));
+		games.push_back(std::shared_ptr<OfficialGame>(new OfficialGame(players[2], players[3], 8)));
 
 	};
-	bool runGames() {
+	void runGames() {
 		int n = games.size();
 		for(int i = 0; i <n; i++){ 
 			if (games[i]->getPlayerScore() == glm::dvec2(0.0, 0.0)){
