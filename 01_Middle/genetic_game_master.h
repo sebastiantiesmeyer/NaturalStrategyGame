@@ -4,8 +4,8 @@
 #include "genetic_tactics.h"
 #include <random>
 
-struct strategy_wrapper{
-
+struct strategy_wrapper
+{
 	float fitness = 0;
 	Board b;
 	GeneticStrategy * gs ;

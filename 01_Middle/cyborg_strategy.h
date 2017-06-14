@@ -19,7 +19,7 @@ public:
 
 	virtual UNIT_TYPE train()
 	{
-		return ROCK; //TODO
+		return whattotrain;
 	}
 
 	virtual bool Update() //return true when the turn is ended
@@ -33,4 +33,5 @@ public:
 	bool endturn = false;
 	int wait = 100;
 	int iterations = 0;
+	UNIT_TYPE whattotrain = ROCK;
 };
