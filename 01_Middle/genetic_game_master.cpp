@@ -4,42 +4,50 @@
 #include "official_game.h"
 #include <random>
 
-GeneticGameMaster::GeneticGameMaster()
-{
-}
+
 
 
 void GeneticGameMaster::play(int n_games)
 {
-	for (int i = 0; i < n_games; i++) {
-		for (int s1 = 0; s1 < i; s1++) {
-			for (int s2 = 0; s2 < s1; s2++) {
-				Board board(5);
-				Units units;
-				UnitProgress unit_progress[2];
-				//SuperPlayer * p1 = new SuperPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
-				//SuperPlayer * p2 = new SuperPlayer({ board, units, unit_progress[1], 1 }, strategy_pool[s2].gs, strategy_pool[s2].gt);
+	for (int i = 0; i < n_games; i++) {					//play multiple training games in a row
+		for (int s1 = 0; s1 < strategy_pool.size() ; s1++) {	//let each player compete against..
+			for (int s2 = 0; s2 < s1; s2++) {					//each opponent.
+
+				//Create the two players for this match:
+				AbstractPlayer * p1 = new SuperPlayer(strategy_pool[s1].gs, strategy_pool[s1].gt);	//adapt to shared pointer pdgm
+				AbstractPlayer * p2 = new SuperPlayer(strategy_pool[s2].gs, strategy_pool[s2].gt);	//adapt to shared pointer pdgm
 
 				//To be updated according to the IO of OfficialGame()
-				//OfficialGame * game = new OfficialGame(p1,p2);
+				OfficialGame * game = new OfficialGame(p1,p2);
 				//game.start();
 
-				//glm::dvec2 score = game.getPlayerScore();
+				//:TODO: run the game...
 
-				//strategy_pool[s1].fitness += (score[0]-score[1]);
-				//strategy_pool[s2].fitness += (score[1]-score[0]);
+				//get scores in the end:
+				glm::dvec2 score = game.getPlayerScore();
+
+				//update player fitness:
+				strategy_pool[s1].fitness += (score[0]-score[1]);
+				strategy_pool[s2].fitness += (score[1]-score[0]);
 			}
 		}
 	}
+
+	//sort your strategies according to fitness:
 	std::sort(strategy_pool.begin,strategy_pool.end);
+
+	//The worst performing 2/3 goes extinct :oC
 	for (int i = 0; i < strategy_pool.size() / 3; i++) {
 		strategy_pool.pop_back();
 	}
+
+	// ... and is replaced by copies of the best performing third 
 	int s = strategy_pool.size();
 	for (int i = 0; i < strategy_pool.size()*2; i++) {
 		strategy_pool.push_back(strategy_pool[i%s]);
 	}
 
+	//Some mutations & cross-overs ( -> love )
 	for (strategy_wrapper sw : strategy_pool) {
 		sw.gs -> mutate(0.2);
 		sw.gt -> mutate(0.2);
