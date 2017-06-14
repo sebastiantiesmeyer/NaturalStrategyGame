@@ -10,7 +10,7 @@
 class OfficialGame : public AbstractGame
 {
 public:
-	OfficialGame(AbstractPlayer* p0, AbstractPlayer* p1, int board_size) : AbstractGame::AbstractGame(p0, p1, board_size) {}
+	OfficialGame(const std::shared_ptr<AbstractPlayer>&p0, const std::shared_ptr<AbstractPlayer>&p1, int board_size) : AbstractGame::AbstractGame(p0, p1, board_size) {}
 	virtual glm::dvec2 getPlayerScore() const;
 protected:
 	/*virtual*/ void extra_rules();
