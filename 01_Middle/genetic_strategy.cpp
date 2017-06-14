@@ -52,9 +52,9 @@ int * GeneticStrategy::wpass(int input[]) {
 	forward_pass(weights, input);
 }
 
-int * GeneticStrategy::forward_pass(matrix lweights, int input[])
+std::vector<int>  GeneticStrategy::forward_pass(matrix lweights, int input[])
 {
-	int output[n_output];
+	std::vector<int>  output(n_output);
 	for (int o = 0; o < sizeof(output); o++) {
 		output[o] = 0;
 		for (int a = 0; a < sizeof(input); a++) {

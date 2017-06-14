@@ -8,7 +8,7 @@ public:
 	GeneticStrategy(int n_intput, int n_output);
 
 	void mutate(float scope);
-	int * forward_pass(matrix lweights, int input[]);
+	std::vector<int>  forward_pass(const matrix &lweights, int input[]);
 
 	void cross_over(matrix & genome, float scope);
 
@@ -17,11 +17,11 @@ public:
 
 	void initiate_weights(float scope);
 
-	void initiate_gweights(float scope);
+	//void initiate_gweights(float scope);
 
-	void initiate_abst_weights(matrix lweights, float scope);
+	void initiate_abst_weights(matrix &lweights, float scope);
 
-	int * gpass(int input[]);
+	//int * gpass(int input[]);
 
 	int * wpass(int input[]);
 
