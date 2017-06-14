@@ -29,12 +29,6 @@ void GeneticTactics::initiate_weights(float scope)
 //	initiate_abst_weights(gweights, scope);
 //}
 
-float get_rand(float m, float M)
-{
-	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
-	return r*(M - m) + m;
-}
-
 void GeneticTactics::initiate_abst_weights(matrix &lweights, float scope)
 {
 	for (int i = 0; i < lweights.size(); i++) {
@@ -97,7 +91,8 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			}
 			else {
 				//rule out off-board commands
-				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) || (std::max(unit.pos.x - +i, unit.pos.y + j) == (board.size))) {
+				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) ||
+					(std::max(unit.pos.x - +i, unit.pos.y + j) == (board.size()))) {
 					input[index] = -2;
 				}
 				else {
@@ -135,7 +130,7 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 	int cmd_int = output[max];
 
 	Command cmd;
-	if (cmd_int == 4) cmd.dir = { 0,0 };
+	if (cmd_int == 4) cmd.dir = Dir{ 0,0 };
 	else {
 		cmd.dir[0] = (cmd_int % 2) * 2 - 1;
 		cmd.dir[1] = (cmd_int / 2) * 2 - 1;

@@ -155,11 +155,11 @@ typedef std::map<const Unit*, OrderList> AllOrders;
 //OrdeList = vector<Order> the priority list of orders, usually just one
 //Order = struct{Position, float sacrafice} subject to change!
 
-//More simple constructors for Player classes
-/*struct PlayerParameters
+typedef std::vector<float> strang;
+typedef std::vector<strang> matrix;
+
+inline float get_rand(float m, float M) //cannot define it multiple times! (unless you use inline keyword)
 {
-	Board &const board;
-	Units &const units;
-	UnitProgress &const unit_progress;
-	int ind;
-};*/
+	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
+	return r*(M - m) + m;
+}

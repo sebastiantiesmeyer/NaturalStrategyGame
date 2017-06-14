@@ -1,13 +1,9 @@
 #include "genetic_strategy.h"
 #include "genetic_game_master.h"
 
-
-
-
-
 UNIT_TYPE GeneticStrategy::train()
 {
-	return UNIT_TYPE();
+	return UNIT_TYPE(); //TODO! It has to decide what unit to train
 }
 
 void GeneticStrategy::changeOrders(AllOrders &orders)
@@ -16,25 +12,24 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 	std::vector<int> input (n_input);
 	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
 
-	for (int i = 0; i < board.size; i++) {
-		for (int j = 0; j < board.size; j++) {
-			
-			Unit* u = board(glm::vec2(i,j),player).unit;
-			input[4 * (i / board.size + (2 * (j / board.size))) + ((u -> type)*((u -> id)==player))]++;
+	for (int i = 0; i < board.size(); i++) {
+		for (int j = 0; j < board.size(); j++) {
+			Unit* u = board(Position(i,j),player).unit; //the following looks complicated
+			// if u is nullptr then there is no unit there!
+			// i/board.size() always zero here! integer division!, try 2*i/board.size(), this can be 0 or 1.
+			input[4 * (i / board.size() + (2 * (j / board.size()))) + ((u -> type)*((u -> id)==player))]++;
 		}
 	}
 	int index = 12;
-	input[index] = board.getPlayerAtOutpost(0,player);
+	input[index] = board.getPlayerAtOutpost(0, player);
 	index++;
 	input[index] = board.getPlayerAtOutpost(1, player);
 	index++;
 	//is my homebase occupied?
-	input[index] = (int)((board(glm::vec2(board.size, board.size), player).unit).player != player);
+	//Home is (0,0)
+	//Enemy base is (board.size()-1, board.size()-1) !!
+	input[index] = (int)(board(Position(board.size(), board.size()), player).unit->player != player);
 }
-
-	
-
-
 
 GeneticStrategy::GeneticStrategy(int input, int output, int scope)
 {
@@ -43,14 +38,13 @@ GeneticStrategy::GeneticStrategy(int input, int output, int scope)
 	initiate_weights(0.2);
 }
 
-
 //int * GeneticTactics::gpass(int input[]) {
 //	forward_pass(gweights, input);
 //}
 
 //Weight matrix forward pass
-int * GeneticStrategy::wpass(std::vector<int> input) {
-	forward_pass(weights, input);
+std::vector<int> GeneticStrategy::wpass(std::vector<int> input) {
+	return forward_pass(weights, input);
 }
 
 //initiate weights with some randomness
@@ -64,12 +58,6 @@ void GeneticStrategy::initiate_weights(float scope)
 //	initiate_abst_weights(gweights, scope);
 //}
 
-float get_rand(float m, float M)
-{
-	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
-	return r*(M - m) + m;
-}
-
 void GeneticStrategy::initiate_abst_weights(matrix &lweights, float scope)
 {
 	for (int i = 0; i < lweights.size(); i++) {
@@ -78,7 +66,6 @@ void GeneticStrategy::initiate_abst_weights(matrix &lweights, float scope)
 		}
 	}
 }
-
 
 std::vector<int> GeneticStrategy::forward_pass(const matrix &lweights, const std::vector<int> &input)
 {
@@ -111,7 +98,6 @@ void GeneticStrategy::cross_over(matrix& genome, float scope)
 		genome[i].swap(weights[i]);
 	}
 }
-
 
 
 /*input:

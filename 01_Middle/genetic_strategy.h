@@ -1,6 +1,6 @@
 #pragma once
 #include "abstract_strategy.h"
-#include "genetic_game_master.h"
+//#include "genetic_game_master.h"
 
 class GeneticStrategy : public AbstractStrategy {
 public:
@@ -16,7 +16,7 @@ public:
 
 
 
-	int * wpass(std::vector<int> input);
+	std::vector<int> wpass(std::vector<int> input);
 
 	void initiate_weights(float scope);
 
@@ -29,7 +29,6 @@ public:
 	matrix gweights;
 
 private:
-	static const int n_output = 5;
+	/*static const*/ int n_output = 5; //you are changing it at some point, so I removed the const-ness.
 	int n_input;
-
 };

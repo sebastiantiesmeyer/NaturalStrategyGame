@@ -40,7 +40,7 @@ void GeneticGameMaster::play(int n_games)
 		}
 
 		//sort your strategies according to fitness:
-		std::sort(strategy_pool.begin, strategy_pool.end, std::greater<strategy_wrapper>()); //first is the best
+		std::sort(strategy_pool.begin(), strategy_pool.end(), std::not2(std::less<strategy_wrapper>())); //first is the best
 
 		//The worst performing 2/3 goes extinct :oC
 		const float replace_ratio = 0.3;

@@ -22,15 +22,14 @@ struct strategy_wrapper
 
 	std::shared_ptr<GeneticStrategy> gs = std::make_shared<GeneticStrategy>(n_input_strategy, n_output_strategy);
 
-	bool operator <(const strategy_wrapper& p) {
+	bool operator <(const strategy_wrapper& p) const
+	{	//const after the function means that it does not change the class.
+		//we need this, so std::less can work with it
 		return fitness < p.fitness;
 	};
 };
 
-typedef std::vector<float> strang;
-typedef std::vector<strang> matrix;
-
-std::default_random_engine rnd_engine;
+static std::default_random_engine rnd_engine;
 
 class GeneticGameMaster
 {
