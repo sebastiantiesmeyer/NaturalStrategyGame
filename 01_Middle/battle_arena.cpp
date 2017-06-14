@@ -1,6 +1,6 @@
 #include "battle_arena.h"
 
-BattleArena::BattleArena(AbstractPlayer* p0, AbstractPlayer* p1, int board_size, UNIT_TYPE u0, UNIT_TYPE u1, Position pos0, Position pos1)
+BattleArena::BattleArena(const std::shared_ptr<AbstractPlayer> &p0, const std::shared_ptr<AbstractPlayer> &p1, int board_size, UNIT_TYPE u0, UNIT_TYPE u1, Position pos0, Position pos1)
 	:AbstractGame::AbstractGame(p0, p1, board_size)
 {
 	create_unit(pos0, 0, u0);

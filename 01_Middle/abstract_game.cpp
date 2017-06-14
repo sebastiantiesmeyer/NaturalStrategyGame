@@ -40,7 +40,7 @@ void AbstractGame::Render()
 	player[1]->Render();
 }
 
-AbstractGame::AbstractGame(AbstractPlayer * p0, AbstractPlayer * p1, int board_size)
+AbstractGame::AbstractGame(const std::shared_ptr<AbstractPlayer> &p0, const std::shared_ptr<AbstractPlayer> &p1, int board_size)
 {
 	board.resize(board_size);
 	player[0] = p0;
