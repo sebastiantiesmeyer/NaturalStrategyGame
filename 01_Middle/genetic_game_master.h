@@ -2,6 +2,7 @@
 #include "abstract_game.h"
 #include "super_player.h"
 #include "genetic_tactics.h"
+#include "genetic_strategy.h"
 #include <random>
 
 struct strategy_wrapper
@@ -14,9 +15,12 @@ struct strategy_wrapper
 
 	int n_input_tactics = 12;
 	int n_output_tactics = 5;
+	int scope = 1;
+
+	
+	std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>(n_input_tactics, n_output_tactics);
 
 	std::shared_ptr<GeneticStrategy> gs = std::make_shared<GeneticStrategy>(n_input_strategy, n_output_strategy);
-	std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>(n_input_tactics, n_output_tactics);
 
 	bool operator <(const strategy_wrapper& p) {
 		return fitness < p.fitness;
