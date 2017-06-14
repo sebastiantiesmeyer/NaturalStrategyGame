@@ -8,8 +8,15 @@ struct strategy_wrapper{
 
 	float fitness = 0;
 	Board b;
-	GeneticStrategy * gs = new GeneticStrategy(12, 7);
-	GeneticTactics * gt = new GeneticTactics(b,12,5);
+
+	int n_input_strategy = 12;
+	int n_output_strategy = 7;
+
+	int n_input_tactics = 12;
+	int n_output_tactics = 5;
+
+	GeneticStrategy * gs = new GeneticStrategy(n_input_strategy, n_output_strategy);
+	GeneticTactics * gt = new GeneticTactics(b, n_input_tactics, n_output_tactics);
 
 	bool operator <(const strategy_wrapper& p) {
 		return p.fitness < fitness;
@@ -34,8 +41,6 @@ public:
 private:
 
 	std::vector<strategy_wrapper> strategy_pool;
-
-	
 
 };
 

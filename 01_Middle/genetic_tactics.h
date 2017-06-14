@@ -33,7 +33,8 @@ public:
 
 private:
 
-
+	static const int n_input;
+	static const int n_output;
 	void initiate_abst_weights(matrix lweights, float scope);
 
 };

@@ -4,9 +4,6 @@
 #include "official_game.h"
 #include <random>
 
-GeneticGameMaster::GeneticGameMaster()
-{
-}
 
 
 void GeneticGameMaster::play(int n_games)

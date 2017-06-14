@@ -2,6 +2,8 @@
 
 GeneticTactics::GeneticTactics(Board & const b, int n_input, int n_output)
 {
+	int n_input = n_input;
+	int n_output = n_output;
 }
 
 int * GeneticTactics::gpass(int input[]) {
