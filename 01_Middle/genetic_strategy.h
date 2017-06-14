@@ -10,7 +10,6 @@ public:
 
 	void cross_over(matrix & genome, float scope);
 
-	void mutate(int scope);
 	UNIT_TYPE train();
 	void changeOrders(AllOrders &orders);
 
@@ -24,11 +23,11 @@ public:
 
 	int * wpass(int input[]);
 
-
+	matrix weights;
+	matrix gweights;
 
 private:
 	static const int n_output = 5;
-	matrix weights;
-	matrix gweights;
+
 
 };

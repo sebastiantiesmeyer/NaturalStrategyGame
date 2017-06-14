@@ -1,13 +1,9 @@
 #include "genetic_strategy.h"
+#include "genetic_game_master.h"
 
 
 
 
-
-void GeneticStrategy::mutate(int scope)
-{
-
-}
 
 UNIT_TYPE GeneticStrategy::train()
 {

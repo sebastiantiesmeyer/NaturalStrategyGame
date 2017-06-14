@@ -17,17 +17,17 @@ void GeneticGameMaster::play(int n_games)
 				Board board(5);
 				Units units;
 				UnitProgress unit_progress[2];
-				SuperPlayer * p1 = new SuperPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
-				SuperPlayer * p2 = new SuperPlayer({ board, units, unit_progress[1], 1 }, strategy_pool[s2].gs, strategy_pool[s2].gt);
+				//SuperPlayer * p1 = new SuperPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
+				//SuperPlayer * p2 = new SuperPlayer({ board, units, unit_progress[1], 1 }, strategy_pool[s2].gs, strategy_pool[s2].gt);
 
 				//To be updated according to the IO of OfficialGame()
-				OfficialGame * game = new OfficialGame(p1,p2);
-				game.start();
+				//OfficialGame * game = new OfficialGame(p1,p2);
+				//game.start();
 
-				glm::dvec2 score = game.getPlayerScore();
+				//glm::dvec2 score = game.getPlayerScore();
 
-				strategy_pool[s1].fitness += (score[0]-score[1]);
-				strategy_pool[s2].fitness += (score[1]-score[0]);
+				//strategy_pool[s1].fitness += (score[0]-score[1]);
+				//strategy_pool[s2].fitness += (score[1]-score[0]);
 			}
 		}
 	}
@@ -46,7 +46,7 @@ void GeneticGameMaster::play(int n_games)
 
 		int n = (int) (std::rand()*strategy_pool.size());
 		
-		sw.gt -> cross_over(strategy_pool[n].gt,0.2);
+		sw.gs->cross_over(strategy_pool[n].gs->gweights, 0.2);
 	}
 }
 
