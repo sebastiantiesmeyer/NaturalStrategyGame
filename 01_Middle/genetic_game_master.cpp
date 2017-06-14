@@ -18,8 +18,8 @@ void GeneticGameMaster::play(int n_games)
 
 //Create the two players for this match:
 
-				std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(strategy_pool[s1].gs, strategy_pool[s1].gt));
-				std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(strategy_pool[s2].gs, strategy_pool[s2].gt));
+				std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(strategy_pool[s1].gs, strategy_pool[s1].gt);
+				std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(strategy_pool[s2].gs, strategy_pool[s2].gt);
 
 				//To be updated according to the IO of OfficialGame()
 				std::shared_ptr<AbstractGame> game = std::make_shared<OfficialGame>(p1, p2, board_size);
@@ -64,8 +64,8 @@ void GeneticGameMaster::play(int n_games)
 
 			int n = (int)(std::rand()*strategy_pool.size());
 
-			sw.gs->cross_over(strategy_pool[n].gs->gweights, 0.2);
-			sw.gt->cross_over(strategy_pool[n].gt->gweights, 0.2);
+			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.2);
+			sw.gt->cross_over(strategy_pool[n].gt->weights, 0.2);
 		}
 	}
 }

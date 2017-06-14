@@ -1,4 +1,5 @@
 #include "genetic_tactics.h"
+#include "local.h"
 
 GeneticTactics::GeneticTactics(int input, int output, int scope)
 {
@@ -13,8 +14,8 @@ GeneticTactics::GeneticTactics(int input, int output, int scope)
 //}
 
 //Weight matrix forward pass
-int * GeneticTactics::wpass(int input[]) {
-	forward_pass(weights, input);
+std::vector<int> GeneticTactics::wpass(std::vector<int> input) {
+	return forward_pass(weights,  input);
 }
 
 //initiate weightts with some randomness
@@ -30,7 +31,7 @@ void GeneticTactics::initiate_weights(float scope)
 
 float get_rand(float m, float M)
 {
-	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX);
+	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
 	return r*(M - m) + m;
 }
 
@@ -75,10 +76,69 @@ void GeneticTactics::cross_over(matrix& genome, float scope)
 		genome[i].swap(weights[i]);
 	}
 }
-
+ 
 //virtual functions:
 Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 {
-	//TODO
-	return Command();
+	Options options;
+	std::vector<int>input(n_input);
+	//collect information into the input vector;
+
+	int index = 0;
+	//surrounding squares:
+	for (int i = -1; i < 1; i++) {
+		for (int j = -1; j < 1; j++) {
+			if (i == 0 && j == 0) {
+				//own position
+				input[index] = unit.pos.x;
+				index++;
+				input[index] = unit.pos.y;
+				index++;
+			}
+			else {
+				//rule out off-board commands
+				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) || (std::max(unit.pos.x - +i, unit.pos.y + j) == (board.size))) {
+					input[index] = -2;
+				}
+				else {
+					Unit *other_unit = board(glm::ivec2(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
+					if (!other_unit)   input[index] = 0;
+					else if (other_unit && other_unit->player == unit.player) input[index] = -1;
+					else input[index] = (unit.type - other_unit->type) % 3 + 2;
+					index++;
+				}
+
+			}
+
+		}
+
+	}
+
+	input[index] = unit.type;
+	index++;
+	input[index] = 1;
+	index++;
+	input[index] = 1;
+	index++;
+
+
+
+	std::vector<int> output = wpass(input);
+
+	//Options options = output;
+
+	int maxpos = 0;
+	int max = output[0];
+	for (int i = 0; i < sizeof(output); i++) {
+		if (output[i] < max) maxpos = i;
+	}
+	int cmd_int = output[max];
+
+	Command cmd;
+	if (cmd_int == 4) cmd.dir = { 0,0 };
+	else {
+		cmd.dir[0] = (cmd_int % 2) * 2 - 1;
+		cmd.dir[1] = (cmd_int / 2) * 2 - 1;
+		return Command();
+	}
 }

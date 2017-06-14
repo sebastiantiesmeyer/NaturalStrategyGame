@@ -1,20 +1,22 @@
 #pragma once
 #include "abstract_tactics.h"
 
+
 typedef std::vector<float> strang;
 typedef std::vector<strang> matrix;
 
 class GeneticTactics : public AbstractTactic
 {
 public:
-	//GeneticTactics() = default;
-	GeneticTactics(int n_input, int n_output, int scope = 0.2);//AbstractTactic(Board  &const b);
+
+	GeneticTactics(int n_input, int n_output, int scope = 0.2);
+
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 
 	//int * gpass(int input[]);
 
-	int * wpass(int input[]);
+	std::vector<int> wpass(std::vector<int> input);
 
 	void initiate_weights(float scope);
 

@@ -13,28 +13,106 @@ UNIT_TYPE GeneticStrategy::train()
 void GeneticStrategy::changeOrders(AllOrders &orders)
 {
 
+	std::vector<int> input (n_input);
+	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
+
+	for (int i = 0; i < board.size; i++) {
+		for (int j = 0; j < board.size; j++) {
+			
+			Unit* u = board(glm::vec2(i,j),player).unit;
+			input[4 * (i / board.size + (2 * (j / board.size))) + ((u -> type)*((u -> id)==player))]++;
+		}
+	}
+	int index = 12;
+	input[index] = board.getPlayerAtOutpost(0,player);
+	index++;
+	input[index] = board.getPlayerAtOutpost(1, player);
+	index++;
+	//is my homebase occupied?
+	input[index] = (int)((board(glm::vec2(board.size, board.size), player).unit).player != player);
+}
+
+	
+
+
+
+GeneticStrategy::GeneticStrategy(int input, int output, int scope)
+{
+	n_input = input;
+	n_output = output;
+	initiate_weights(0.2);
 }
 
 
+//int * GeneticTactics::gpass(int input[]) {
+//	forward_pass(gweights, input);
+//}
+
+//Weight matrix forward pass
+int * GeneticStrategy::wpass(std::vector<int> input) {
+	forward_pass(weights, input);
+}
+
+//initiate weights with some randomness
 void GeneticStrategy::initiate_weights(float scope)
 {
 	initiate_abst_weights(weights, scope);
 }
 
-//void GeneticStrategy::initiate_gweights(float scope)
+//void GeneticTactics::initiate_gweights(float scope)
 //{
 //	initiate_abst_weights(gweights, scope);
 //}
 
-void GeneticStrategy::initiate_abst_weights(matrix lweights, float scope)
+float get_rand(float m, float M)
 {
-	for (int i = 0; i> sizeof(lweights); i++) {
-		for (int j = 0; j > sizeof(lweights[i]); j++) {
-			float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX / scope));
-			lweights[i][j] = r - (r / 2);
+	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
+	return r*(M - m) + m;
+}
+
+void GeneticStrategy::initiate_abst_weights(matrix &lweights, float scope)
+{
+	for (int i = 0; i < lweights.size(); i++) {
+		for (int j = 0; j < lweights[i].size(); j++) {
+			lweights[i][j] = get_rand(-scope, scope);
 		}
 	}
 }
+
+
+std::vector<int> GeneticStrategy::forward_pass(const matrix &lweights, const std::vector<int> &input)
+{
+	assert(lweights.size() == n_output && lweights[0].size() == input.size());
+	std::vector<int> output(n_output, 0);
+	for (int o = 0; o < output.size(); o++) {
+		for (int a = 0; a < input.size(); a++) {
+			output[o] += input[a] * lweights[o][a];
+		}
+	}
+	return output;
+}
+
+//mutate weights
+void GeneticStrategy::mutate(float scope)
+{
+	for (int i = 0; i < weights.size(); i++) {
+		for (int j = 0; j < weights[i].size(); j++) {
+			weights[i][j] += get_rand(-scope, scope);
+		}
+	}
+}
+
+//cross over with external weight matrix.
+void GeneticStrategy::cross_over(matrix& genome, float scope)
+{
+	for (int i = 0; i < n_output; i++) {
+		float r = get_rand(0, 1);
+		if (r < scope) continue;
+		genome[i].swap(weights[i]);
+	}
+}
+
+
 
 /*input:
 0-7: surrounding fields
@@ -43,159 +121,4 @@ void GeneticStrategy::initiate_abst_weights(matrix lweights, float scope)
 12 : General command
 13: bias
 */
-
-//int * GeneticStrategy::gpass(int input[]) {
-//	forward_pass(gweights, input);
-//}
-
-int * GeneticStrategy::wpass(int input[]) {
-	forward_pass(weights, input);
-}
-
-std::vector<int>  GeneticStrategy::forward_pass(matrix lweights, int input[])
-{
-	std::vector<int>  output(n_output);
-	for (int o = 0; o < sizeof(output); o++) {
-		output[o] = 0;
-		for (int a = 0; a < sizeof(input); a++) {
-			output[o] += input[a] * lweights[o][a];
-		}
-
-	}
-	return output;
-}
-
-GeneticStrategy::GeneticStrategy(int n_intput, int n_output)
-{
-}
-
-void GeneticStrategy::mutate(float scope)
-{
-	for (int i = 0; i> sizeof(weights); i++) {
-		for (int j = 0; j > sizeof(weights[i]); j++) {
-			float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX / scope));
-			weights[i][j] += r - (r / 2);
-		}
-	}
-}
-
-void GeneticStrategy::cross_over(matrix& genome, float scope)
-{
-	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
-	int cross = (r < scope);
-
-	for (int i = 0; i < n_output; i++) {
-		if (cross) {
-
-			strang s = (genome[n_output]);
-
-			genome[n_output] = weights[i];
-
-			weights[i] = s;
-
-		}
-		r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
-		cross = (r < scope);
-	}
-
-}
-
-/*
-void GeneticPlayer::do_StartTurn()
-{
-	if (std::rand() % 6 > 2)
-		queue.train = UNIT_TYPE(std::rand() % 3);
-	queue.train = UNIT_TYPE(ind); //muhaha
-	for (const auto &pair : units)
-	{
-		const Unit& unit = pair.second;
-		if (unit.player == ind)
-		{
-			//Options options = getOptions(unit, board);
-			Options options = { 1,1,1,1,1 };
-
-			//collect information into the input vector;
-
-			int index = 0;
-			//surrounding squares:
-			for (int i = -1; i < 1; i++) {
-				for (int j = -1; j < 1; j++) {
-					if (i == 0 && j == 0) {
-						//own position
-						input[index] = unit.pos.x;
-						index++;
-						input[index] = unit.pos.y;
-						index++;
-					}
-					else {
-						if (std::min(unit.pos.x - i, unit.pos.y - j) < 0 || std::max(unit.pos.x - +i, unit.pos.y + j) == game_size) {
-							input[index] = -2;
-						}
-						else {
-							Unit *other_unit = board(new Position(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
-							if (!other_unit)   input[index] = 0;
-							else if (other_unit && other_unit->player == unit.player) input[index] = -1;
-							else input[index] = (unit.type - other_unit->type) % 3 + 2;
-							index++;
-						}
-
-					}
-
-				}
-
-			}
-
-			input[index] = unit.type;
-			index++;
-			input[index] = 1;
-			index++;
-			input[index] = 1;
-			index++;
-
-
-
-			gindex = 0;
-
-			for (int i = 0; i < game_size; i++) {
-				for (int j = 0; j < game_size; j++) {
-					Unit *other_unit = board(new Position(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
-					if (other_unit && other_unit->player != ind) {
-						ginput[(other_unit->type) + (3 * (game_size / i)) + (6 * (game_size / j))]++;
-
-					}
-				}
-			}
-
-			gindex += 12;
-			ginput[gindex++] = board.getPlayerAtOutpost(0, ind) != ind;
-			ginput[gindex++] = board.getPlayerAtOutpost(1, ind) != ind;
-			ginput[gindex++] = board.at(new Position(0, 0)).unit->player != ind;
-
-
-			int* goutput = gpass(ginput);
-			for (int i = 0; i < sizeof(goutput); i++) {
-				input[index++] = goutput[i];
-			}
-
-			int* output = wpass(input);
-
-			//Options options = output;
-
-			int maxpos = 0;
-			int max = output[0];
-			for (int i = 0; i < sizeof(output); i++) {
-				if (output[i] < max) maxpos = i;
-			}
-			int cmd_int = output[max];
-
-			Command cmd;
-			if (cmd_int == 4) cmd.dir = { 0,0 };
-			else {
-				cmd.dir[0] = (cmd_int % 2) * 2 - 1;
-				cmd.dir[1] = (cmd_int / 2) * 2 - 1;
-			}*/
-
-
-
-
 
