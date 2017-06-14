@@ -6,23 +6,26 @@ GeneticTactics::GeneticTactics(Board & const b, int n_input, int n_output)
 	int n_output = n_output;
 }
 
-int * GeneticTactics::gpass(int input[]) {
-	forward_pass(gweights, input);
-}
 
+//int * GeneticTactics::gpass(int input[]) {
+//	forward_pass(gweights, input);
+//}
+
+//Weight matrix forward pass
 int * GeneticTactics::wpass(int input[]) {
 	forward_pass(weights, input);
 }
 
+//initiate weightts with some randomness
 void GeneticTactics::initiate_weights(float scope)
 {
 	initiate_abst_weights(weights, scope);
 }
 
-void GeneticTactics::initiate_gweights(float scope)
-{
-	initiate_abst_weights(gweights, scope);
-}
+//void GeneticTactics::initiate_gweights(float scope)
+//{
+//	initiate_abst_weights(gweights, scope);
+//}
 
 void GeneticTactics::initiate_abst_weights(matrix lweights, float scope)
 {
@@ -48,6 +51,7 @@ int * GeneticTactics::forward_pass(matrix lweights, int input[])
 	return output;
 }
 
+//mutate weights
 void GeneticTactics::mutate(float scope)
 {
 	for (int i = 0; i> sizeof(weights); i++) {
@@ -58,6 +62,7 @@ void GeneticTactics::mutate(float scope)
 	}
 }
 
+//cross over with external weight matrix.
 void GeneticTactics::cross_over(matrix& genome, float scope)
 {
 	float r = static_cast <float> (std::rand()) / (static_cast <float> (RAND_MAX));
@@ -79,6 +84,7 @@ void GeneticTactics::cross_over(matrix& genome, float scope)
 
 }
 
+//virtual functions:
 Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 {
 	return Command();

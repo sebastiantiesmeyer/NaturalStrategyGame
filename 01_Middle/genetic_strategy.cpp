@@ -21,10 +21,10 @@ void GeneticStrategy::initiate_weights(float scope)
 	initiate_abst_weights(weights, scope);
 }
 
-void GeneticStrategy::initiate_gweights(float scope)
-{
-	initiate_abst_weights(gweights, scope);
-}
+//void GeneticStrategy::initiate_gweights(float scope)
+//{
+//	initiate_abst_weights(gweights, scope);
+//}
 
 void GeneticStrategy::initiate_abst_weights(matrix lweights, float scope)
 {
@@ -44,9 +44,9 @@ void GeneticStrategy::initiate_abst_weights(matrix lweights, float scope)
 13: bias
 */
 
-int * GeneticStrategy::gpass(int input[]) {
-	forward_pass(gweights, input);
-}
+//int * GeneticStrategy::gpass(int input[]) {
+//	forward_pass(gweights, input);
+//}
 
 int * GeneticStrategy::wpass(int input[]) {
 	forward_pass(weights, input);

@@ -32,7 +32,7 @@ class GeneticGameMaster : AbstractGame
 {
 public:
 
-	GeneticGameMaster();
+	GeneticGameMaster(GeneticStrategy * gs, GeneticTactics * gt) ; //Constructor inheritance?
 
 	void play(int games);
 	void initiate_players(int player_count);
@@ -40,7 +40,7 @@ public:
 
 private:
 
-	std::vector<strategy_wrapper> strategy_pool;
+	std::vector<strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
 
 };
 
