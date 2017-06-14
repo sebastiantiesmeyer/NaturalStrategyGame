@@ -17,7 +17,7 @@ void GeneticGameMaster::play(int n_games)
 				Board board(5);
 				Units units;
 				UnitProgress unit_progress[2];
-				SuperPlayer * p1 = new SuperPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
+				//SuperPlayer * p1 = new SuperPlayer({ board, units, unit_progress[0], 0 }, strategy_pool[s1].gs, strategy_pool[s1].gt);
 				//SuperPlayer * p2 = new SuperPlayer({ board, units, unit_progress[1], 1 }, strategy_pool[s2].gs, strategy_pool[s2].gt);
 
 				//To be updated according to the IO of OfficialGame()
