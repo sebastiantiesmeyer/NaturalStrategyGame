@@ -1,5 +1,6 @@
 #pragma once
 #include "data_types.h"
+#include <memory>
 
 //Abstract strategy class, it has two purely virtual functions.
 // changeOrders: It generates an priority OrderList for every unit
@@ -8,14 +9,14 @@
 class AbstractStrategy
 {
 public:
-	AbstractStrategy() : units(Units()), board(Board()), unit_progress(UnitProgress()), queue(CommandQueue()) {};
+	AbstractStrategy() : units(std::shared_ptr<Units>()), board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), queue(std::shared_ptr<CommandQueue>()) {};
 	// The parameters for the strategy should be set via this function
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time
 	// THEREFORE! create different instance for each player!!
-	void setParams(const CommandQueue &cqueue, const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player)
+	void setParams(std::shared_ptr<CommandQueue> cqueue, std::shared_ptr<const Board> _board, std::shared_ptr<const Units> _units, std::shared_ptr<const UnitProgress> _unit_progress, int _player)
 	{
-		queue = cqueue;			player = _player;
+		queue = cqueue;	player = _player;
 		unit_progress = _unit_progress;
 		board = _board;	units = _units;
 	}
@@ -34,9 +35,9 @@ public:
 	//Redefine for implementing an interface. Returns true when the turn is ended
 	virtual bool Update() { return true; }
 protected:
-	CommandQueue & const queue; //this means that the reference can change but the object
-	UnitProgress & const unit_progress;
-	Board & const board;
-	Units & const units;
+	std::shared_ptr<CommandQueue> queue; //this means that the reference can change but the object
+	std::shared_ptr<const UnitProgress> unit_progress;
+	std::shared_ptr<const Board> board;
+	std::shared_ptr<const Units> units;
 	int player = 0; //player index
 };

@@ -1,5 +1,6 @@
 #pragma once
 #include "data_types.h"
+#include <memory>
 
 //Abstract class for tactics (local strategy) used by SuperPlayer
 // Local strategy is independent of the game situtation in large, for eg. outpost ownership
@@ -11,10 +12,10 @@
 class AbstractTactic
 {
 public:
-	AbstractTactic() : board(Board()){}
-	void setBoard(Board &const nboard) { board = nboard; }
+	AbstractTactic() : board(std::shared_ptr<Board>()){}
+	void setBoard(std::shared_ptr<const Board> nboard) { board = nboard; }
 	//implement the following function to create a tactic:
 	virtual Command step(const Unit &unit, const OrderList &order_list) = 0;
 protected:
-	Board &const board;
+	std::shared_ptr<const Board> board;
 };

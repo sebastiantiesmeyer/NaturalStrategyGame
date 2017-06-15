@@ -1,20 +1,21 @@
 #pragma once
 #include "data_types.h"
 #include "imgui\imgui.h"
+#include <memory>
 
 class AbstractPlayer
 {
 public: // AbstractGame and its children should call these functions only
-	AbstractPlayer() : board(Board()), unit_progress(UnitProgress()), units(Units()){}
+	AbstractPlayer() : board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), units(std::shared_ptr<Units>()){}
 
-	virtual void setPlayerParameters(const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player)
+	//virtual void setPlayerParameters(const Board & _board, const Units &_units, UnitProgress &const _unit_progress, int _player)
+	virtual void setPlayerParameters(const std::shared_ptr<const Board> & _board, const std::shared_ptr<const Units> &_units, std::shared_ptr<UnitProgress> &const _unit_progress, int _player)
 	{
 		board = _board; 
 		units = _units; 
 		unit_progress = _unit_progress;
 		player = _player;
 		queue.train = ROCK;
-
 	}
 
 	// Messages to the player that the turn has started.
@@ -65,9 +66,9 @@ protected: //TO IMPLEMENT:
 	virtual void do_Render() = 0;
 protected:
 	CommandQueue queue;
-	UnitProgress &const unit_progress;
-	Board &const board;
-	Units &const units;
+	std::shared_ptr<const UnitProgress> unit_progress;
+	std::shared_ptr<const Board> board;
+	std::shared_ptr<const Units> units;
 	
 	int player = 0; //dont change! the player's index = 0 or 1.
 	int iteration; //dont change! the frames spent calculating or deciding what to do

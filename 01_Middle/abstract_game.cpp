@@ -45,8 +45,8 @@ AbstractGame::AbstractGame(const std::shared_ptr<AbstractPlayer> &p0, const std:
 	board.resize(board_size);
 	player[0] = p0;
 	player[1] = p1;
-	player[0]->setPlayerParameters(board, units, unit_progress[0], 0);
-	player[1]->setPlayerParameters(board, units, unit_progress[1], 1);
+	player[0]->setPlayerParameters(std::shared_ptr<Board>(&board), std::shared_ptr<Units>(&units), std::shared_ptr<UnitProgress>(&unit_progress[0]), 0);
+	player[1]->setPlayerParameters(std::shared_ptr<Board>(&board), std::shared_ptr<Units>(&units), std::shared_ptr<UnitProgress>(&unit_progress[1]), 1);
 	player[0]->StartTurn();
 	player[1]->StartTurn();
 }

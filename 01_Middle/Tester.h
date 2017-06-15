@@ -20,13 +20,13 @@ public:
 		//AbstractTactic * tactic = new ProbabilisticTactic(); //clean it up
 		std::shared_ptr<AbstractTactic> tactic;
 
-		players.push_back(std::shared_ptr<SuperPlayer>(new SuperPlayer(strategy, tactic)));
-		players.push_back(std::shared_ptr<SimplePlayer>(new SimplePlayer()));
-		players.push_back(std::shared_ptr<HumanPlayer>(new HumanPlayer()));
-		players.push_back(std::shared_ptr<HumanPlayer>(new HumanPlayer()));
+		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
+		players.push_back(std::make_shared<SimplePlayer>());
+		players.push_back(std::make_shared<HumanPlayer>());
+		players.push_back(std::make_shared<HumanPlayer>());
 
-		games.push_back(std::shared_ptr<OfficialGame>(new OfficialGame(players[0], players[1], 10)));
-		games.push_back(std::shared_ptr<OfficialGame>(new OfficialGame(players[2], players[3], 8)));
+		games.push_back(std::make_shared<OfficialGame>(players[0], players[1], 10));
+		games.push_back(std::make_shared<OfficialGame>(players[2], players[3], 8));
 
 	};
 	void runGames() {

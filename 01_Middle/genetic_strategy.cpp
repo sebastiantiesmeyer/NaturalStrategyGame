@@ -12,23 +12,23 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 	std::vector<int> input (n_input);
 	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
 
-	for (int i = 0; i < board.size(); i++) {
-		for (int j = 0; j < board.size(); j++) {
-			Unit* u = board(Position(i,j),player).unit; //the following looks complicated
+	for (int i = 0; i < (*board).size(); i++) {
+		for (int j = 0; j < (*board).size(); j++) {
+			Unit* u = (*board)(Position(i,j),player).unit; //the following looks complicated
 			// if u is nullptr then there is no unit there!
 			// i/board.size() always zero here! integer division!, try 2*i/board.size(), this can be 0 or 1.
-			input[4 * (i / board.size() + (2 * (j / board.size()))) + ((u -> type)*((u -> id)==player))]++;
+			input[4 * (i / (*board).size() + (2 * (j / (*board).size()))) + ((u -> type)*((u -> id)==player))]++;
 		}
 	}
 	int index = 12;
-	input[index] = board.getPlayerAtOutpost(0, player);
+	input[index] = (*board).getPlayerAtOutpost(0, player);
 	index++;
-	input[index] = board.getPlayerAtOutpost(1, player);
+	input[index] = (*board).getPlayerAtOutpost(1, player);
 	index++;
 	//is my homebase occupied?
 	//Home is (0,0)
 	//Enemy base is (board.size()-1, board.size()-1) !!
-	input[index] = (int)(board(Position(board.size(), board.size()), player).unit->player != player);
+	input[index] = (int)((*board)(Position((*board).size(), (*board).size()), player).unit->player != player);
 }
 
 GeneticStrategy::GeneticStrategy(int input, int output, int scope)

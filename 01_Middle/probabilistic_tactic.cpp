@@ -4,7 +4,7 @@
 Command ProbabilisticTactic::step(const Unit & unit, const OrderList & order_list)
 {
 	Options options = { 1,1,1,1,1 };
-	localAvoid3x3(unit, board, options);
+	localAvoid3x3(unit, *board, options);
 	float weights[3] = {0.3, 1.0, 5.0}; //biases towards goal
 	if(order_list.size() > 1)
 	{

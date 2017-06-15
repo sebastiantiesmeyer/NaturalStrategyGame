@@ -28,11 +28,11 @@ AbstractStrategy issues Orders, which are executed by units via tactics. For exa
 class SuperPlayer : public AbstractPlayer
 {
 public:
-	SuperPlayer(const std::shared_ptr<AbstractStrategy> &strategy, const std::shared_ptr<AbstractTactic> &tactic) : strategy(strategy), tactic(tactic) {};
+	SuperPlayer(std::shared_ptr<AbstractStrategy> &strategy, std::shared_ptr<AbstractTactic> &tactic) : strategy(strategy), tactic(tactic) {};
 
-	virtual void setPlayerParameters(const Board &_board, const Units &_units, UnitProgress &const _unit_progress, int _player) {
-		AbstractPlayer::setPlayerParameters(_board, _units, _unit_progress, _player);
-		strategy->setParams(queue, _board, _units, _unit_progress, _player);
+	virtual void setPlayerParameters(std::shared_ptr<const Board>_board, std::shared_ptr<const Units>_units, std::shared_ptr<UnitProgress>_unit_progress, int _player) {
+		//AbstractPlayer::setPlayerParameters(_board, _units, _unit_progress, _player);
+		strategy->setParams(std::shared_ptr<CommandQueue>(&queue), _board, _units, _unit_progress, _player);
 		tactic->setBoard(board);
 	}
 protected:
@@ -40,19 +40,19 @@ protected:
 	{
 		strategy->changeOrders(all_orders); //global strategy module :)
 		AllOrders tmp; //we recreate the map to filter out dead units
-		Units::const_iterator mid = units.lower_bound(0); // negative = player 1 AND positive player 0
-		for(auto it = (player == 0 ? mid : units.cbegin());
-			it != (player == 0 ? units.end(): mid);
+		Units::const_iterator mid = (*units).lower_bound(0); // negative = player 1 AND positive player 0
+		for(auto it = (player == 0 ? mid : (*units).cbegin());
+			it != (player == 0 ? (*units).end(): mid);
 			++it)		// iterates thorugh the player's units only
 		{	//the following is complicated due to std::move semantics
 			//we don't want to copy the underlying structures (vectors), so move
 			//attention: use with care! it doesn't always do what you want
 			tmp[&it->second] = std::move(all_orders[&it->second]);
 			//then, transform Order to Command, and add it to queue.
-			queue.unitcmds.push_back(tactic->step(it->second, tmp[&it->second]));
+			(queue).unitcmds.push_back(tactic->step(it->second, tmp[&it->second]));
 		}
 		all_orders = std::move(tmp); //tmp is not needed anymore, we move
-		queue = sortCommands(queue, units); //sort commands
+		queue = sortCommands(queue, *units); //sort commands
 		strategy->train();
 	}
 	virtual bool do_Update() //todo real time

@@ -92,11 +92,11 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			else {
 				//rule out off-board commands
 				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) ||
-					(std::max(unit.pos.x - +i, unit.pos.y + j) == (board.size()))) {
+					(std::max(unit.pos.x - +i, unit.pos.y + j) == ((*board).size()))) {
 					input[index] = -2;
 				}
 				else {
-					Unit *other_unit = board(glm::ivec2(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
+					Unit *other_unit = (*board)(glm::ivec2(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
 					if (!other_unit)   input[index] = 0;
 					else if (other_unit && other_unit->player == unit.player) input[index] = -1;
 					else input[index] = (unit.type - other_unit->type) % 3 + 2;

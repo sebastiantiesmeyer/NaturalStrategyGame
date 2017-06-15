@@ -18,8 +18,8 @@ void GeneticGameMaster::play(int n_games)
 
 //Create the two players for this match:
 
-				std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(strategy_pool[s1].gs, strategy_pool[s1].gt);
-				std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(strategy_pool[s2].gs, strategy_pool[s2].gt);
+				std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(strategy_pool[s1].gs), std::static_pointer_cast<AbstractTactic>(strategy_pool[s1].gt));
+				std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(strategy_pool[s2].gs), std::static_pointer_cast<AbstractTactic>(strategy_pool[s2].gt));
 
 				//To be updated according to the IO of OfficialGame()
 				std::shared_ptr<AbstractGame> game = std::make_shared<OfficialGame>(p1, p2, board_size);
