@@ -8,7 +8,7 @@
 class CyborgStrategy : public AbstractStrategy
 {
 public:
-	CyborgStrategy() : allorders(AllOrders()){}
+	CyborgStrategy(){}
 
 	virtual void changeOrders(AllOrders &newallorders)
 	{ //just like startTurn;
@@ -29,7 +29,7 @@ public:
 	}
 	virtual void Render(); //implemented in cpp
 public:
-	AllOrders &allorders;
+	AllOrders allorders;
 	bool endturn = false;
 	int wait = 100;
 	int iterations = 0;

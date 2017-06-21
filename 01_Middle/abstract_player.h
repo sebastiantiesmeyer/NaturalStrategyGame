@@ -9,7 +9,8 @@ public: // AbstractGame and its children should call these functions only
 	AbstractPlayer() : board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), units(std::shared_ptr<Units>()){}
 
 	//virtual void setPlayerParameters(const Board & _board, const Units &_units, UnitProgress &const _unit_progress, int _player)
-	virtual void setPlayerParameters(const std::shared_ptr<const Board> & _board, const std::shared_ptr<const Units> &_units, std::shared_ptr<UnitProgress> &const _unit_progress, int _player)
+	virtual void setPlayerParameters(const std::shared_ptr<const Board> & _board, const std::shared_ptr<const Units> &_units,
+									 const std::shared_ptr<UnitProgress> & _unit_progress, int _player)
 	{
 		board = _board; 
 		units = _units; 

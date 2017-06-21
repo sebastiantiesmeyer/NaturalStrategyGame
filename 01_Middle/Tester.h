@@ -16,9 +16,9 @@ public:
 	Tester()
 	{
 		//AbstractStrategy * strategy = new CyborgStrategy();
-		std::shared_ptr<AbstractStrategy> strategy;
+		std::shared_ptr<AbstractStrategy> strategy = std::make_shared<CyborgStrategy>();
 		//AbstractTactic * tactic = new ProbabilisticTactic(); //clean it up
-		std::shared_ptr<AbstractTactic> tactic;
+		std::shared_ptr<AbstractTactic> tactic = std::make_shared<ProbabilisticTactic>();
 
 		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
 		players.push_back(std::make_shared<SimplePlayer>());

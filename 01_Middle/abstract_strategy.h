@@ -9,12 +9,15 @@
 class AbstractStrategy
 {
 public:
-	AbstractStrategy() : units(std::shared_ptr<Units>()), board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), queue(std::shared_ptr<CommandQueue>()) {};
+	AbstractStrategy()
+	//	: units(std::shared_ptr<Units>()), board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), queue(std::shared_ptr<CommandQueue>())
+	{};
 	// The parameters for the strategy should be set via this function
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time
 	// THEREFORE! create different instance for each player!!
-	void setParams(std::shared_ptr<CommandQueue> cqueue, std::shared_ptr<const Board> _board, std::shared_ptr<const Units> _units, std::shared_ptr<const UnitProgress> _unit_progress, int _player)
+	void setParams(const std::shared_ptr<CommandQueue> &cqueue, const std::shared_ptr<const Board> &_board,
+				   const std::shared_ptr<const Units> &_units, const std::shared_ptr<const UnitProgress> &_unit_progress, int _player)
 	{
 		queue = cqueue;	player = _player;
 		unit_progress = _unit_progress;
