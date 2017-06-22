@@ -6,7 +6,7 @@
 class AbstractPlayer
 {
 public: // AbstractGame and its children should call these functions only
-	AbstractPlayer() : board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), units(std::shared_ptr<Units>()){}
+	AbstractPlayer() : queue(std::make_shared<CommandQueue>()) {}
 
 	//virtual void setPlayerParameters(const Board & _board, const Units &_units, UnitProgress &const _unit_progress, int _player)
 	virtual void setPlayerParameters(const std::shared_ptr<const Board> & _board, const std::shared_ptr<const Units> &_units,
@@ -16,14 +16,14 @@ public: // AbstractGame and its children should call these functions only
 		units = _units; 
 		unit_progress = _unit_progress;
 		player = _player;
-		queue.train = ROCK;
+		queue->train = ROCK;
 	}
 
 	// Messages to the player that the turn has started.
 	void StartTurn()
 	{
 		iteration = 1;
-		queue.unitcmds.clear();
+		queue->unitcmds.clear();
 		do_StartTurn(); //implement do_StartTurn()
 	}
 
@@ -48,7 +48,7 @@ public: // AbstractGame and its children should call these functions only
 	bool RenderUpdate() = delete;
 
 	//Returns the command queue, call only when Update() already returned true!
-	const CommandQueue& GetCommandQueue()
+	std::shared_ptr<const CommandQueue> GetCommandQueue() const
 	{
 		if(iteration != 0) throw std::exception("Computation should be already done");
 		return queue;
@@ -66,7 +66,8 @@ protected: //TO IMPLEMENT:
 	// draws stuff you want to draw, and human interacion
 	virtual void do_Render() = 0;
 protected:
-	CommandQueue queue;
+	//CommandQueue queue;
+	std::shared_ptr<CommandQueue> queue;
 	std::shared_ptr<const UnitProgress> unit_progress;
 	std::shared_ptr<const Board> board;
 	std::shared_ptr<const Units> units;

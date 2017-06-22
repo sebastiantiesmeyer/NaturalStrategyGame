@@ -21,9 +21,9 @@ public:
 		std::shared_ptr<AbstractTactic> tactic = std::make_shared<ProbabilisticTactic>();
 
 		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
+		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
+		players.push_back(std::make_shared<HumanPlayer>());
 		players.push_back(std::make_shared<SimplePlayer>());
-		players.push_back(std::make_shared<HumanPlayer>());
-		players.push_back(std::make_shared<HumanPlayer>());
 
 		games.push_back(std::make_shared<OfficialGame>(players[0], players[1], 10));
 		games.push_back(std::make_shared<OfficialGame>(players[2], players[3], 8));

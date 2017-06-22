@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AbstractPlayer">
+    <Position X="13" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAYIAAAABAAAAAAAIAJAEAIAAAAQABABIDAAAAAQAAA=</HashCode>
+      <FileName>abstract_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DummyPlayer" Collapsed="true">
+    <Position X="14.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAgAAAAACAAAAIAABAAAAAAIAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>abstract_player_OLD.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RandomPlayer" Collapsed="true">
+    <Position X="8.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAABACAAAAIAABAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>abstract_player_OLD.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractGame">
+    <Position X="7.25" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABwIAAABAAAAAAoAoIBYAABAAAAQQBABIBAAAAQACAI=</HashCode>
+      <FileName>abstract_game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractStrategy">
+    <Position X="3.5" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQYAAAAIAAAAAAAAABAAAAAAAEQAAABKBAAAAAAAAA=</HashCode>
+      <FileName>abstract_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractTactic">
+    <Position X="3.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAQAAAAAAAAAgAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>abstract_tactics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleArena" Collapsed="true">
+    <Position X="10" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACI=</HashCode>
+      <FileName>battle_arena.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CyborgStrategy" Collapsed="true">
+    <Position X="0.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAIAAAAAAAAgABAAAAAAAAgBAEABAAAAAAAAg=</HashCode>
+      <FileName>cyborg_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticStrategy" Collapsed="true">
+    <Position X="0.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgMQAAAAICAAAAAAAAAIAAAQAAAIQACAAAAAAAAAAGA=</HashCode>
+      <FileName>genetic_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticTactics" Collapsed="true">
+    <Position X="1" Y="5.75" Width="1.5" />
+    <NestedTypes>
+      <Typedef Name="GeneticTactics::strang" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>genetic_tactics.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="GeneticTactics::matrix" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>genetic_tactics.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AgIAAAAAACAAAAAAAAAIAAAQAAAoQACAAAAAAAAAAEI=</HashCode>
+      <FileName>genetic_tactics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HumanPlayer" Collapsed="true">
+    <Position X="10.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAACAAAAIAABAAAAAAIAAAAAACAAAAAAAAQ=</HashCode>
+      <FileName>human_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficialGame" Collapsed="true">
+    <Position X="10" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAIACAAAAAAAAAAAAQAAAgAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>official_game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProbabilisticTactic" Collapsed="true">
+    <Position X="0.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>probabilistic_tactic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimplePlayer" Collapsed="true">
+    <Position X="12.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAMAABBAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>simple_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperPlayer" Collapsed="true">
+    <Position X="6" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAIAAAAAAAAAAAAAIAICAAAAAAAgAAAEACAAAAAAAAA=</HashCode>
+      <FileName>super_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

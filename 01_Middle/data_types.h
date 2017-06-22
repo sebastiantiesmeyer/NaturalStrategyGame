@@ -3,6 +3,7 @@
 #include <map>
 #include <array>
 #include <glm/glm.hpp>
+#include <memory>
 
 //const int game_size = 5;
 

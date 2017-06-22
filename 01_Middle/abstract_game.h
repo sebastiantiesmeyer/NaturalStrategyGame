@@ -46,9 +46,11 @@ protected:
 	int cycle = 0; //DON'T CHANGE the turn current turn or cycle number:
 	const int max_cycles = 5000; //game ends after max_cycles turnes/cycles.
 	bool player_0_done = false; //DON'T CHANGE 
-	bool player_1_done = false; //DON'T CHANGE 
-	const CommandQueue *queue0 = nullptr;
-	const CommandQueue *queue1 = nullptr;
+	bool player_1_done = false; //DON'T CHANGE
+	std::shared_ptr<const CommandQueue> queue0;
+	std::shared_ptr<const CommandQueue> queue1;
+	//const CommandQueue *queue0 = nullptr;
+	//const CommandQueue *queue1 = nullptr;
 
 private:
 	std::default_random_engine rnd_engine; //Random generator

@@ -33,13 +33,13 @@ public:
 
 	virtual void setPlayerParameters(std::shared_ptr<const Board>_board, std::shared_ptr<const Units>_units, std::shared_ptr<UnitProgress>_unit_progress, int _player) {
 		//AbstractPlayer::setPlayerParameters(_board, _units, _unit_progress, _player);
-		strategy->setParams(std::shared_ptr<CommandQueue>(&queue), _board, _units, _unit_progress, _player);
+		strategy->setParams(queue, _board, _units, _unit_progress, _player);
 		tactic->setBoard(board);
 	}
 protected:
 	virtual void do_StartTurn()
 	{
-		strategy->setParams(std::shared_ptr<CommandQueue>(&queue), board,units, unit_progress, player);
+		strategy->setParams(queue, board, units, unit_progress, player);
 		strategy->changeOrders(all_orders); //global strategy module :)
 		tactic->setBoard(board);
 		AllOrders tmp; //we recreate the map to filter out dead units
@@ -50,12 +50,12 @@ protected:
 		{	//we don't want to copy the underlying structures (vectors), so move swap
 			tmp[&it->second].swap(all_orders[&it->second]);
 			//then, transform Order to Command, and add it to queue.
-			(queue).unitcmds.push_back(tactic->step(it->second, tmp[&it->second]));
+			queue->unitcmds.push_back(tactic->step(it->second, tmp[&it->second]));
 		}
 		//all_orders = tmp; //tmp is not needed anymore, we swap
 		all_orders.swap(tmp);
-		queue = sortCommands(queue, *units); //sort commands
-		strategy->train();
+		*queue = sortCommands(*queue, *units); //sort commands
+		queue->train = strategy->train();
 	}
 	virtual bool do_Update() //todo real time
 	{

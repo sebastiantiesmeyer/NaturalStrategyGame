@@ -14,12 +14,12 @@ bool AbstractGame::Update()
 	}
 	if (player[0]->Update())
 	{
-		queue0 = &player[0]->GetCommandQueue();
+		queue0 = player[0]->GetCommandQueue();
 		player_0_done = true;
 	}
 	if (player[1]->Update())
 	{
-		queue1 = &player[1]->GetCommandQueue();
+		queue1 = player[1]->GetCommandQueue();
 		player_1_done = true;
 	}
 	return false;
@@ -141,7 +141,7 @@ void AbstractGame::move_unit(Unit & unit, const Position & newpos)
 
 bool AbstractGame::create_unit(const Position &rel_pos, int player, UNIT_TYPE type, Unit *extra)
 {
-	if(board(rel_pos, player).unit == nullptr) return false;
+	if(board(rel_pos, player).unit != nullptr) return false;
 	largest_id[player] += (player == 0 ? 1 : -1);
 	Unit unit = (extra ? *extra : Unit());
 	unit.player = player;	unit.id = largest_id[player];

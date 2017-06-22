@@ -19,7 +19,8 @@ public:
 	void setParams(const std::shared_ptr<CommandQueue> &cqueue, const std::shared_ptr<const Board> &_board,
 				   const std::shared_ptr<const Units> &_units, const std::shared_ptr<const UnitProgress> &_unit_progress, int _player)
 	{
-		queue = cqueue;	player = _player;
+		queue = cqueue;
+		player = _player;
 		unit_progress = _unit_progress;
 		board = _board;	units = _units;
 	}
@@ -38,9 +39,9 @@ public:
 	//Redefine for implementing an interface. Returns true when the turn is ended
 	virtual bool Update() { return true; }
 protected:
-	std::shared_ptr<CommandQueue> queue; //this means that the reference can change but the object
-	std::shared_ptr<const UnitProgress> unit_progress;
-	std::shared_ptr<const Board> board;
-	std::shared_ptr<const Units> units;
+	std::shared_ptr<CommandQueue> queue;
+	std::shared_ptr<const UnitProgress> unit_progress;//this means that the reference can change but the object cannot
+	std::shared_ptr<const Board> board;//this means that the reference can change but the object cannot
+	std::shared_ptr<const Units> units;//this means that the reference can change but the object cannot
 	int player = 0; //player index
 };

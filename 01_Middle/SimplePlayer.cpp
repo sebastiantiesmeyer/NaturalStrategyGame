@@ -8,8 +8,8 @@ bool SimplePlayer::endturn = false;
 void SimplePlayer::do_StartTurn()
 {
 	if(std::rand() % 6 > 2)
-		queue.train = UNIT_TYPE(std::rand() % 3);
-	queue.train = UNIT_TYPE(player); //muhaha
+		queue->train = UNIT_TYPE(std::rand() % 3);
+	queue->train = UNIT_TYPE(player); //muhaha
 	for(const auto &pair : *units)
 	{
 		const Unit& unit = pair.second;
@@ -51,23 +51,23 @@ void SimplePlayer::do_StartTurn()
 			cmd.dir = options.choose();
 			stored_options.push_back(options);
 			cmd.id = pair.first;
-			queue.unitcmds.push_back(cmd);
+			queue->unitcmds.push_back(cmd);
 			unit.options = &stored_options.back();
-			unit.command = &queue.unitcmds.back();
+			unit.command = &queue->unitcmds.back();
 		}
 	}
 	endturn = false;
 }
 void SimplePlayer::do_Render()
 {
-	view_board_and_add_command(*board, queue, player);
+	view_board_and_add_command(*board, *queue, player);
 	if(iteration != 0)
 	{
 		ImGui::PushStyleColor(ImGuiCol_Button, { 0,0,1,0.5 });
 		ImGui::PushStyleColor(ImGuiCol_ButtonActive, { 0,0,1,0.75 });
 		ImGui::PushStyleColor(ImGuiCol_ButtonHovered, { 0,0,1,1 });
-		endturn = ImGui::Button("End Turn", { -1,45 });
+		endturn = ImGui::Button("End Turn", { -1, 45 });
 		ImGui::PopStyleColor(3);
 	}
-	command_editor(queue, *units, *board, player);
+	command_editor(*queue, *units, *board, player);
 }

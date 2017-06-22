@@ -228,7 +228,7 @@ void command_editor(CommandQueue &queue, const Units &units, const Board &board,
 		ImGui::PushID(id++);
 		ImGui::BeginGroup();
 		ImGui::Separator();
-		if(ImGui::InputInt("##x", &command.dir.x, 1.0F,-1,1) && norm1(command.dir) > 1)
+		if(ImGui::InputInt("##x", &command.dir.x, 1,-1,1) && norm1(command.dir) > 1)
 			command.dir = Dir(0);
 		ImGui::SameLine();
 		if(ImGui::SmallButton("^") && i > 0)
@@ -240,7 +240,7 @@ void command_editor(CommandQueue &queue, const Units &units, const Board &board,
 			ImGui::TextDisabled("%s at (%d,%d) id=%d", names[unit.type], unit.pos.x, unit.pos.y, unit.id);
 		}
 		//next line
-		if(ImGui::InputInt("##y", &command.dir.y, 1.0F, -1, 1) && norm1(command.dir) > 1)
+		if(ImGui::InputInt("##y", &command.dir.y, 1, -1, 1) && norm1(command.dir) > 1)
 			command.dir = Dir(0);
 		ImGui::SameLine();
 		if(ImGui::SmallButton("v") && i < queue.unitcmds.size() - 1)
