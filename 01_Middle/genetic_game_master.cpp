@@ -26,9 +26,10 @@ void GeneticGameMaster::play(int n_games)
 				//game.start();
 				while(game->getPlayerScore() == glm::dvec2(0))
 				{
+					strategy_pool[s1].gs->activate();
+					strategy_pool[s2].gs->activate();
 					game->Update();
 				}
-				//:TODO: run the game...
 
 				//get scores in the end:
 				glm::dvec2 score = game->getPlayerScore();

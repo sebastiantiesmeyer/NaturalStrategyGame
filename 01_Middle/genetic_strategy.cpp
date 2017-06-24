@@ -7,6 +7,9 @@ UNIT_TYPE GeneticStrategy::train()
 }
 
 void GeneticStrategy::changeOrders(AllOrders &orders)
+{}
+
+void GeneticStrategy::explore()
 {
 
 	std::vector<int> input (n_input);
@@ -17,7 +20,8 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 			Unit* u = (*board)(Position(i,j),player).unit; //the following looks complicated
 			// if u is nullptr then there is no unit there!
 			// i/board.size() always zero here! integer division!, try 2*i/board.size(), this can be 0 or 1.
-			input[4 * (i / (*board).size() + (2 * (j / (*board).size()))) + ((u -> type)*((u -> id)==player))]++;
+			if (u != nullptr)
+				input[4 * (2 * i / (*board).size() + (2 * (j / (*board).size()))) + ((u -> type)*((u -> id)==player))]++;
 		}
 	}
 	int index = 12;
@@ -28,7 +32,10 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 	//is my homebase occupied?
 	//Home is (0,0)
 	//Enemy base is (board.size()-1, board.size()-1) !!
-	input[index] = (int)((*board)(Position((*board).size(), (*board).size()), player).unit->player != player);
+	if(((*board)(Position(0, 0), player)).unit != nullptr)
+		input[index] = (int)((*board)(Position(0, 0), player).unit->player != player);
+	index++;
+	input[index] = 1;
 }
 
 GeneticStrategy::GeneticStrategy(int input, int output, int scope)
@@ -36,6 +43,12 @@ GeneticStrategy::GeneticStrategy(int input, int output, int scope)
 	n_input = input;
 	n_output = output;
 	initiate_weights(0.2);
+}
+
+void GeneticStrategy::activate()
+{
+	explore();
+	output = wpass(input);
 }
 
 //int * GeneticTactics::gpass(int input[]) {
@@ -50,7 +63,7 @@ std::vector<int> GeneticStrategy::wpass(std::vector<int> input) {
 //initiate weights with some randomness
 void GeneticStrategy::initiate_weights(float scope)
 {
-	initiate_abst_weights(weights, scope);
+	initiate_abst_weights(weights, n_input, n_output, scope);
 }
 
 //void GeneticTactics::initiate_gweights(float scope)
@@ -58,9 +71,11 @@ void GeneticStrategy::initiate_weights(float scope)
 //	initiate_abst_weights(gweights, scope);
 //}
 
-void GeneticStrategy::initiate_abst_weights(matrix &lweights, float scope)
+void GeneticStrategy::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
 {
+	lweights.resize(n_output);
 	for (int i = 0; i < lweights.size(); i++) {
+		lweights[i].resize(n_input);
 		for (int j = 0; j < lweights[i].size(); j++) {
 			lweights[i][j] = get_rand(-scope, scope);
 		}
@@ -99,12 +114,4 @@ void GeneticStrategy::cross_over(matrix& genome, float scope)
 	}
 }
 
-
-/*input:
-0-7: surrounding fields
-8,9: x,y of own position
-10,11: own type
-12 : General command
-13: bias
-*/
 

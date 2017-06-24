@@ -18,9 +18,9 @@ struct strategy_wrapper
 	int scope = 1;
 
 	
-	std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>(n_input_tactics, n_output_tactics);
+	std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>();
 
-	std::shared_ptr<GeneticStrategy> gs = std::make_shared<GeneticStrategy>(n_input_strategy, n_output_strategy);
+	std::shared_ptr<GeneticStrategy> gs = std::make_shared<GeneticStrategy>();
 
 	bool operator <(const strategy_wrapper& p) const
 	{	//const after the function means that it does not change the class.
