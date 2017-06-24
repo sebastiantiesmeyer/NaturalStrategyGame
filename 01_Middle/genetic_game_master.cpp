@@ -6,8 +6,7 @@
 #include <functional>
 
 
-
-void GeneticGameMaster::play(int n_games)
+/*void GeneticGameMaster::play(int n_games)
 {
 	for(int i = 0; i < n_games; i++)
 	{					//play multiple training games in a row
@@ -81,4 +80,88 @@ void GeneticGameMaster::initiate_players(int player_count)
 
 void GeneticGameMaster::save_players()
 {
+}*/
+
+void GeneticGameMaster::createGames(int n_games)
+{
+	for (int i = 0; i < n_games; i++)
+	{					//play multiple training games in a row
+		for (int s1 = 0; s1 < strategy_pool.size(); s1++)
+		{	//let each player compete against..
+			for (int s2 = 0; s2 < s1; s2++)
+			{
+				params.push_back({ &strategy_pool[s1], &strategy_pool[s2], board_size }); //PARAMETERS!
+
+				games.AddTask( //start of lambda
+					[](int iterations, void * in_params)->bool
+				{
+					Parameters * params = static_cast<Parameters*>(in_params);
+					static OfficialGame *game = nullptr;
+					if (iterations == 0) //INIT
+					{
+						std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps1->gs),
+							std::static_pointer_cast<AbstractTactic>(params->ps1->gt));
+						std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps2->gs),
+							std::static_pointer_cast<AbstractTactic>(params->ps2->gt));
+						game = new OfficialGame(p1, p2, params->board_size);
+					}
+
+					//UPDATE
+					params->ps1->gs->activate();
+					params->ps2->gs->activate();
+					game->Update();
+					game->Render();
+
+					glm::dvec2 score = game->getPlayerScore();
+					if (score != glm::dvec2(0)) //CLEANUP
+					{
+						delete game;
+						//update player fitness:
+						params->ps1->fitness += (score[0] - score[1]);
+						params->ps2->fitness += (score[1] - score[0]);
+						return true;
+					}
+					else return false;
+				} //end of lambda
+				, static_cast<void*>(&params.back()));
+
+			}
+		}
+		//sort your strategies according to fitness:
+		games.AddTask(
+			[](int iterations, void * in_params)->bool //LAMBDA START
+		{
+			std::vector<strategy_wrapper> &strategy_pool = *static_cast<std::vector<strategy_wrapper>*>(in_params);
+
+			std::sort(strategy_pool.begin(), strategy_pool.end(), std::not2(std::less<strategy_wrapper>())); //first is the best
+
+																											 //The worst performing 2/3 goes extinct :oC
+			const float replace_ratio = 0.3;
+			const int initial_pop = strategy_pool.size();
+			for (int i = 0; i < initial_pop * replace_ratio; i++)
+			{
+				strategy_pool.pop_back();
+			}
+
+			// ... and is replaced by copies of the best performing third 
+			for (int i = 0; i < initial_pop * replace_ratio; i++)
+			{
+				strategy_pool.push_back(strategy_pool[i]);
+			}
+
+			//Some mutations & cross-overs ( -> love )
+			for (strategy_wrapper sw : strategy_pool)
+			{
+				sw.gs->mutate(0.2);
+				sw.gt->mutate(0.2);
+
+				int n = (int)(std::rand()*strategy_pool.size());
+
+				sw.gs->cross_over(strategy_pool[n].gs->weights, 0.2);
+				sw.gt->cross_over(strategy_pool[n].gt->weights, 0.2);
+			}
+			return true;
+		} //LAMBDA END
+		, static_cast<void*>(&strategy_pool));
+	}
 }

@@ -15,6 +15,7 @@
 #include "Tester.h"
 #include <vector>
 #include "genetic_game_master.h"
+#include "Updater.h"
 
 SDL_Window *win; //pointer to window
 SDL_GLContext context; //id of context created for opengl (also a pointer)
@@ -84,7 +85,8 @@ int main( int argc, char* args[] )
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f); //background color [0,1]-RGBA
 	
 	//Tester gametester;
-	GeneticGameMaster ggm = GeneticGameMaster(1);
+	GeneticGameMaster ggm = GeneticGameMaster(5);
+	ggm.createGames(1);
 
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame
 	{
@@ -108,9 +110,10 @@ int main( int argc, char* args[] )
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clears framebuffer (try without it!)
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
 		
-		ggm.initiate_players(2);
-		ggm.play(1);
+		//ggm.initiate_players(2);
+		//ggm.play(1);
 		//gametester.runGames();
+		ggm.games.Update();
 
 		ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();
