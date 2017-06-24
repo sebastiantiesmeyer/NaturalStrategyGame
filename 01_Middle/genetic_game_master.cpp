@@ -73,14 +73,15 @@
 	}
 }
 
+void GeneticGameMaster::save_players()
+{
+}*/
+
 void GeneticGameMaster::initiate_players(int player_count)
 {
 	strategy_pool.assign(player_count, strategy_wrapper());
 }
 
-void GeneticGameMaster::save_players()
-{
-}*/
 
 void GeneticGameMaster::createGames(int n_games)
 {

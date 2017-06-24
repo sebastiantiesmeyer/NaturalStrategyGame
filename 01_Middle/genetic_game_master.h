@@ -90,11 +90,13 @@ public:
 		int board_size;
 	};
 
-	GeneticGameMaster(int board_size) : board_size(board_size) {}
+	GeneticGameMaster(int board_size, int player_count) : board_size(board_size) {
+		strategy_pool.assign(player_count, strategy_wrapper());
+	}
 	//Constructor inheritance? TODO: implement
 
 	//void play(int games);
-	//void initiate_players(int player_count);
+	void initiate_players(int player_count);
 	//void save_players();
 
 	std::vector<Parameters> params;
