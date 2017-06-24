@@ -101,6 +101,7 @@
     <ClCompile Include="probabilistic_tactic.cpp" />
     <ClCompile Include="SimplePlayer.cpp" />
     <ClCompile Include="cyborg_strategy.cpp" />
+    <ClCompile Include="triad_tactic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />
@@ -129,6 +130,7 @@
     <ClInclude Include="simple_player.h" />
     <ClInclude Include="super_player.h" />
     <ClInclude Include="Tester.h" />
+    <ClInclude Include="triad_tactic.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

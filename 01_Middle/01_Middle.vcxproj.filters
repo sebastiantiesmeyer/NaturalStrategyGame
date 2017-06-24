@@ -76,6 +76,9 @@
     <ClCompile Include="genetic_game_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="triad_tactic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
@@ -154,6 +157,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="genetic_tactics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="triad_tactic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

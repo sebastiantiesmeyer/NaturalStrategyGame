@@ -140,5 +140,5 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 		
 	}
 
-	return Command();
+	return cmd;
 }
