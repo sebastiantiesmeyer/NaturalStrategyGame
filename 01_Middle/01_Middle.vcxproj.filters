@@ -165,8 +165,12 @@
     <ClInclude Include="triad_tactic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Updater2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
 </Project>

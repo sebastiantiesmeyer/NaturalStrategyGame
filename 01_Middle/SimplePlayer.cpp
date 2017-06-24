@@ -9,7 +9,7 @@ void SimplePlayer::do_StartTurn()
 {
 	if(std::rand() % 6 > 2)
 		queue->train = UNIT_TYPE(std::rand() % 3);
-	queue->train = UNIT_TYPE(player); //muhaha
+	//queue->train = UNIT_TYPE(player); //muhaha
 	for(const auto &pair : *units)
 	{
 		const Unit& unit = pair.second;

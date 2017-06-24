@@ -1,0 +1,140 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="AbstractGame">
+    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Members>
+      <Field Name="board" Hidden="true" />
+      <Field Name="cycle" Hidden="true" />
+      <Field Name="largest_id" Hidden="true" />
+      <Field Name="max_cycles" Hidden="true" />
+      <Field Name="player_0_done" Hidden="true" />
+      <Field Name="player_1_done" Hidden="true" />
+      <Field Name="queue0" Hidden="true" />
+      <Field Name="queue1" Hidden="true" />
+      <Field Name="rnd_distribution" Hidden="true" />
+      <Field Name="rnd_engine" Hidden="true" />
+      <Field Name="score" Hidden="true" />
+      <Field Name="unit_progress" Hidden="true" />
+      <Field Name="units" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ABwIAAABAAAAAAoAoIBYAABAAAAQQBABIBAAAAQACAI=</HashCode>
+      <FileName>abstract_game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractPlayer">
+    <Position X="2.5" Y="0.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAYIAAAABAAAAAAAIAJAEAIAAAAQABABIDAAAAAQAAA=</HashCode>
+      <FileName>abstract_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractStrategy">
+    <Position X="0.5" Y="5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAQYAAAAIAAAAAAAAABAAAAAAAEQAAABKBAAAAAAAAA=</HashCode>
+      <FileName>abstract_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AbstractTactic">
+    <Position X="4.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAQAAAAAAAAAgAAAAIAAAAAAAAAA=</HashCode>
+      <FileName>abstract_tactics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BattleArena">
+    <Position X="9.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACI=</HashCode>
+      <FileName>battle_arena.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CyborgStrategy" Collapsed="true">
+    <Position X="0.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAIAAAAAAAAgABAAAAAAAAgBAEABAAAAAAAAg=</HashCode>
+      <FileName>cyborg_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticGameMaster">
+    <Position X="10.25" Y="0.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAEAAAAAQAAAAAAAADAACAAAAAAAAAAAAA=</HashCode>
+      <FileName>genetic_game_master.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticStrategy" Collapsed="true">
+    <Position X="2.25" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgMQAAAAICAAAAAACgAJQAAQCAAIQBCEAAAAAAAAAEg=</HashCode>
+      <FileName>genetic_strategy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GeneticTactics" Collapsed="true">
+    <Position X="5.75" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgIAAAAAACAAAAAAAAAIAAAQAAAoQACAAAAAAAAAAEI=</HashCode>
+      <FileName>genetic_tactics.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HumanPlayer" Collapsed="true">
+    <Position X="0.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAACAAAAIAABAAAAAAIAAAAAACAAAAAAAAQ=</HashCode>
+      <FileName>human_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="OfficialGame">
+    <Position X="7.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAIACAAAAAAAAAAAAQAAAgAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>official_game.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProbabilisticTactic" Collapsed="true">
+    <Position X="4" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAA=</HashCode>
+      <FileName>probabilistic_tactic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SimplePlayer" Collapsed="true">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAMAABBAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>simple_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SuperPlayer">
+    <Position X="2.5" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>EAIAAAAAAAAAAAAAIAICAAAAAAAgAAAEACAAAAAAAAA=</HashCode>
+      <FileName>super_player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TriadTactic" Collapsed="true">
+    <Position X="7.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAEAAAACAAAAAAAAgAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>triad_tactic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Updater">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACAAAAAAAAAAQgAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Updater.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

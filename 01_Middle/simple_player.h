@@ -12,7 +12,7 @@ protected:
 	virtual void do_Render();
 	virtual bool do_Update()
 	{
-		return endturn;
+		return true;
 	}
 	static bool endturn;
 	std::vector<Options> stored_options;
