@@ -65,8 +65,15 @@
   </Class>
   <Class Name="GeneticGameMaster">
     <Position X="10.25" Y="0.5" Width="1.75" />
+    <NestedTypes>
+      <Struct Name="GeneticGameMaster::Parameters" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>genetic_game_master.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>EAAAAAAAAAAEAAAAAQAAAAAAAADAACAAAAAAAAAAAAA=</HashCode>
+      <HashCode>QAAAAAAAAAACAAAAAQAAAAAAAABAACAAAAAAAEAAAAA=</HashCode>
       <FileName>genetic_game_master.h</FileName>
     </TypeIdentifier>
   </Class>
