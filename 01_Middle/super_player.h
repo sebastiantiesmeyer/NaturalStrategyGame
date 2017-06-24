@@ -44,13 +44,14 @@ protected:
 		tactic->setBoard(board);
 		AllOrders tmp; //we recreate the map to filter out dead units
 		Units::const_iterator mid = (*units).lower_bound(0); // negative = player 1 AND positive player 0
-		for(auto it = (player == 0 ? mid : (*units).cbegin());
-			it != (player == 0 ? (*units).end(): mid);
+		for(auto it = (player == 0 ? mid : units->cbegin());
+			it != (player == 0 ? units->end(): mid);
 			++it)		// iterates thorugh the player's units only
 		{	//we don't want to copy the underlying structures (vectors), so move swap
-			tmp[&it->second].swap(all_orders[&it->second]);
+
+			tmp[it->first].swap(all_orders[it->first]);
 			//then, transform Order to Command, and add it to queue.
-			queue->unitcmds.push_back(tactic->step(it->second, tmp[&it->second]));
+			queue->unitcmds.push_back(tactic->step(it->second, tmp[it->first]));
 		}
 		//all_orders = tmp; //tmp is not needed anymore, we swap
 		all_orders.swap(tmp);

@@ -76,7 +76,7 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 				else
 				{
 					Order order; order.target = pos; //this order is issued
-					allorders[&units.at(selected[player])].assign(1, order); // explanation:
+					allorders[selected[player]].assign(1, order); // explanation:
 					//the unit may have moved, thus we look it up thorugh its id
 				}
 			}
@@ -88,11 +88,6 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 
 void CyborgStrategy::Render()
 {
-	if(!ImGui::BeginChild("Order editor", { 0,300 }, true))
-	{
-		ImGui::EndChild();
-		return;
-	}
 	char buff[256];
 
 	float current_training_time = (*unit_progress).current_train_time;
@@ -120,6 +115,13 @@ void CyborgStrategy::Render()
 	const char* names[3] = { "ROCK", "SCIZZOR", "PAPER" };
 	
 	give_orders(*board, *units, allorders, player);
+
+	if(!ImGui::BeginChild("Order editor", { 0,300 }, true))
+	{
+		ImGui::EndChild();
+		return;
+	}
+
 	ImGui::Separator();
 	ImGui::SliderInt("Wait till next turn", &wait, 0, 5000);
 	ImGui::ProgressBar((float)iterations / (float)wait, {-1,0}, "Next turn");
@@ -128,8 +130,9 @@ void CyborgStrategy::Render()
 	ImGui::Separator();
 	for(auto& orderlist : allorders)
 	{
-		const Unit &unit = *orderlist.first;
-		orderlist.second.resize(1); //ONLY ONE ORDER PER UNIT
+		if(!units->count(orderlist.first)) continue;
+		const Unit & unit = units->at(orderlist.first);
+		orderlist.second.resize(1);		//ONLY ONE ORDER PER UNIT
 		Order &order = orderlist.second[0];
 		ImGui::PushID(unit.id);
 		ImGui::Text("%s, pos = (%d,%d), id = %d",

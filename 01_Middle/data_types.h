@@ -150,7 +150,7 @@ struct Order
 typedef std::vector<Order> OrderList; // First order is the top-priority order
 									  //maps Unit ptr to list of orders
 									  //ATTENTION! Dont try to access units thorugh dereferencing key values! Units may die.
-typedef std::map<const Unit*, OrderList> AllOrders;
+typedef std::map<int, OrderList> AllOrders; //pointer changed to id
 
 //AllOrders = map<Unit*, OrderList> it maps a unit to its order list
 //OrdeList = vector<Order> the priority list of orders, usually just one
