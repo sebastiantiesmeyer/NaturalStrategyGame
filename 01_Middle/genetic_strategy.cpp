@@ -13,8 +13,9 @@ void GeneticStrategy::explore()
 {
 
 	input.resize(n_input);
-	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
+	std::fill(input.begin(), input.end(), 0);
 
+	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
 	for (int i = 0; i < (*board).size(); i++) {
 		for (int j = 0; j < (*board).size(); j++) {
 			Unit* u = (*board)(Position(i,j),player).unit; //the following looks complicated
@@ -56,7 +57,7 @@ void GeneticStrategy::activate()
 //}
 
 //Weight matrix forward pass
-std::vector<int> GeneticStrategy::wpass(std::vector<int> input) {
+std::vector<float> GeneticStrategy::wpass(std::vector<int> input) {
 	return forward_pass(weights, input);
 }
 
@@ -82,10 +83,10 @@ void GeneticStrategy::initiate_abst_weights(matrix &lweights, int height, int wi
 	}
 }
 
-std::vector<int> GeneticStrategy::forward_pass(const matrix &lweights, const std::vector<int> &input)
+std::vector<float> GeneticStrategy::forward_pass(const matrix &lweights, const std::vector<int> &input)
 {
 	assert(lweights.size() == n_output && lweights[0].size() == input.size());
-	std::vector<int> output(n_output, 0);
+	std::vector<float> output(n_output, 0);
 	for (int o = 0; o < output.size(); o++) {
 		for (int a = 0; a < input.size(); a++) {
 			output[o] += input[a] * lweights[o][a];

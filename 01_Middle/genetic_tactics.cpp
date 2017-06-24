@@ -1,5 +1,6 @@
 #include "genetic_tactics.h"
 #include "local.h"
+#include <iostream>
 
 GeneticTactics::GeneticTactics(int input, int output, int scope)
 {
@@ -16,7 +17,7 @@ GeneticTactics::GeneticTactics(int input, int output, int scope)
 
 
 //Weight matrix forward pass
-std::vector<int> GeneticTactics::wpass(std::vector<int> input) {
+std::vector<float> GeneticTactics::wpass(std::vector<int> input) {
 	return forward_pass(weights,  input);
 }
 
@@ -34,6 +35,7 @@ void GeneticTactics::initiate_weights(float scope)
 
 void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
 {
+	srand(6);
 	lweights.resize(n_output);
 	for (int i = 0; i < lweights.size(); i++) {
 		lweights[i].resize(n_input);
@@ -44,10 +46,10 @@ void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int wid
 }
 
 
-std::vector<int> GeneticTactics::forward_pass(const matrix &lweights, const std::vector<int> &input)
+std::vector<float> GeneticTactics::forward_pass(const matrix &lweights, const std::vector<int> &input)
 {
 	assert(lweights.size() == n_output && lweights[0].size() == input.size());
-	std::vector<int> output(n_output, 0);
+	std::vector<float> output(n_output, 0);
 	for (int o = 0; o < output.size(); o++) {
 		for (int a = 0; a < input.size(); a++) {
 			output[o] += input[a] * lweights[o][a];
@@ -123,16 +125,16 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 
 
-	std::vector<int> output = wpass(input);
+	std::vector<float> output = wpass(input);
 
 	//Options options = output;
 
 	int maxpos = 0;
-	int max = output[0];
+	float max = output[0];
 	for (int i = 0; i <output.size(); i++) {
-		if (output[i] < max) maxpos = i;
+		if (output[i] > max) maxpos = i;
 	}
-	int cmd_int = output[max];
+	int cmd_int = maxpos;
 
 	Command cmd;
 	if (cmd_int == 4) cmd.dir = Dir{ 0,0 };
@@ -141,6 +143,6 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 		cmd.dir[1] = (cmd_int / 2) * 2 - 1;
 		
 	}
-
+	std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
 	return cmd;
 }

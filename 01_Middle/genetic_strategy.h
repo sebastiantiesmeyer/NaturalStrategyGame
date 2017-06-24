@@ -19,7 +19,7 @@ public:
 	void explore();
 
 	std::vector<int> input;
-	std::vector<int> output;
+	std::vector<float> output;
 
 	AllOrders allorders;
 	bool endturn = false;
@@ -33,9 +33,9 @@ public:
 private:
 	void initiate_abst_weights(matrix &lweights, int n_input, int n_output, float scope);
 
-	std::vector<int> forward_pass(const matrix & lweights, const std::vector<int>& input);
+	std::vector<float> forward_pass(const matrix & lweights, const std::vector<int>& input);
 
-	std::vector<int> wpass(std::vector<int> input);
+	std::vector<float> wpass(std::vector<int> input);
 
 
 

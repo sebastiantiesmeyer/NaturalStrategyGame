@@ -1,5 +1,6 @@
 #include "abstract_game.h"
 #include "board_viewer.h"
+#include <iostream>
 
 bool AbstractGame::Update()
 {
@@ -147,6 +148,7 @@ bool AbstractGame::create_unit(const Position &rel_pos, int player, UNIT_TYPE ty
 	unit.player = player;	unit.id = largest_id[player];
 	unit.pos = rel_pos;		unit.type = type;
 	unit.moved = false;
+	std::cout << "unit count" << units.size();
 	board(rel_pos, player).id = largest_id[player]; //the following is tricky:
 	//Right side inserts the unit into the map, and returns where it was inserted, which is used to get the pointer
 	board(rel_pos, player).unit = &units.insert_or_assign(largest_id[player], unit).first->second;
