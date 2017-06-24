@@ -12,7 +12,7 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 void GeneticStrategy::explore()
 {
 
-	std::vector<int> input (n_input);
+	input.resize(n_input);
 	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
 
 	for (int i = 0; i < (*board).size(); i++) {

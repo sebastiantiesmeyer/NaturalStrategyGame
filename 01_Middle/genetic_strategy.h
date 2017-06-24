@@ -5,7 +5,7 @@
 class GeneticStrategy : public AbstractStrategy {
 public:
 
-	GeneticStrategy(int n_input=15, int n_output = 5, int scope = 0.2);
+	GeneticStrategy(int n_input=16, int n_output = 5, int scope = 0.2);
 
 	void activate();
 

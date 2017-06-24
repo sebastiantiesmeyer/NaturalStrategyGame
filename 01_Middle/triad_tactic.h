@@ -8,4 +8,8 @@ public:
 	TriadTactic() : AbstractTactic::AbstractTactic() {}
 
 	virtual Command step(const Unit &unit, const OrderList &order_list);
+private:
+
+	bool is_in_triad(const Unit & unit);
+	bool all_different(const Unit & unit, const Position & pos0, const Position & pos1);
 };

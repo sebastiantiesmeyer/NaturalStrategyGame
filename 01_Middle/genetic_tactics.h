@@ -29,6 +29,7 @@ public:
 
 private:
 
+
 	int n_input;
 	int n_output;
 	void initiate_abst_weights(matrix &lweights, int height, int width, float scope);

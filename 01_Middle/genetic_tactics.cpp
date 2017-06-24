@@ -13,6 +13,8 @@ GeneticTactics::GeneticTactics(int input, int output, int scope)
 //	forward_pass(gweights, input);
 //}
 
+
+
 //Weight matrix forward pass
 std::vector<int> GeneticTactics::wpass(std::vector<int> input) {
 	return forward_pass(weights,  input);
@@ -83,8 +85,8 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 	int index = 0;
 	//surrounding squares:
-	for (int i = -1; i < 1; i++) {
-		for (int j = -1; j < 1; j++) {
+	for (int i = -1; i <= 1; i++) {
+		for (int j = -1; j <= 1; j++) {
 			if (i == 0 && j == 0) {
 				//own position
 				input[index] = unit.pos.x;
@@ -95,11 +97,11 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			else {
 				//rule out off-board commands
 				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) ||
-					(std::max(unit.pos.x - +i, unit.pos.y + j) == ((*board).size()))) {
+					(std::max(unit.pos.x + i, unit.pos.y + j) == (board->size()))) {
 					input[index] = -2;
 				}
 				else {
-					Unit *other_unit = (*board)(glm::ivec2(unit.pos.x - i, unit.pos.y - j), unit.player).unit;
+					Unit *other_unit = (board-> at(Position(unit.pos.x - i, unit.pos.y - j))).unit;
 					if (!other_unit)   input[index] = 0;
 					else if (other_unit && other_unit->player == unit.player) input[index] = -1;
 					else input[index] = (unit.type - other_unit->type) % 3 + 2;
@@ -140,5 +142,5 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 		
 	}
 
-	return Command();
+	return cmd;
 }
