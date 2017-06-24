@@ -19,13 +19,13 @@ public:
 	{
 		//AbstractStrategy * strategy = new CyborgStrategy();
 		//std::shared_ptr<AbstractStrategy> strategy = std::make_shared<GeneticStrategy>(20, 3);
-		std::shared_ptr<AbstractStrategy> strategy = std::make_shared<CyborgStrategy>();
+		//std::shared_ptr<AbstractStrategy> strategy = std::make_shared<CyborgStrategy>();
 		//AbstractTactic * tactic = new ProbabilisticTactic(); //clean it up
 		//std::shared_ptr<AbstractTactic> tactic = std::make_shared<GeneticTactics>(20, 5);
-		std::shared_ptr<AbstractTactic> tactic = std::make_shared<ProbabilisticTactic>();
+		//std::shared_ptr<AbstractTactic> tactic = std::make_shared<ProbabilisticTactic>();
 
-		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
-		players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
+		//players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
+		//players.push_back(std::make_shared<SuperPlayer>(strategy, tactic));
 		//players.push_back(std::make_shared<HumanPlayer>());
 		//players.push_back(std::make_shared<SimplePlayer>());
 
