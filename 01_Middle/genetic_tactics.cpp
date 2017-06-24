@@ -127,7 +127,7 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 	int maxpos = 0;
 	int max = output[0];
-	for (int i = 0; i < sizeof(output); i++) {
+	for (int i = 0; i <output.size(); i++) {
 		if (output[i] < max) maxpos = i;
 	}
 	int cmd_int = output[max];
