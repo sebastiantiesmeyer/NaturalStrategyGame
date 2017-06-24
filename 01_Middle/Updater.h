@@ -2,6 +2,9 @@
 #include <vector>
 #include <memory>
 #include <functional>
+#include "genetic_tactics.h"
+#include "genetic_strategy.h"
+#include "super_player.h"
 
 typedef bool(*update_function_type)(int, void*);
 
@@ -31,8 +34,7 @@ private:
 	int iterations = 0;
 };
 
-#include "genetic_game_master.h"
-
+/*
 struct strategy_wrapper
 {
 	float fitness = 0;
@@ -55,8 +57,8 @@ struct strategy_wrapper
 		//we need this, so std::less can work with it
 		return fitness < p.fitness;
 	};
-};
-
+};*/
+/*
 static std::default_random_engine rnd_engine;
 
 #include "official_game.h"
@@ -171,4 +173,4 @@ private:
 	std::vector<strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
 	int board_size;
 
-};
+};*/
