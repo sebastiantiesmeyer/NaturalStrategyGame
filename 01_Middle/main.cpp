@@ -41,8 +41,6 @@ int quit_from_app(int stages = 4, const char* errormessage = "", const char* err
 	exit(ret);
 }
 
-
-
 int main( int argc, char* args[] )
 {
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)	quit_from_app(0, "[SDL indítása]Hiba az SDL inicializálása közben: ", SDL_GetError());
