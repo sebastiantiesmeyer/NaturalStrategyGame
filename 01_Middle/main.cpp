@@ -85,7 +85,7 @@ int main( int argc, char* args[] )
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f); //background color [0,1]-RGBA
 	
 	//Tester gametester;
-	GeneticGameMaster ggm = GeneticGameMaster(5);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 2);
 	ggm.createGames(1);
 
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame
