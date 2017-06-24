@@ -3,11 +3,12 @@
 
 void give_orders(const Board &board, const Units &units, AllOrders &allorders, int player)
 {
+	assert(player == 0 || player == 1);
 	float w = clamp(ImGui::GetContentRegionAvail().x, 200.f, 600.f);
 	float h = clamp(ImGui::GetContentRegionAvail().y + 110.f, 200.f, 600.f);
 	static Position lastclikk[2] = { Position(0,0), Position(0, 0) };	// last click is saved per-player
-	//static bool selected[2] = { false,false };		// player i selected a player
 	static int selected[2] = {0, 0}; //player i selected a unit id
+	ImGui::Text("selected id = %d, last click position = (%d, %d)", selected[player], lastclikk[player]);
 	int game_size = board.size();
 	float button_size = std::min(w, h) / game_size - 8;
 	for(int i = 0; i < game_size; ++i)
@@ -18,18 +19,17 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 		for(int j = 0; j < game_size; ++j)
 		{
 			glm::vec4 color = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1)));
+			glm::vec4 textcolor = glm::vec4(1,1,1,1);
 			Position pos = Position(i, j);
 			const Cell &cell = board(pos, player);
 
 			if(i == game_size - 1 && j == game_size - 1) color = glm::mix(color, enemys, interp);
 			else if(i == 0 && j == 0)					 color = glm::mix(color, fridly, interp);
 
-			bool is_neighbour = false;
 			if(selected[player] != 0) //a selection is active
 			{
-				Dir dir = lastclikk[player] - pos;
-				if(norm1(dir) == 0)	color += selctd;
-				else				color += neighb;
+				if(cell.id == selected[player])	textcolor *= 0.5;
+				else							color += neighb;
 			}
 
 			if(cell.unit && cell.unit->player == player)
@@ -52,13 +52,14 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 			}
 
 			ImGui::PushID(j);
+			ImGui::PushStyleColor(ImGuiCol_Text, textcolor);
 			ImGui::PushStyleColor(ImGuiCol_Button, color*normal);
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, color*hoover);
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, color*active);
 
 			bool clicked = ImGui::Button((cell.unit ? RSP[cell.unit->type] : " "), ImVec2(button_size, button_size));
 			if(cell.unit && ImGui::IsItemHovered()) draw_unit_tooltip(cell, player);
-			ImGui::PopStyleColor(3);
+			ImGui::PopStyleColor(4);
 			ImGui::PopID();
 			ImGui::SameLine();
 			const Unit * unitptr = board(pos, player).unit;
@@ -68,17 +69,14 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 				selected[player] = unitptr->id;
 				lastclikk[player] = pos;
 			}
-			else if(clicked && selected[player]) // a unit is selected
+			else if(clicked && selected[player] != 0) // a unit is selected
 			{
-				Dir dir = pos - lastclikk[player];
-				if(dir.x == 0 && dir.y == 0) //deselecting unit
-					selected[player] = false;
-				else
+				if(cell.id != selected[player])		// enywhere else of its own becomes the target location :)
 				{
 					Order order; order.target = pos; //this order is issued
-					allorders[selected[player]].assign(1, order); // explanation:
-					//the unit may have moved, thus we look it up thorugh its id
+					allorders[selected[player]].assign(1, order);
 				}
+				selected[player] = 0; //we deselect in both cases
 			}
 		}
 		ImGui::PopID();
@@ -137,14 +135,15 @@ void CyborgStrategy::Render()
 		ImGui::PushID(unit.id);
 		ImGui::Text("%s, pos = (%d,%d), id = %d",
 					names[unit.type], unit.pos.x, unit.pos.y, unit.id);
-		ImGui::SliderInt2("Target", &order.target.x, 0, (*board).size(), "%d");
+		ImGui::SliderInt2("Target", &order.target.x, 0, board->size(), "%f");
+		ImGui::Text("(%d, %d)", order.target.x, order.target.y);
 		if(ImGui::SmallButton("Home base ")) order.target = Position{ 0,0 };
 		ImGui::SameLine();
-		if(ImGui::SmallButton("Enemy base")) order.target = Position{ (*board).size(),(*board).size() };
+		if(ImGui::SmallButton("Enemy base")) order.target = Position{ board->size(),board->size() };
 		ImGui::SameLine();
-		if(ImGui::SmallButton("Outpost TR")) order.target = Position{ (*board).size(),0 };
+		if(ImGui::SmallButton("Outpost TR")) order.target = Position{ board->size(),0 };
 		ImGui::SameLine();
-		if(ImGui::SmallButton("Outpost BL")) order.target = Position{ 0,(*board).size() };
+		if(ImGui::SmallButton("Outpost BL")) order.target = Position{ 0, board->size() };
 		ImGui::DragFloat("Sacrifice", &order.sacrifice, 0.05, 0, 1);
 		ImGui::PopID();
 	}

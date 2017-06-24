@@ -12,7 +12,8 @@ public:
 
 	virtual void changeOrders(AllOrders &newallorders)
 	{ //just like startTurn;
-		allorders = newallorders;
+		//allorders = newallorders;
+		newallorders = allorders;
 		endturn = false;
 		iterations = 0;
 	}

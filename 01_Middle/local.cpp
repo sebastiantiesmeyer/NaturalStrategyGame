@@ -1,7 +1,7 @@
 #include "local.h"
 #include <random>
 
-static std::default_random_engine rnd_engine(0);
+static std::default_random_engine rnd_engine(42);
 static std::uniform_real_distribution<float> rnd_distribution;
 
 Dir Options::choose()

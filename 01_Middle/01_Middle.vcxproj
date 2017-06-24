@@ -129,6 +129,7 @@
     <ClInclude Include="simple_player.h" />
     <ClInclude Include="super_player.h" />
     <ClInclude Include="Tester.h" />
+    <ClInclude Include="Updater.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
