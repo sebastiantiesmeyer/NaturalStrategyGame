@@ -102,6 +102,7 @@
     <ClCompile Include="SimplePlayer.cpp" />
     <ClCompile Include="cyborg_strategy.cpp" />
     <ClCompile Include="triad_tactic.cpp" />
+    <ClCompile Include="Updater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="abstract_player.h" />

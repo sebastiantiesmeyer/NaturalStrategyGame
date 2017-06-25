@@ -81,13 +81,18 @@ int main( int argc, char* args[] )
 	SDL_Event ev;		//Keyboard, Mouse, Window resize, Quit, ect events are stored in this
 	glClearColor(0.125f, 0.25f, 0.5f, 1.0f); //background color [0,1]-RGBA
 	
+/*  ============================
+/*  Add tasks here: */
+
 	Updater gametasks;
 
-	//gametasks.AddCyborgVsHeuristics(10);
+	gametasks.AddCyborgVsHeuristics(10);
 
 	GeneticGameMaster ggm = GeneticGameMaster(5, 2);
 	//ggm.createGames(1);
 	ggm.addGames(gametasks);
+
+/*  =============================  */
 
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame
 	{
@@ -98,22 +103,22 @@ int main( int argc, char* args[] )
 			bool is_keyboard_captured = ImGui::GetIO().WantCaptureKeyboard; //Uniportant now.
 			switch(ev.type)
 			{
-			case SDL_QUIT:	quit = true; break; //fun-fact: try removing this line ;)
+			case SDL_QUIT:	quit = true;	break; //fun-fact: try removing this line ;)
 			case SDL_KEYDOWN:if(ev.key.keysym.sym == SDLK_ESCAPE)quit = true; break;
-			case SDL_KEYUP:	break;
-			case SDL_MOUSEBUTTONDOWN: break;
-			case SDL_MOUSEBUTTONUP:	break;
-			case SDL_MOUSEWHEEL: break;
-			case SDL_MOUSEMOTION: break;
+			case SDL_KEYUP:					break;
+			case SDL_MOUSEBUTTONDOWN:		break;
+			case SDL_MOUSEBUTTONUP:			break;
+			case SDL_MOUSEWHEEL:			break;
+			case SDL_MOUSEMOTION:			break;
 			case SDL_WINDOWEVENT:	glViewport(0, 0, ev.window.data1, ev.window.data2);	break; //resize framebuffer
 			}
 		}
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clears framebuffer (try without it!)
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
 		
-		gametasks.Update();
+		gametasks.Update(); //don't change
 
-		ImGui::ShowTestWindow(); //Shocases ImGui features
+		//ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on
 	}
