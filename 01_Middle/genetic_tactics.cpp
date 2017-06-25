@@ -2,7 +2,7 @@
 #include "local.h"
 #include <iostream>
 
-GeneticTactics::GeneticTactics(int input, int output, int scope)
+GeneticTactics::GeneticTactics(int input, int output, float scope)
 {
 	n_input = input;
 	n_output = output;

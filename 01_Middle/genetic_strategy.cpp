@@ -45,7 +45,7 @@ void GeneticStrategy::explore()
 	input[index] = 1;
 }
 
-GeneticStrategy::GeneticStrategy(int input, int output, int scope)
+GeneticStrategy::GeneticStrategy(int input, int output, float scope)
 {
 	n_input = input;
 	n_output = output;

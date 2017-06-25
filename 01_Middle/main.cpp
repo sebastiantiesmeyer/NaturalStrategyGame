@@ -92,6 +92,8 @@ int main( int argc, char* args[] )
 	//ggm.createGames(1);
 	ggm.addGames(gametasks);
 
+	gametasks.SetToFirstTask();
+
 /*  =============================  */
 
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame

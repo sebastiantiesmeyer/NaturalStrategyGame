@@ -9,7 +9,7 @@ class GeneticTactics : public AbstractTactic
 {
 public:
 
-	GeneticTactics(int n_input=13, int n_output = 5, int scope = 0.2);
+	GeneticTactics(int n_input=13, int n_output = 5, float scope = 0.2);
 
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
