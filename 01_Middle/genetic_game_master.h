@@ -29,6 +29,11 @@ struct strategy_wrapper
 		//we need this, so std::less can work with it
 		return fitness < p.fitness;
 	};
+	bool operator >(const strategy_wrapper& p) const
+	{	//const after the function means that it does not change the class.
+		//we need this, so std::less can work with it
+		return fitness > p.fitness;
+	};
 };
 
 static std::default_random_engine rnd_engine;

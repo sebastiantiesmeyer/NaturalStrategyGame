@@ -21,7 +21,7 @@ void GeneticGameMaster::addGames(Updater &games)
 			games.AddTask( /*LAMBDA START*/ [this, s1, s2](int iterations)->bool
 			{
 				std::shared_ptr<AbstractPlayer> p1, p2;
-				static OfficialGame *game = nullptr;
+				static std::shared_ptr<AbstractGame> game = nullptr;
 				
 				//INIT
 				if(iterations == 0)
@@ -30,7 +30,7 @@ void GeneticGameMaster::addGames(Updater &games)
 													   std::static_pointer_cast<AbstractTactic  >(strategy_pool[s1].gt));
 					p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(strategy_pool[s2].gs),
 													   std::static_pointer_cast<AbstractTactic  >(strategy_pool[s2].gt));
-					game = new OfficialGame(p1, p2, board_size);
+					game = std::make_shared<OfficialGame>(p1, p2, board_size);
 				}
 
 				//UPDATE
@@ -43,19 +43,18 @@ void GeneticGameMaster::addGames(Updater &games)
 				//CLEAN
 				if(score != glm::dvec2(0))
 				{
-					delete game;			   //update player fitness:
+					//delete game;			   //update player fitness:
 					strategy_pool[s1].fitness += (score[0] - score[1]);
 					strategy_pool[s2].fitness += (score[1] - score[0]);
-					return true; // return true when done
 				}
-				else return false; //game not ended
+				return score != glm::dvec2(0);
 			} /*LAMBDA END*/ );
 		}
 	}
 	//sort your strategies according to fitness:
 	games.AddTask( /*LAMBDA START*/ [this](int iterations)->bool
 	{
-		std::sort(strategy_pool.begin(), strategy_pool.end(), std::not2(std::less<strategy_wrapper>())); //first is the best
+		std::sort(strategy_pool.begin(), strategy_pool.end(), std::greater<strategy_wrapper>()); //first is the best
 
 		const float replace_ratio = 0.3; //The worst performing 2/3 goes extinct :oC
 		const int initial_pop = strategy_pool.size();
@@ -76,7 +75,7 @@ void GeneticGameMaster::addGames(Updater &games)
 			sw.gs->mutate(0.2);
 			sw.gt->mutate(0.2);
 
-			int n = (int)(std::rand()*strategy_pool.size());
+			int n = (int)(std::rand()%strategy_pool.size());
 
 			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.2);
 			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt -> weights1, 0.2);

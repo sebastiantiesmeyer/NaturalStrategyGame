@@ -44,7 +44,7 @@ protected:
 	Board board; //DON'T CHANGE 
 
 	int cycle = 0; //DON'T CHANGE the turn current turn or cycle number:
-	const int max_cycles = 5000; //game ends after max_cycles turnes/cycles.
+	const int max_cycles = 500; //game ends after max_cycles turnes/cycles.
 	bool player_0_done = false; //DON'T CHANGE 
 	bool player_1_done = false; //DON'T CHANGE
 	std::shared_ptr<const CommandQueue> queue0;
