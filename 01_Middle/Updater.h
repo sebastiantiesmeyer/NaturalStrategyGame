@@ -1,73 +1,48 @@
 #pragma once
-
-#pragma once
 #include <vector>
+#include <list>
 #include <functional>
-#include "abstract_game.h"
-#include "abstract_player.h"
-#include "official_game.h"
-#include "human_player.h"
-#include "super_player.h"
-#include "probabilistic_tactic.h"
-#include "cyborg_strategy.h"
-#include "simple_player.h"
 
-typedef std::function<bool(int)> update_function_type; //return true when done
+typedef std::function<bool(int)> update_function_type; //Function type that return true when done, see Updater class.
 
 class Updater
 {
 public:
-	void AddTask(const update_function_type &func)
-	{
-		tasks.push_back(func);
-	}
+	void AddHumanVsHuman(int game_size);
+	void AddCyborgVsHeuristics(int game_size);
+	void AddCyborgVsHuman(int game_size);
 
-	void AddHumanVsHuman(int game_size)
-	{
-		std::shared_ptr<AbstractGame> game = std::make_shared<OfficialGame>(
-			std::static_pointer_cast<AbstractPlayer>(std::make_shared<HumanPlayer>()),
-			std::static_pointer_cast<AbstractPlayer>(std::make_shared<HumanPlayer>()),
-			game_size);
-		tasks.push_back([=](int iters)->bool
-		{
-			game->Update();
-			game->Render();
-			return game->getPlayerScore() != glm::dvec2(0);
-		});
-	}
+	//Add an std::function object to the tasks
+	//The function should return true until the task is completed
+	//One argument: an integer: the number of times the function was called
+	//Suggestion: use lambdas, ex.: updater.Addtask( [w](int iterations)->bool {return iterations >= w;} ); //(waits w iterations)
+	inline void AddTask(const update_function_type &func) { tasks.push_back(func); }
+	
+	//memory can be freed up by deleting tasks that are not needed anymore
+	inline void PopFirstTask() { tasks.pop_front(); }
+	inline void PopLastTask() { tasks.pop_back(); }
+	inline void SkipCurrentTask() { ++current_task_it; }
+	inline void PreviousTask() { --current_task_it; }
+	inline void SetToFirstTask() { current_task_it = tasks.begin(); }
 
-	void AddCyborgVsHeuristics(int game_size)
+	//Call this in the main loop after the tasks have been set
+	//Calls the next task until it returns true, then the next one until all returned true
+	inline void Update()
 	{
-		std::shared_ptr<AbstractGame> game = std::make_shared<OfficialGame>(
-			std::static_pointer_cast<AbstractPlayer>(std::make_shared<SuperPlayer>(
-				std::static_pointer_cast<AbstractStrategy>(std::make_shared<CyborgStrategy>()),
-				std::static_pointer_cast<AbstractTactic>(std::make_shared<ProbabilisticTactic>())
-				)),
-			std::static_pointer_cast<AbstractPlayer>(std::make_shared<SimplePlayer>()),
-			game_size);
-		tasks.push_back([=](int iters)->bool
-		{
-			game->Update();
-			game->Render();
-			return game->getPlayerScore() != glm::dvec2(0);
-		});
-	}
-
-	void Update()
-	{
-		if(next_task_id < tasks.size())
-		{
-			bool b = tasks[next_task_id](iterations);
-			if(b)
-			{
-				iterations = 0;
-				++next_task_id;
-			}
-			else ++iterations;
+		if(current_task_it != tasks.end()) return; //when there is no task to execute, does nothing
+		if(current_task_it->operator()(iterations)) 
+		{	//go to next task
+			iterations = 0;
+			++current_task_it;
 		}
+		else ++iterations;
 	}
+
 private:
-	std::vector<update_function_type> tasks;
-	int next_task_id = 0;
-	int iterations = 0;
+	std::list<update_function_type> tasks; //tasks are functors of type int -> bool
+	std::list<update_function_type>::iterator current_task_it = tasks.begin(); //iterator pointing to next task to be executed
+	int iterations = 0;		//the iteration count of a given task
+
+	//int next_task_id = 0;	//the id of the task to be executed next
+	//std::vector<update_function_type> tasks; //tasks are functors of type int -> bool
 };

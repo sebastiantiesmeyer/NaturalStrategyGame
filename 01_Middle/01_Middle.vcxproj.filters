@@ -79,6 +79,9 @@
     <ClCompile Include="triad_tactic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Updater.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imgui\stb_rect_pack.h">
