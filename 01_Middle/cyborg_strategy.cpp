@@ -50,7 +50,7 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 				if(cell.id == selected[player])
 				{
 					textcolor = glm::vec4(1);
-					color = 1 - color;
+					color = 1.f - color;
 					color.w = 1;
 				}
 				else color += neighb;

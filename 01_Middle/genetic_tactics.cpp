@@ -18,20 +18,24 @@ GeneticTactics::GeneticTactics(int input, int output, int scope)
 
 //Weight matrix forward pass
 std::vector<float> GeneticTactics::wpass(std::vector<int> input) {
-	return forward_pass(weights,  input);
+	return forward_pass(weights0,  input);
 }
 
 //initiate weightts with some randomness
-void GeneticTactics::initiate_weights(float scope)
+void GeneticTactics::initiate_w0(float scope)
 {
-
-	initiate_abst_weights(weights, n_input, n_output, scope);
+	initiate_abst_weights(weights0, n_input, n_inter, scope);
 }
 
-//void GeneticTactics::initiate_gweights(float scope)
-//{
-//	initiate_abst_weights(gweights, scope);
-//}
+void GeneticTactics::initiate_w1(float scope)
+{
+	initiate_abst_weights(weights1, n_inter, n_output, scope);
+}
+
+void GeneticTactics::initiate_weights(float scope) {
+	initiate_w0(scope);
+	initiate_w1(scope);
+}
 
 void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
 {
@@ -61,20 +65,31 @@ std::vector<float> GeneticTactics::forward_pass(const matrix &lweights, const st
 //mutate weights
 void GeneticTactics::mutate(float scope)
 {
-	for (int i = 0; i < weights.size(); i++) {
-		for (int j = 0; j < weights[i].size(); j++) {
-			weights[i][j] += get_rand(-scope, scope);
+	for (int i = 0; i < weights0.size(); i++) {
+		for (int j = 0; j < weights0[i].size(); j++) {
+			weights0[i][j] += get_rand(-scope, scope);
 		}
 	}
+	for (int i = 0; i < weights1.size(); i++) {
+		for (int j = 0; j < weights1[i].size(); j++) {
+			weights1[i][j] += get_rand(-scope, scope);
+		}
+	}
+
 }
 
 //cross over with external weight matrix.
-void GeneticTactics::cross_over(matrix& genome, float scope)
+void GeneticTactics::cross_over(matrix& genome0, matrix& genome1, float scope)
 {
+	for (int i = 0; i < n_inter; i++) {
+		float r = get_rand(0, 1);
+		if (r < scope) continue;
+		genome0[i].swap(weights0[i]);
+	}
 	for (int i = 0; i < n_output; i++) {
 		float r = get_rand(0, 1);
-		if(r < scope) continue;
-		genome[i].swap(weights[i]);
+		if (r < scope) continue;
+		genome1[i].swap(weights1[i]);
 	}
 }
  

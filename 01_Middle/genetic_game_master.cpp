@@ -79,7 +79,7 @@ void GeneticGameMaster::addGames(Updater &games)
 			int n = (int)(std::rand()*strategy_pool.size());
 
 			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.2);
-			sw.gt->cross_over(strategy_pool[n].gt->weights, 0.2);
+			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt -> weights1, 0.2);
 		}
 		return true;
 	} /*LAMBDA END*/ );
