@@ -10,12 +10,6 @@ GeneticTactics::GeneticTactics(int input, int output, int scope)
 }
 
 
-//int * GeneticTactics::gpass(int input[]) {
-//	forward_pass(gweights, input);
-//}
-
-
-
 //Weight matrix forward pass
 std::vector<float> GeneticTactics::wpass(std::vector<int> input) {
 	return forward_pass(weights0,  input);
@@ -133,7 +127,9 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 	input[index] = unit.type;
 	index++;
-	input[index] = order_list[0].instruction[0];
+	for (auto order : order_list) {
+		input[index] = order_list[0].instruction[0];
+	}
 	index++;
 	input[index] = 1;
 	index++;
