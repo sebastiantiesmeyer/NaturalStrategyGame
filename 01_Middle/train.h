@@ -14,6 +14,6 @@ UNIT_TYPE train(const Units &units, int player)
 	float ps[3] = { 1,1,1 };
 	if(p0_units[0] * p0_units[1] * p0_units[2] == 0)
 	{
-		
+		ps[0] = (p0_units[0] == 0 ? 1 : 0);
 	}
 }

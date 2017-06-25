@@ -29,8 +29,8 @@ public:
 	//Calls the next task until it returns true, then the next one until all returned true
 	inline void Update()
 	{
-		if(current_task_it != tasks.end()) return; //when there is no task to execute, does nothing
-		if(current_task_it->operator()(iterations)) 
+		if(current_task_it == tasks.end()) return; //when there is no task to execute, does nothing
+		if((*current_task_it)(iterations)) 
 		{	//go to next task
 			iterations = 0;
 			++current_task_it;
@@ -40,7 +40,7 @@ public:
 
 private:
 	std::list<update_function_type> tasks; //tasks are functors of type int -> bool
-	std::list<update_function_type>::iterator current_task_it = tasks.begin(); //iterator pointing to next task to be executed
+	std::list<update_function_type>::iterator current_task_it = tasks.end(); //iterator pointing to next task to be executed
 	int iterations = 0;		//the iteration count of a given task
 
 	//int next_task_id = 0;	//the id of the task to be executed next
