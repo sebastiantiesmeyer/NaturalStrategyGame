@@ -1,6 +1,5 @@
 #pragma once
 #include "data_types.h"
-#include <array>
 
 struct Options
 {
