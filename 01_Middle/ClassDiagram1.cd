@@ -73,7 +73,7 @@
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>QAAAAAAAAAACAAAAAQAAAAAAAABAACAAAAAAAEAAAAA=</HashCode>
+      <HashCode>EAAACAAAAAACAAAAAQAAAAAAAABAACAAAAAAAAAAAAA=</HashCode>
       <FileName>genetic_game_master.h</FileName>
     </TypeIdentifier>
   </Class>
@@ -134,13 +134,6 @@
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAACAAAAAAAAgAAAAAAAAgAAAAAA=</HashCode>
       <FileName>triad_tactic.h</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="Updater">
-    <Position X="12.5" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAQAACAAAAAAAAAAQgAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
-      <FileName>Updater.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />

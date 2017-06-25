@@ -159,13 +159,10 @@
     <ClInclude Include="genetic_tactics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Updater.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="triad_tactic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Updater2.h">
+    <ClInclude Include="Updater.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
