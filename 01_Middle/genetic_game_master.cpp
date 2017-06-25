@@ -4,7 +4,7 @@
 #include "official_game.h"
 #include <random>
 #include <functional>
-
+#include <iostream>
 
 /*void GeneticGameMaster::play(int n_games)
 {
@@ -85,6 +85,7 @@ void GeneticGameMaster::initiate_players(int player_count)
 
 void GeneticGameMaster::createGames(int n_games)
 {
+	
 	for (int i = 0; i < n_games; i++)
 	{					//play multiple training games in a row
 		for (int s1 = 0; s1 < strategy_pool.size(); s1++)
@@ -96,13 +97,14 @@ void GeneticGameMaster::createGames(int n_games)
 				games.AddTask( //start of lambda
 					[](int iterations, void * in_params)->bool
 				{
+					std::shared_ptr<AbstractPlayer> p1, p2;
 					Parameters * params = static_cast<Parameters*>(in_params);
 					static OfficialGame *game = nullptr;
 					if (iterations == 0) //INIT
 					{
-						std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps1->gs),
+						p1 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps1->gs),
 							std::static_pointer_cast<AbstractTactic>(params->ps1->gt));
-						std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps2->gs),
+						p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(params->ps2->gs),
 							std::static_pointer_cast<AbstractTactic>(params->ps2->gt));
 						game = new OfficialGame(p1, p2, params->board_size);
 					}
@@ -110,6 +112,7 @@ void GeneticGameMaster::createGames(int n_games)
 					//UPDATE
 					params->ps1->gs->activate();
 					params->ps2->gs->activate();
+					
 					game->Update();
 					game->Render();
 
