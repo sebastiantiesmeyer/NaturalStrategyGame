@@ -4,7 +4,7 @@
 #include "genetic_tactics.h"
 #include "genetic_strategy.h"
 #include <random>
-#include "Updater2.h"
+#include "Updater.h"
 #include "official_game.h"
 
 struct strategy_wrapper
@@ -56,7 +56,7 @@ public:
 
 	std::vector<Parameters> params;
 
-	void addGames(Updater2 &games);
+	void addGames(Updater &games);
 
 private:
 

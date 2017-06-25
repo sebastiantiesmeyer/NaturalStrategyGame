@@ -130,9 +130,8 @@
     <ClInclude Include="simple_player.h" />
     <ClInclude Include="super_player.h" />
     <ClInclude Include="Tester.h" />
-    <ClInclude Include="Updater.h" />
     <ClInclude Include="triad_tactic.h" />
-    <ClInclude Include="Updater2.h" />
+    <ClInclude Include="Updater.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -12,7 +12,7 @@ void GeneticGameMaster::initiate_players(int player_count)
 }
 
 
-void GeneticGameMaster::addGames(Updater2 &games)
+void GeneticGameMaster::addGames(Updater &games)
 {
 	for(int s1 = 0; s1 < strategy_pool.size(); s1++)
 	{	//let each player compete against..
