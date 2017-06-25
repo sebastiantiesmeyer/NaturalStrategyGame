@@ -45,7 +45,7 @@ void GeneticStrategy::explore()
 	input[index] = 1;
 }
 
-GeneticStrategy::GeneticStrategy(int input, int output, int scope)
+GeneticStrategy::GeneticStrategy(int input, int output, float scope)
 {
 	n_input = input;
 	n_output = output;
@@ -120,5 +120,68 @@ void GeneticStrategy::cross_over(matrix& genome, float scope)
 		genome[i].swap(weights[i]);
 	}
 }
+void GeneticStrategy::Render()
+{
+	char buff[256];
 
+	float current_training_time = (*unit_progress).current_train_time;
 
+	sprintf_s(buff, "%d/%d", (*unit_progress).progress[ROCK], (int)current_training_time);
+	ImGui::RadioButton("Rock", (int*)&whattotrain, (int)ROCK); ImGui::SameLine(100);
+	if (whattotrain == ROCK) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+	ImGui::ProgressBar((*unit_progress).progress[ROCK] / current_training_time, { -1,0 }, buff);
+	if (whattotrain == ROCK) ImGui::PopStyleColor();
+
+	sprintf_s(buff, "%d/%d", (*unit_progress).progress[SCISSOR], (int)current_training_time);
+	ImGui::RadioButton("Scissor", (int*)&whattotrain, (int)SCISSOR); ImGui::SameLine(100);
+	if (whattotrain == SCISSOR) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+	ImGui::ProgressBar((*unit_progress).progress[SCISSOR] / current_training_time, { -1,0 }, buff);
+	if (whattotrain == SCISSOR) ImGui::PopStyleColor();
+
+	sprintf_s(buff, "%d/%d", (*unit_progress).progress[PAPER], (int)current_training_time);
+	ImGui::RadioButton("Paper", (int*)&whattotrain, (int)PAPER); ImGui::SameLine(100);
+	if (whattotrain == PAPER) ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1,0.5,1,1 });
+	ImGui::ProgressBar((*unit_progress).progress[PAPER] / current_training_time, { -1,0 }, buff);
+	if (whattotrain == PAPER) ImGui::PopStyleColor();
+
+	ImGui::Separator();
+
+	const char* names[3] = { "ROCK", "SCIZZOR", "PAPER" };
+
+	//give_orders(*board, *units, allorders, player);
+
+	if (!ImGui::BeginChild("Order editor", { 0,300 }, true))
+	{
+		ImGui::EndChild();
+		return;
+	}
+
+	ImGui::Separator();
+	ImGui::SliderInt("Wait till next turn", &wait, 0, 5000);
+	ImGui::ProgressBar((float)iterations / (float)wait, { -1,0 }, "Next turn");
+	if (ImGui::Button("Next turn now")) iterations = wait;
+
+	ImGui::Separator();
+	for (auto& orderlist : allorders)
+	{
+		if (!units->count(orderlist.first)) continue;
+		const Unit & unit = units->at(orderlist.first);
+		orderlist.second.resize(1);		//ONLY ONE ORDER PER UNIT
+		Order &order = orderlist.second[0];
+		ImGui::PushID(unit.id);
+		ImGui::Text("%s, pos = (%d,%d), id = %d",
+			names[unit.type], unit.pos.x, unit.pos.y, unit.id);
+		ImGui::SliderInt2("Target", &order.target.x, 0, board->size(), "%f");
+		ImGui::Text("(%d, %d)", order.target.x, order.target.y);
+		if (ImGui::SmallButton("Home base ")) order.target = Position{ 0,0 };
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Enemy base")) order.target = Position{ board->size(),board->size() };
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Outpost TR")) order.target = Position{ board->size(),0 };
+		ImGui::SameLine();
+		if (ImGui::SmallButton("Outpost BL")) order.target = Position{ 0, board->size() };
+		ImGui::DragFloat("Sacrifice", &order.sacrifice, 0.05, 0, 1);
+		ImGui::PopID();
+	}
+	ImGui::EndChild();
+}

@@ -86,7 +86,7 @@ int main( int argc, char* args[] )
 
 	Updater gametasks;
 
-	gametasks.AddCyborgVsHeuristics(10);
+	//gametasks.AddCyborgVsHeuristics(10);
 
 	GeneticGameMaster ggm = GeneticGameMaster(5, 2);
 	//ggm.createGames(1);

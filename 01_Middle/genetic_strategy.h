@@ -5,13 +5,15 @@
 class GeneticStrategy : public AbstractStrategy {
 public:
 
-	GeneticStrategy(int n_input=16, int n_output = 5, int scope = 0.2);
+	GeneticStrategy(int n_input=16, int n_output = 5, float scope = 0.2);
 
 	void activate();
 
 	void mutate(float scope);
 
 	void cross_over(matrix & genome, float scope);
+
+	void Render();
 
 	virtual UNIT_TYPE train();
 	virtual void changeOrders(AllOrders &orders);

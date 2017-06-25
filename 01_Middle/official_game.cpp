@@ -1,4 +1,5 @@
 #include "official_game.h"
+#include <iostream>
 
 bool OfficialGame::did_loose_player(int player)
 {
@@ -41,6 +42,7 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 		board(pos, player).id = largest_id[player]; //updating cell
 		board(pos, player).unit = &units.at(largest_id[player]);*/
 		create_unit(pos, player, what_to_train); //NEW
+		//std::cout << "You created a " << what_to_train << ".\n";
 		unit_progress.progress[what_to_train] = 0; // reset training
 		++unit_progress.total_time; //incresing construction times
 	}
