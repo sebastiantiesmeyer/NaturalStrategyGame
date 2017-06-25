@@ -7,7 +7,15 @@ UNIT_TYPE GeneticStrategy::train()
 }
 
 void GeneticStrategy::changeOrders(AllOrders &orders)
-{}
+{
+	for (auto o : orders)
+	{
+		for (auto it = o.second.begin(); it != o.second.end(); it++)
+		{
+			it->instruction = &(output[0]);
+		}
+	}
+}
 
 void GeneticStrategy::explore()
 {

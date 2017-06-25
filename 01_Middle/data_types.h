@@ -144,7 +144,7 @@ struct Order
 							//  0.0 means it will run from the same kind
 							//  0.5 means it will not run, but will not attack either
 							//  1.0 means it will attack its kind
-	std::vector<int> instruction = { 0, 0, 0, 0, 0, 0 };
+	float* instruction = nullptr;
 };
 
 typedef std::vector<Order> OrderList; // First order is the top-priority order

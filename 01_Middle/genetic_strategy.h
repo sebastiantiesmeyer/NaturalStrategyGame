@@ -19,7 +19,7 @@ public:
 	void explore();
 
 	std::vector<int> input;
-	std::vector<float> output = std::vector<float> (5,0.0);
+	std::vector<float> output = std::vector<float>(5, 0.0);
 
 	AllOrders allorders;
 	bool endturn = false;
