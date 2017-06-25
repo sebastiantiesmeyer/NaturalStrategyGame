@@ -154,6 +154,6 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 		cmd.dir[1] = (cmd_int / 2) * 2 - 1;
 		
 	}
-	std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
+	//std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
 	return cmd;
 }
