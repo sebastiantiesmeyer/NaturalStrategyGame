@@ -133,7 +133,7 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 	input[index] = unit.type;
 	index++;
-	input[index] = 1;
+	input[index] = order_list[0].instruction[0];
 	index++;
 	input[index] = 1;
 	index++;
