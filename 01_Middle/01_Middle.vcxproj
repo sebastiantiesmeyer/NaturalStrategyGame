@@ -131,6 +131,7 @@
     <ClInclude Include="simple_player.h" />
     <ClInclude Include="super_player.h" />
     <ClInclude Include="Tester.h" />
+    <ClInclude Include="train.h" />
     <ClInclude Include="triad_tactic.h" />
     <ClInclude Include="Updater.h" />
   </ItemGroup>
