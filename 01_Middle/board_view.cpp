@@ -46,7 +46,7 @@ void view_board(const Board &board)
 				}
 			}
 			ImGui::PushID(j);
-			ImGui::PushStyleColor(ImGuiCol_Button, normal);
+			ImGui::PushStyleColor(ImGuiCol_Button, color*normal);
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, color*hoover);
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, color*active);
 

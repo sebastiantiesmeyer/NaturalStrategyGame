@@ -19,18 +19,12 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 		for(int j = 0; j < game_size; ++j)
 		{
 			glm::vec4 color = glm::mix(base0, base1, glm::vec4(j / (float)(game_size - 1)));
-			glm::vec4 textcolor = glm::vec4(1,1,1,1);
+			glm::vec4 textcolor = glm::vec4(0.9);
 			Position pos = Position(i, j);
 			const Cell &cell = board(pos, player);
 
 			if(i == game_size - 1 && j == game_size - 1) color = glm::mix(color, enemys, interp);
 			else if(i == 0 && j == 0)					 color = glm::mix(color, fridly, interp);
-
-			if(selected[player] != 0) //a selection is active
-			{
-				if(cell.id == selected[player])	textcolor *= 0.5;
-				else							color += neighb;
-			}
 
 			if(cell.unit && cell.unit->player == player)
 				color = glm::mix(color, fridly, interp);
@@ -49,6 +43,17 @@ void give_orders(const Board &board, const Units &units, AllOrders &allorders, i
 				if(op == -1)			color = glm::mix(color, naturl, interp);
 				else if(op == player)	color = glm::mix(color, fridly, interp);
 				else					color = glm::mix(color, enemys, interp);
+			}
+
+			if(selected[player] != 0) //a selection is active
+			{
+				if(cell.id == selected[player])
+				{
+					textcolor = glm::vec4(1);
+					color = 1 - color;
+					color.w = 1;
+				}
+				else color += neighb;
 			}
 
 			ImGui::PushID(j);
