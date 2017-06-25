@@ -149,11 +149,15 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 	Command cmd;
 	if (cmd_int == 4) cmd.dir = Dir{ 0,0 };
-	else {
-		cmd.dir[0] = (cmd_int % 2) * 2 - 1;
-		cmd.dir[1] = (cmd_int / 2) * 2 - 1;
-		
-	}
-	//std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
+	else if (cmd_int == 0) cmd.dir = { 1,0 };
+	else if (cmd_int == 1) cmd.dir = { -1,0 };
+	else if (cmd_int == 2) cmd.dir = { 0,1 };
+	else if (cmd_int == 3) cmd.dir = { 0,-1 };
+
+		//[0] = (cmd_int % 2) * 2 - 1;
+		//cmd.dir[1] = (cmd_int / 2) * 2 - 1;
+	
+	cmd.id = unit.id;
+	std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
 	return cmd;
 }

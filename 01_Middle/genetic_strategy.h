@@ -13,6 +13,8 @@ public:
 
 	void cross_over(matrix & genome, float scope);
 
+	void Render();
+
 	virtual UNIT_TYPE train();
 	virtual void changeOrders(AllOrders &orders);
 
