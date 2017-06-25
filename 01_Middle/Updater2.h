@@ -12,7 +12,7 @@
 #include "cyborg_strategy.h"
 #include "simple_player.h"
 
-typedef std::function<bool(int)> update_function_type;
+typedef std::function<bool(int)> update_function_type; //return true when done
 
 class Updater2
 {
