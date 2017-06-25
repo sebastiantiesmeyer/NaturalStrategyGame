@@ -3,7 +3,7 @@
 
 UNIT_TYPE GeneticStrategy::train()
 {
-	return UNIT_TYPE(); //TODO! It has to decide what unit to train
+	return UNIT_TYPE(std::min(0,std::max(((int)output[4]),2))); //get the unit type, an int value between 0 and 2
 }
 
 void GeneticStrategy::changeOrders(AllOrders &orders)
