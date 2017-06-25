@@ -1,6 +1,7 @@
 #include "genetic_tactics.h"
 #include "local.h"
 #include <iostream>
+#include <ctime>
 
 GeneticTactics::GeneticTactics(int input, int output, float scope)
 {
@@ -33,7 +34,7 @@ void GeneticTactics::initiate_weights(float scope) {
 
 void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
 {
-	srand(6);
+	srand((int)time(0));
 	lweights.resize(n_output);
 	for (int i = 0; i < lweights.size(); i++) {
 		lweights[i].resize(n_input);
@@ -151,8 +152,8 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 	if (cmd_int == 4) cmd.dir = Dir{ 0,0 };
 	else if (cmd_int == 0) cmd.dir = { 1,0 };
 	else if (cmd_int == 1) cmd.dir = { -1,0 };
-	else if (cmd_int == 2) cmd.dir = { 0,1 };
-	else if (cmd_int == 3) cmd.dir = { 0,-1 };
+	else if (cmd_int == 2) cmd.dir = { 0,-1 };
+	else if (cmd_int == 3) cmd.dir = { 0,1 };
 
 		//[0] = (cmd_int % 2) * 2 - 1;
 		//cmd.dir[1] = (cmd_int / 2) * 2 - 1;
