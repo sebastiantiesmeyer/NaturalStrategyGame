@@ -1,8 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ClassDiagram MajorVersion="1" MinorVersion="1">
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
   <Class Name="AbstractGame">
-    <Position X="7.5" Y="0.5" Width="1.5" />
+    <Position X="4.75" Y="0.5" Width="2.75" />
     <Members>
+      <Method Name="~AbstractGame" Hidden="true" />
+      <Method Name="AbstractGame" Hidden="true" />
       <Field Name="board" Hidden="true" />
       <Field Name="cycle" Hidden="true" />
       <Field Name="largest_id" Hidden="true" />
@@ -18,122 +20,260 @@
       <Field Name="units" Hidden="true" />
     </Members>
     <TypeIdentifier>
-      <HashCode>ABwIAAABAAAAAAoAoIBYAABAAAAQQBABIBAAAAQACAI=</HashCode>
+      <HashCode>ABwIAAABAAAAAAoAoIBYAABAAAAQQBABIBAAACQACAI=</HashCode>
       <FileName>abstract_game.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AbstractPlayer">
-    <Position X="2.5" Y="0.5" Width="1.5" />
-    <Compartments>
-      <Compartment Name="Fields" Collapsed="true" />
-    </Compartments>
+    <Position X="1.75" Y="0.5" Width="2.75" />
+    <Members>
+      <Method Name="~AbstractPlayer" Hidden="true" />
+      <Method Name="AbstractPlayer" Hidden="true" />
+      <Field Name="iteration" Hidden="true" />
+      <Field Name="player" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAYIAAAABAAAAAAAIAJAEAIAAAAQABABIDAAAAAQAAA=</HashCode>
+      <HashCode>AAYIAAAABAAAAAAAIAJAEAIAAAAQABABIDAAAAQAAAA=</HashCode>
       <FileName>abstract_player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AbstractStrategy">
-    <Position X="0.5" Y="5" Width="1.5" />
+    <Position X="0.5" Y="5.75" Width="1.5" />
+    <Members>
+      <Method Name="~AbstractStrategy" Hidden="true" />
+      <Method Name="AbstractStrategy" Hidden="true" />
+    </Members>
     <Compartments>
       <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>AAQYAAAAIAAAAAAAAABAAAAAAAEQAAABKBAAAAAAAAA=</HashCode>
+      <HashCode>AAQYAAAAIAAAAAAAAABAAABAAAEQAAABKBAAAAAAAAA=</HashCode>
       <FileName>abstract_strategy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AbstractTactic">
-    <Position X="4.5" Y="5" Width="1.5" />
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <Members>
+      <Method Name="~AbstractTactic" Hidden="true" />
+      <Method Name="AbstractTactic" Hidden="true" />
+      <Field Name="board" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAAAAAgAAAAAAAAAAQAAAAAAAAAgAAAAIAAAAAAAAAA=</HashCode>
+      <HashCode>AAABAAgAAAAAAAAAAQAAAAAAAAAgAAAAIAAAAAAAAAA=</HashCode>
       <FileName>abstract_tactics.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BattleArena">
-    <Position X="9.25" Y="4.5" Width="1.5" />
+    <Position X="7.25" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="~BattleArena" Hidden="true" />
+      <Method Name="BattleArena" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACI=</HashCode>
+      <HashCode>AAgAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAACI=</HashCode>
       <FileName>battle_arena.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CyborgStrategy" Collapsed="true">
-    <Position X="0.5" Y="7.75" Width="1.5" />
+  <Class Name="CyborgStrategy">
+    <Position X="0.5" Y="8.25" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAQQAAAAIAAAAAAAAgABAAAAAAAAgBAEABAAAAAAAAg=</HashCode>
+      <HashCode>AAQQAAAAIAAAAAAAAgABAAAAAAAAgBAEABAgAAAAAAg=</HashCode>
       <FileName>cyborg_strategy.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="GeneticGameMaster">
-    <Position X="10.25" Y="0.5" Width="1.75" />
+    <Position X="7.75" Y="0.5" Width="2.75" />
+    <Members>
+      <Field Name="board_size" Hidden="true" />
+      <Method Name="GeneticGameMaster" Hidden="true" />
+      <Field Name="speedup" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
     <NestedTypes>
-      <Struct Name="GeneticGameMaster::Parameters" Collapsed="true">
+      <Struct Name="GeneticGameMaster::strategy_wrapper">
+        <Members>
+          <Field Name="n_input_strategy" Hidden="true" />
+          <Field Name="n_input_tactics" Hidden="true" />
+          <Field Name="n_output_strategy" Hidden="true" />
+          <Field Name="n_output_tactics" Hidden="true" />
+          <Field Name="scope" Hidden="true" />
+        </Members>
+        <Compartments>
+          <Compartment Name="Methods" Collapsed="true" />
+        </Compartments>
         <TypeIdentifier>
           <NewMemberFileName>genetic_game_master.h</NewMemberFileName>
         </TypeIdentifier>
       </Struct>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>EAAACAAAAAACAAAAAQAAAAAAAABAACAAAAAAAAAAAAA=</HashCode>
+      <HashCode>EAAACAAAAAAAAAAAAQAAAAAAAABAACAAAAAAAQAAAAA=</HashCode>
       <FileName>genetic_game_master.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GeneticStrategy" Collapsed="true">
-    <Position X="2.25" Y="7.75" Width="1.5" />
+  <Class Name="GeneticStrategy">
+    <Position X="2.25" Y="6.75" Width="1.25" />
+    <Members>
+      <Method Name="~GeneticStrategy" Hidden="true" />
+      <Field Name="allorders" Hidden="true" />
+      <Field Name="endturn" Hidden="true" />
+      <Method Name="GeneticStrategy" Hidden="true" />
+      <Method Name="initiate_weights" Hidden="true" />
+      <Field Name="input" Hidden="true" />
+      <Field Name="iterations" Hidden="true" />
+      <Field Name="output" Hidden="true" />
+      <Field Name="wait" Hidden="true" />
+      <Field Name="weights" Hidden="true" />
+      <Field Name="whattotrain" Hidden="true" />
+    </Members>
+    <InheritanceLine Type="AbstractStrategy">
+      <InheritanceModifierLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.192" Y="0.029" Height="0.182" Width="0.552" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AgMQAAAAICAAAAAACgAJQAAQCAAIQBCEAAAAAAAAAEg=</HashCode>
+      <HashCode>AgEQAAAAICAAAAAAGgApQAAACAAIQBAEABAAAAAAAEg=</HashCode>
       <FileName>genetic_strategy.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="GeneticTactics" Collapsed="true">
-    <Position X="5.75" Y="7.75" Width="1.5" />
+  <Class Name="GeneticTactics">
+    <Position X="3.75" Y="6.75" Width="1.25" />
+    <Members>
+      <Method Name="~GeneticTactics" Hidden="true" />
+      <Field Name="alpha" Hidden="true" />
+      <Method Name="GeneticTactics" Hidden="true" />
+      <Field Name="weights0" Hidden="true" />
+      <Field Name="weights1" Hidden="true" />
+    </Members>
+    <NestedTypes>
+      <Typedef Name="GeneticTactics::strang" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>genetic_tactics.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+      <Typedef Name="GeneticTactics::matrix" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>genetic_tactics.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <InheritanceLine Type="AbstractTactic">
+      <InheritanceModifierLabel ManuallyPlaced="true" ManuallySized="true">
+        <Position X="-0.161" Y="0.143" Height="0.182" Width="0.542" />
+      </InheritanceModifierLabel>
+    </InheritanceLine>
     <TypeIdentifier>
-      <HashCode>AgIAAAAAACAAAAAAAAAIAAAQAAAoQACAAAAAAAAAAEI=</HashCode>
+      <HashCode>AgAAAAAAACAAAABgAAEoAAAQAAAoAAAACAAQAAAAAEI=</HashCode>
       <FileName>genetic_tactics.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="HumanPlayer" Collapsed="true">
-    <Position X="0.75" Y="3.75" Width="1.5" />
+    <Position X="0.5" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAACAAAAIAABAAAAAAIAAAAAACAAAAAAAAQ=</HashCode>
+      <HashCode>AAIAAAAAAAACAAABIAABAAAAAAIAAAAAACAAAAAAAAQ=</HashCode>
       <FileName>human_player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="OfficialGame">
-    <Position X="7.25" Y="4.5" Width="1.5" />
+    <Position X="9" Y="5" Width="1.5" />
+    <Members>
+      <Method Name="~OfficialGame" Hidden="true" />
+      <Method Name="OfficialGame" Hidden="true" />
+    </Members>
     <TypeIdentifier>
-      <HashCode>AAgAAAIACAAAAAAAAAAAAQAAAgAAAAAAAAAAAAAAAAI=</HashCode>
+      <HashCode>AAgAAAIACAAAAAAAAAAAAQAAAgAAAAAEAAAAACAAAAI=</HashCode>
       <FileName>official_game.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="ProbabilisticTactic" Collapsed="true">
-    <Position X="4" Y="7.75" Width="1.5" />
+  <Class Name="ProbabilisticTactic">
+    <Position X="5.25" Y="7.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="ProbabilisticTactic::Options">
+        <NestedTypes>
+          <Struct Name="ProbabilisticTactic::Options::__unnamed_struct_0028_2" Collapsed="true">
+            <TypeIdentifier>
+              <NewMemberFileName>probabilistic_tactic.h</NewMemberFileName>
+            </TypeIdentifier>
+          </Struct>
+        </NestedTypes>
+        <TypeIdentifier>
+          <NewMemberFileName>probabilistic_tactic.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAgAAAAAAAQAAAAAAA=</HashCode>
       <FileName>probabilistic_tactic.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SimplePlayer" Collapsed="true">
-    <Position X="4.25" Y="3.75" Width="1.5" />
+    <Position X="5.25" Y="4.75" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
     <TypeIdentifier>
-      <HashCode>AAIAAAAAAAAAAAAAMAABBAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+      <HashCode>AAIAAAAAIAAAAAAAMAABBAAAAAAAAAAAACAAAAAAAAA=</HashCode>
       <FileName>simple_player.h</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="SuperPlayer">
-    <Position X="2.5" Y="4.75" Width="1.5" />
+    <Position X="2.25" Y="4.75" Width="2.75" />
+    <Members>
+      <Field Name="all_orders" Hidden="true" />
+    </Members>
     <Compartments>
       <Compartment Name="Methods" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>EAIAAAAAAAAAAAAAIAICAAAAAAAgAAAEACAAAAAAAAA=</HashCode>
+      <HashCode>EAIAAAAAAAAAAAAQIAICAAAAAAAgAAAEACAAAAAAAAA=</HashCode>
       <FileName>super_player.h</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="TriadTactic" Collapsed="true">
-    <Position X="7.5" Y="7.75" Width="1.5" />
+  <Class Name="TriadTactic">
+    <Position X="7.75" Y="7.5" Width="1.5" />
+    <Members>
+      <Method Name="TriadTactic" Hidden="true" />
+    </Members>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAACAAAAAAAAgAAAAAAAAgAAAAAA=</HashCode>
       <FileName>triad_tactic.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Updater">
+    <Position X="10.75" Y="0.5" Width="2.5" />
+    <Members>
+      <Method Name="PopLastTask" Hidden="true" />
+      <Method Name="PreviousTask" Hidden="true" />
+      <Method Name="SkipCurrentTask" Hidden="true" />
+    </Members>
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Typedef Name="Updater::update_function_type" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>Updater.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Typedef>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAQgACAADAAAAAAAAgIAAABAAAAAAAhAACAAAIAEAAA=</HashCode>
+      <FileName>Updater.h</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
