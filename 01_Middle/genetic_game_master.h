@@ -40,6 +40,8 @@ struct strategy_wrapper
 
 class GeneticGameMaster
 {
+private:
+	const int speedup = 5;
 public:
 
 	GeneticGameMaster(int board_size, int player_count) : board_size(board_size), strategy_pool(player_count)

@@ -38,7 +38,9 @@ std::vector<float> GeneticTactics::forward_pass(const std::vector<int> &input)
 {
 	//std::vector<float> inter = w0pass(input);
 	std::vector<float> float_input(input.begin(), input.end());
-	return matvecmul(weights1, matvecmul(weights0, float_input));
+	float_input = matvecmul(weights0, float_input);
+	float_input.push_back(1.f);
+	return matvecmul(weights1, float_input);
 }
 
 void GeneticTactics::initiate_weights(float scope) {
@@ -97,13 +99,29 @@ void GeneticTactics::cross_over(matrix& genome0, matrix& genome1, float ratio)
 //virtual functions:
 Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 {
-	Options options;
 	std::vector<int>input(n_input);
 	//collect information into the input vector;
 
+	input[0] = unit.pos.x;
+	input[1] = unit.pos.y;
+	const Dir neighbours[8] = { Dir(-1,-1), Dir(-1, 0) , Dir(-1,+1) , Dir( 0,+1),
+								Dir(+1,+1) ,Dir(+1,0) ,Dir(+1,-1) , Dir(0,-1) };
+	for(int i = 0; i < 8; ++i)
+	{
+		Position pos = neighbours[i];
+		if(pos.x < 0 || pos.y < 0 || pos.x >= board->size() || pos.y >= board->size())
+			input[2 + i] = -2;
+		else
+		{
+			Unit *other_unit = board->at(pos).unit;
+			if(!other_unit)   input[2 + i] = 0;
+			else if(other_unit && other_unit->player == unit.player) input[2+i] = -1;
+			else input[2 + i] = (unit.type - other_unit->type + 3) % 3;
+		}
+	}
 	int index = 0;
 	//surrounding squares:
-	for (int i = -1; i <= 1; i++) {
+	/*for (int i = -1; i <= 1; i++) {
 		for (int j = -1; j <= 1; j++) {
 			if (i == 0 && j == 0) {
 				//own position
@@ -124,25 +142,25 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 					if (!other_unit)   input[index] = 0;
 					else if (other_unit && other_unit->player == unit.player) input[index] = -1;
 					else input[index] = (unit.type - other_unit->type) % 3 + 2;
-					index++;
 				}
-
+				index++;
 			}
-
 		}
+	}*/
+	input[10] = unit.type;
+	input[11] = order_list[0].instruction[0];
+	input[12] = order_list[0].instruction[1];
+	input[13] = order_list[0].instruction[2];
+	input[14] = 1;
 
-	}
-
-	input[index] = unit.type;
+	/*input[index] = unit.type;
 	index++;
 	for (auto order : order_list) {
 		input[index] = order_list[0].instruction[0];
 	}
 	index++;
 	input[index] = 1;
-	index++;
-
-
+	index++;*/
 
 	std::vector<float> output = forward_pass(input);
 

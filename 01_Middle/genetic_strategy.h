@@ -4,9 +4,13 @@
 
 class GeneticStrategy : public AbstractStrategy
 {
+private:
+	int n_output = 4;
+	int n_input = 16;
+	float scope = 8.f;
 public:
 
-	GeneticStrategy(int n_input=16, int n_output = 5, float scope = 10.f);
+	GeneticStrategy();
 	~GeneticStrategy() {}
 	void activate();
 
@@ -37,9 +41,5 @@ private:
 	//void initiate_abst_weights(matrix &lweights, int n_input, int n_output, float scope);
 
 	std::vector<float> forward_pass(const matrix & lweights, const std::vector<int>& input);
-
 	std::vector<float> wpass(std::vector<int> input);
-
-	int n_output;
-	int n_input;
 };

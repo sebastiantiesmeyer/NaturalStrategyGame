@@ -34,13 +34,16 @@ void GeneticGameMaster::addGames(Updater &games)
 													std::static_pointer_cast<AbstractTactic  >(strategy_pool[s2].gt));
 					game = new OfficialGame(p1, p2, board_size);
 				}
-
-				//UPDATE
-				strategy_pool[s1].gs->activate();
-				strategy_pool[s2].gs->activate();
-				game->Update();
-				game->Render();
 				glm::dvec2 score = game->getPlayerScore();
+				//UPDATE
+				for(int i = 0; i < speedup && score == glm::dvec2(0); ++i)
+				{
+					strategy_pool[s1].gs->activate();
+					strategy_pool[s2].gs->activate();
+					game->Update();
+					score = game->getPlayerScore();
+				}
+				game->Render();
 
 				//CLEAN
 				if(score != glm::dvec2(0))
@@ -77,10 +80,12 @@ void GeneticGameMaster::addGames(Updater &games)
 		{
 			strategy_pool.push_back(strategy_pool[i]);
 		}
-
+		int i = 0;
 		//Some mutations & cross-overs ( -> love <3 )
 		for(strategy_wrapper sw : strategy_pool)
 		{
+			std::cout << "Player " << i << " fitness: " << sw.fitness << std::endl;
+			++i;
 			sw.gs->mutate(0.4f);
 			sw.gt->mutate(0.4f);
 
@@ -88,6 +93,7 @@ void GeneticGameMaster::addGames(Updater &games)
 
 			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.05f);
 			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt -> weights1, 0.05f);
+			sw.fitness = 0;
 		}
 		return true;
 	} /*LAMBDA END*/ );

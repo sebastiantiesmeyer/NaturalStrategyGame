@@ -8,9 +8,10 @@ typedef std::vector<strang> matrix;
 class GeneticTactics : public AbstractTactic
 {
 private:
-	int n_input = 13;
-	int n_inter = 5;
+	int n_input = 15;
 	int n_output = 5;
+	float alpha = 0.6f;
+	int n_inter = (int)(n_input*(1 - alpha) + n_output * alpha);
 	float scope = 6.f;
 public:
 

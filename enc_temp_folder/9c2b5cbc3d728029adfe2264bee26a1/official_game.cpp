@@ -48,14 +48,14 @@ double OfficialGame::get_secondary_score(int player) const
 	const float S_base_captured = unit_progress[player]->enemy_base_captured;
 
 /*PARAMETERS TO SET*/
-	const float W_unit_ratio	= 3.0f;
-	const float W_unit_type_div	= 1.1f;
-	const float W_outpost_cnt	= 4.0f;
-	const float W_avg_dist		= 0.2f;
-	const float W_base_captured	= 5.0f;
+	const float W_unit_ratio	= 3.f;
+	const float W_unit_type_div	= 0.1;
+	const float W_outpost_cnt	= 3.f;
+	const float W_avg_dist		= 0.1f;
+	const float W_base_captured	= 10.f;
 
-	const double W_final		= 0.16;
-	const double M_max_final	= 0.13;
+	const double W_final		= 0.15;
+	const double M_max_final	= 0.09;
 /*=================*/
 
 	double weighted_score_sum = W_unit_ratio * S_unit_ratio + W_unit_type_div * S_unit_type_div

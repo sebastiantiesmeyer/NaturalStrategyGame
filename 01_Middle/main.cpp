@@ -88,15 +88,16 @@ int main( int argc, char* args[] )
 	srand((int)time(0));
 	Updater gametasks;
 
+	const int rounds = 30;
+
 	//gametasks.AddCyborgVsHeuristics(10);
 
-	GeneticGameMaster ggm = GeneticGameMaster(5, 9);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 12);
 	//ggm.createGames(1);
-	ggm.addGames(gametasks);
-	ggm.addGames(gametasks);
-	ggm.addGames(gametasks);
-	ggm.addGames(gametasks);
-	ggm.addGames(gametasks);
+	for(int i = 0; i < rounds; ++i)
+	{
+		ggm.addGames(gametasks);
+	}
 
 	gametasks.SetToFirstTask();
 
