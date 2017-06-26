@@ -31,7 +31,7 @@ public:
 		bool operator <(const strategy_wrapper& p) const
 		{	//const after the function means that it does not change the class.
 			//we need this, so std::less can work with it
-			return fitness < p.fitness;
+			return fitness > p.fitness;
 		};
 		strategy_wrapper() = default;
 		strategy_wrapper(const strategy_wrapper &other)

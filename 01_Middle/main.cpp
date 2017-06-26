@@ -93,6 +93,9 @@ int main( int argc, char* args[] )
 
 	GeneticGameMaster ggm = GeneticGameMaster(5, 15);
 	//ggm.createGames(1);
+	for(int i=0; i < rounds; ++i)
+			ggm.addSimpleGames(gametasks);
+	ggm.addSort(gametasks);
 	for(int i = 0; i < rounds; ++i)
 	{
 		for(int i = 0; i < rounds - i; ++i)
