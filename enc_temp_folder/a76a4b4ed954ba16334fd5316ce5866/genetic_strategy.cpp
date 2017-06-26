@@ -75,9 +75,23 @@ std::vector<float> GeneticStrategy::wpass(std::vector<int> input) {
 //initiate weights with some randomness
 void GeneticStrategy::initiate_weights(float scope)
 {
-	//initiate_abst_weights(weights, n_input, n_output, scope);
-	for(auto &row: weights)	for (auto &elm : row)
-			elm = get_rand(-scope, scope);
+	initiate_abst_weights(weights, n_input, n_output, scope);
+}
+
+//void GeneticTactics::initiate_gweights(float scope)
+//{
+//	initiate_abst_weights(gweights, scope);
+//}
+
+void GeneticStrategy::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
+{
+	lweights.resize(n_output);
+	for (int i = 0; i < lweights.size(); i++) {
+		lweights[i].resize(n_input);
+		for (int j = 0; j < lweights[i].size(); j++) {
+			lweights[i][j] = get_rand(-scope, scope);
+		}
+	}
 }
 
 std::vector<float> GeneticStrategy::forward_pass(const matrix &lweights, const std::vector<int> &input)

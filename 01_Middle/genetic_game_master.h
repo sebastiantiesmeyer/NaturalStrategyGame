@@ -10,14 +10,13 @@
 struct strategy_wrapper
 {
 	float fitness = 0;
-	//Board b;
 
 	int n_input_strategy = 12;
 	int n_output_strategy = 7;
 
 	int n_input_tactics = 12;
 	int n_output_tactics = 5;
-	int scope = 1;
+	float scope = 3.f;
 
 
 	std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>();
@@ -43,23 +42,12 @@ class GeneticGameMaster
 {
 public:
 
-	struct Parameters
-	{
-		strategy_wrapper *ps1;
-		strategy_wrapper *ps2;
-		int board_size;
-	};
-
-	GeneticGameMaster(int board_size, int player_count) : board_size(board_size) {
-		strategy_pool.assign(player_count, strategy_wrapper());
-	}
-	//Constructor inheritance? TODO: implement
+	GeneticGameMaster(int board_size, int player_count) : board_size(board_size), strategy_pool(player_count)
+	{}
 
 	//void play(int games);
 	void initiate_players(int player_count);
 	//void save_players();
-
-	std::vector<Parameters> params;
 	//std::shared_ptr<AbstractGame> game = nullptr;
 
 	void addGames(Updater &games);

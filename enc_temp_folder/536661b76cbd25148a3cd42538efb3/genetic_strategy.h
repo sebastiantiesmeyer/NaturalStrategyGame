@@ -34,7 +34,7 @@ public:
 	matrix weights;
 
 private:
-	//void initiate_abst_weights(matrix &lweights, int n_input, int n_output, float scope);
+	void initiate_abst_weights(matrix &lweights, int n_input, int n_output, float scope);
 
 	std::vector<float> forward_pass(const matrix & lweights, const std::vector<int>& input);
 

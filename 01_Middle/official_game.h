@@ -14,6 +14,7 @@ public:
 		: AbstractGame::AbstractGame(p0, p1, board_size) {}
 	virtual glm::dvec2 getPlayerScore() const;
 	~OfficialGame() {}
+	double get_secondary_score(int player) const;
 protected:
 	virtual void extra_rules();
 private:

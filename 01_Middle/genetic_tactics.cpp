@@ -2,14 +2,13 @@
 #include "local.h"
 #include <iostream>
 
-GeneticTactics::GeneticTactics(int input, int output, float scope)
+GeneticTactics::GeneticTactics()
+	: weights0(n_input, strang(n_inter)), weights1(n_inter, strang(n_output))
 {
-	n_input = input;
-	n_output = output;
 	initiate_weights(scope);
 }
 
-
+/*
 //Weight matrix forward pass
 std::vector<float> GeneticTactics::w0pass(const std::vector<int> &input) {
 	std::vector<float> converted_input(input.begin(), input.end());
@@ -17,43 +16,41 @@ std::vector<float> GeneticTactics::w0pass(const std::vector<int> &input) {
 }
 
 //Weight matrix forward pass
-std::vector<float> GeneticTactics::w1pass(std::vector<float> input) {
+std::vector<float> GeneticTactics::w1pass(const std::vector<float> &input) {
 	return wpass(weights1, input);
-}
+}*/
 
-std::vector<float> GeneticTactics::forward_pass(std::vector<int> input) {
-	std::vector<float> inter = w0pass(input);
-	return w1pass(inter);
-}
-
-//initiate weightts with some randomness
-void GeneticTactics::initiate_w0(float scope)
+inline strang matvecmul(const matrix &M, const strang &x)
 {
-	initiate_abst_weights(weights0, n_input, n_inter, scope);
+	strang y(M.size(), 0.f);
+	assert(M[0].size() == x.size());
+	for(auto i = 0; i < y.size(); ++i)
+	{
+		for(auto j = 0; j < M[i].size(); ++j)
+		{
+			y[i] += M[i][j] * x[j];
+		}
+	}
+	return y;
 }
 
-void GeneticTactics::initiate_w1(float scope)
+std::vector<float> GeneticTactics::forward_pass(const std::vector<int> &input)
 {
-	initiate_abst_weights(weights1, n_inter, n_output, scope);
+	//std::vector<float> inter = w0pass(input);
+	std::vector<float> float_input(input.begin(), input.end());
+	return matvecmul(weights1, matvecmul(weights0, float_input));
 }
 
 void GeneticTactics::initiate_weights(float scope) {
-	initiate_w0(scope);
-	initiate_w1(scope);
-}
 
-void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
-{
-	lweights.resize(n_output);
-	for (int i = 0; i < lweights.size(); i++) {
-		lweights[i].resize(n_input);
-		for (int j = 0; j < lweights[i].size(); j++) {
-			lweights[i][j] = get_rand(-scope,scope);
-		}
-	}
+	for(auto &row : weights0)for(auto &elm : row)
+			elm = get_rand(-scope, scope);
+	for(auto &row : weights1)for(auto &elm : row)
+			elm = get_rand(-scope, scope);
 }
 
 
+/*
 std::vector<float> GeneticTactics::wpass(const matrix &lweights, const std::vector<float> &input)
 {
 	//assert(lweights.size() == n_output && lweights[0].size() == input.size());
@@ -64,7 +61,7 @@ std::vector<float> GeneticTactics::wpass(const matrix &lweights, const std::vect
 		}
 	}
 	return output;
-}
+}*/
 
 //mutate weights
 void GeneticTactics::mutate(float scope)
@@ -83,16 +80,16 @@ void GeneticTactics::mutate(float scope)
 }
 
 //cross over with external weight matrix.
-void GeneticTactics::cross_over(matrix& genome0, matrix& genome1, float scope)
+void GeneticTactics::cross_over(matrix& genome0, matrix& genome1, float ratio)
 {
 	for (int i = 0; i < n_inter; i++) {
 		float r = get_rand(0, 1);
-		if (r < scope) continue;
+		if (r > ratio) continue;
 		genome0[i].swap(weights0[i]);
 	}
 	for (int i = 0; i < n_output; i++) {
 		float r = get_rand(0, 1);
-		if (r < scope) continue;
+		if (r > ratio) continue;
 		genome1[i].swap(weights1[i]);
 	}
 }
