@@ -11,7 +11,7 @@ void GeneticGameMaster::initiate_players(int player_count)
 	strategy_pool.assign(player_count, strategy_wrapper());
 }
 
-strategy_wrapper GeneticGameMaster::get_winner() {
+GeneticGameMaster::strategy_wrapper GeneticGameMaster::get_winner() {
 	std::sort(strategy_pool.begin(), strategy_pool.end(), std::greater<strategy_wrapper>());
 	return strategy_pool[0];
 }

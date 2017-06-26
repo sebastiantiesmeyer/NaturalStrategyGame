@@ -100,8 +100,8 @@ int main( int argc, char* args[] )
 		ggm.addGames(gametasks);
 	}
 	
-	strategy_wrapper winner = ggm.get_winner();
-	gametasks.AddMutantvsHuman(5, winner);
+	GeneticGameMaster::strategy_wrapper winner = ggm.get_winner();
+	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
 	
 	gametasks.SetToFirstTask();
 
