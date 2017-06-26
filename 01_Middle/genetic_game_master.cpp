@@ -130,7 +130,7 @@ matrix GeneticGameMaster::load_matrix(matrix m, std::string filename) {
 		}
 	}
 
-
+	return m;
 }
 
 
