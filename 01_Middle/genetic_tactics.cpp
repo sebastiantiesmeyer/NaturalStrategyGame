@@ -3,7 +3,7 @@
 #include <iostream>
 
 GeneticTactics::GeneticTactics()
-	: weights0(n_input, strang(n_inter)), weights1(n_inter, strang(n_output))
+	: weights0(n_inter, strang(n_input)), weights1(n_output, strang(n_inter+1))
 {
 	initiate_weights(scope);
 }
