@@ -60,6 +60,8 @@ private:
 
 public:
 	strategy_wrapper get_winner();
-
+	static void save_matrix(matrix m, std::string name);
+	static matrix load_matrix(matrix m, std::string filename);
 };
+
 

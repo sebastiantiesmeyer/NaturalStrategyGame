@@ -5,6 +5,7 @@
 #include <random>
 #include <functional>
 #include <iostream>
+#include <fstream>
 
 void GeneticGameMaster::initiate_players(int player_count)
 {
@@ -99,8 +100,37 @@ void GeneticGameMaster::addGames(Updater &games)
 			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt -> weights1, 0.05f);
 			sw.fitness = 0;
 		}
+
 		return true;
 	} /*LAMBDA END*/ );
+
+}
+
+void GeneticGameMaster::save_matrix(matrix m, std::string filename) {
+	std::ofstream outfile;
+	outfile.open(filename);
+	for (strang s : m) {
+		for (float f : s) {
+			outfile << f << " " ;
+
+		}
+		outfile << std::endl;
+	}
+	outfile.close();
+}
+
+matrix GeneticGameMaster::load_matrix(matrix m, std::string filename) {
+
+	std::ifstream infile;
+	infile.open(filename);
+
+	for (strang s : m) {
+		for (float f : s) {
+			infile >> f;
+		}
+	}
+
+
 }
 
 
