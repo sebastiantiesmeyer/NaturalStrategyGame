@@ -25,7 +25,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="AbstractPlayer">
-    <Position X="1.75" Y="0.5" Width="2.75" />
+    <Position X="1.25" Y="0.5" Width="2.75" />
     <Members>
       <Method Name="~AbstractPlayer" Hidden="true" />
       <Method Name="AbstractPlayer" Hidden="true" />
@@ -201,20 +201,6 @@
       <Compartment Name="Methods" Collapsed="true" />
       <Compartment Name="Nested Types" Collapsed="false" />
     </Compartments>
-    <NestedTypes>
-      <Struct Name="ProbabilisticTactic::Options">
-        <NestedTypes>
-          <Struct Name="ProbabilisticTactic::Options::__unnamed_struct_0028_2" Collapsed="true">
-            <TypeIdentifier>
-              <NewMemberFileName>probabilistic_tactic.h</NewMemberFileName>
-            </TypeIdentifier>
-          </Struct>
-        </NestedTypes>
-        <TypeIdentifier>
-          <NewMemberFileName>probabilistic_tactic.h</NewMemberFileName>
-        </TypeIdentifier>
-      </Struct>
-    </NestedTypes>
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAgAAAAAAAQAAAAAAA=</HashCode>
       <FileName>probabilistic_tactic.h</FileName>
@@ -245,7 +231,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="TriadTactic">
-    <Position X="7.75" Y="7.5" Width="1.5" />
+    <Position X="7.5" Y="7.5" Width="1.75" />
     <Members>
       <Method Name="TriadTactic" Hidden="true" />
     </Members>
