@@ -5,6 +5,7 @@
 #include "simple_player.h"
 #include <random>
 #include <iostream>
+#include <fstream>
 
 GeneticGameMaster::GeneticGameMaster(int board_size, int player_count)
 	: board_size(board_size), strategy_pool(player_count), train_h1(std::make_shared<SimplePlayer>())
@@ -208,6 +209,36 @@ void GeneticGameMaster::addSort(Updater &games)
 			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt->weights1, 0.05f);
 			sw.fitness = 0;
 		}
+
 		return true;
-	} /*LAMBDA END*/);
+	} /*LAMBDA END*/ );
+
 }
+
+void GeneticGameMaster::save_matrix(matrix m, std::string filename) {
+	std::ofstream outfile;
+	outfile.open(filename);
+	for (strang s : m) {
+		for (float f : s) {
+			outfile << f << " " ;
+
+		}
+		outfile << std::endl;
+	}
+	outfile.close();
+}
+
+matrix GeneticGameMaster::load_matrix(matrix m, std::string filename) {
+
+	std::ifstream infile;
+	infile.open(filename);
+
+	for (strang s : m) {
+		for (float f : s) {
+			infile >> f;
+		}
+	}
+
+	return m;
+}
+
