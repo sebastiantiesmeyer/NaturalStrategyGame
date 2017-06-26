@@ -90,23 +90,27 @@ int main( int argc, char* args[] )
 	srand((int)time(0));
 	Updater gametasks;
 
-	const int rounds = 30;
+	const int rounds = 50;
 
-	//.AddCyborgVsHeuristics(10);
-
-	GeneticGameMaster ggm = GeneticGameMaster(5, 12);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 15);
 	//ggm.createGames(1);
+	for(int i=0; i < rounds; ++i)
+			ggm.addSimpleGames(gametasks);
+	ggm.addSort(gametasks);
 	for(int i = 0; i < rounds; ++i)
 	{
+		for(int i = 0; i < rounds - i; ++i)
+		{
+			ggm.addSimpleGames(gametasks);
+			ggm.addSort(gametasks);
+		}
 		ggm.addGames(gametasks);
+		ggm.addSort(gametasks);
 	}
-	
-	GeneticGameMaster::strategy_wrapper winner = ggm.get_winner();
+	const GeneticGameMaster::strategy_wrapper& winner = ggm.get_winner();
 	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
-
-	gametasks.SetToFirstTask();
-
 /*  =============================  */
+	gametasks.SetToFirstTask();
 
 	while (!quit)		//the main 'infinite' loop for rendering frame-by-frame
 	{
@@ -131,7 +135,13 @@ int main( int argc, char* args[] )
 		ImGui_ImplSdlGL3_NewFrame(win); //all imgui calls happen after this and before render
 		
 		gametasks.Update(); //don't change
-
+		if(ImGui::Begin("Game Master"))
+		{
+			ImGui::SliderInt("skip", &ggm.skip, 1, 250, "%1f");
+			ImGui::SliderInt("speedup", &ggm.speedup, 1, 250, "%1f");
+			ImGui::ProgressBar(gametasks.GetProgress(), { -1,0 });
+		}
+		ImGui::End();
 		//ImGui::ShowTestWindow(); //Shocases ImGui features
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on

@@ -12,10 +12,11 @@ private:
 	int n_output = 5;
 	float alpha = 0.6f;
 	int n_inter = (int)(n_input*(1 - alpha) + n_output * alpha);
-	float scope = 6.f;
+	float scope = 4.f;
 public:
 
 	GeneticTactics();
+	GeneticTactics(const GeneticTactics& other) = default;
 	~GeneticTactics() {}
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;

@@ -36,15 +36,17 @@ typedef std::function<bool(int)> update_function_type; //Function type that retu
 		{	//go to next task
 			iterations = 0;
 			++current_task_it;
+			++task_counter;
 		}
 		else ++iterations;
 	}
+	inline float GetProgress() const { return task_counter / (float)tasks.size(); }
 
 private:
 	std::list<update_function_type> tasks; //tasks are functors of type int -> bool
 	std::list<update_function_type>::iterator current_task_it = tasks.end(); //iterator pointing to next task to be executed
 	int iterations = 0;		//the iteration count of a given task
-
+	int task_counter = 0;
 	//int next_task_id = 0;	//the id of the task to be executed next
 	//std::vector<update_function_type> tasks; //tasks are functors of type int -> bool
 };

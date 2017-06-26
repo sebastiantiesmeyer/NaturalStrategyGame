@@ -17,7 +17,7 @@ void GeneticStrategy::changeOrders(AllOrders &orders)
 
 void GeneticStrategy::explore()
 {
-	input.resize(n_input, 0);
+	input.assign(n_input, 0);
 
 	//divided in quarters: [northwest-scissors, northwest-stones,northwest-papers, northeeast-scissors...]
 	for (int i = 0; i < board->size(); i++) {
