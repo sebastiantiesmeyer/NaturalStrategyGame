@@ -36,7 +36,7 @@ struct strategy_wrapper
 	};
 };
 
-static std::default_random_engine rnd_engine;
+//static std::default_random_engine rnd_engine;
 
 
 class GeneticGameMaster

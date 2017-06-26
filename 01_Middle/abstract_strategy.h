@@ -10,10 +10,7 @@ class AbstractStrategy
 {
 public:
 	AbstractStrategy(){};
-	virtual ~AbstractStrategy()
-	{
-		std::cout << "~AbstractStrategy()" << std::endl;
-	}
+	virtual ~AbstractStrategy() {}
 	// The parameters for the strategy should be set via this function
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time

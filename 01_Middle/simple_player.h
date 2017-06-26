@@ -7,10 +7,7 @@ class SimplePlayer : public AbstractPlayer
 {
 public:
 	SimplePlayer() {}
-	~SimplePlayer()
-	{
-		std::cout << "~SimplePlayer()" << std::endl;
-	}
+	~SimplePlayer() {}
 protected:
 	virtual void do_StartTurn();
 	virtual void do_Render();

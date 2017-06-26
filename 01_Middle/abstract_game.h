@@ -16,10 +16,7 @@ class AbstractGame
 {
 public:
 	AbstractGame(const std::shared_ptr<AbstractPlayer> &, const std::shared_ptr<AbstractPlayer> &, int board_size);
-	virtual ~AbstractGame()
-	{
-		std::cout << "~AbstractGame()" << std::endl;
-	}
+	virtual ~AbstractGame() {}
 	//This has to be called every frame for the game to progress
 	//	 Returns true when game ends
 	bool Update();

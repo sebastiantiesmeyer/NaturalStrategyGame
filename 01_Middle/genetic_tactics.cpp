@@ -1,18 +1,17 @@
 #include "genetic_tactics.h"
 #include "local.h"
 #include <iostream>
-#include <ctime>
 
 GeneticTactics::GeneticTactics(int input, int output, float scope)
 {
 	n_input = input;
 	n_output = output;
-	initiate_weights(0.2);
+	initiate_weights(scope);
 }
 
 
 //Weight matrix forward pass
-std::vector<float> GeneticTactics::wpass(std::vector<int> input) {
+std::vector<float> GeneticTactics::wpass(const std::vector<int> &input) {
 	return forward_pass(weights0,  input);
 }
 
@@ -34,7 +33,6 @@ void GeneticTactics::initiate_weights(float scope) {
 
 void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int width, float scope)
 {
-	srand((int)time(0));
 	lweights.resize(n_output);
 	for (int i = 0; i < lweights.size(); i++) {
 		lweights[i].resize(n_input);
@@ -108,8 +106,9 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			}
 			else {
 				//rule out off-board commands
-				if ((std::min(unit.pos.x - i, unit.pos.y - j) < 0) ||
-					(std::max(unit.pos.x + i, unit.pos.y + j) == (board->size()))) {
+				Position pos = Position(unit.pos.x - i, unit.pos.y - j);
+				if(pos.x < 0 || pos.y < 0 || pos.x >= board->size() || pos.y >= board->size())
+				{
 					input[index] = -2;
 				}
 				else {

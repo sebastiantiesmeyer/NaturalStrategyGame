@@ -9,10 +9,7 @@ class CyborgStrategy : public AbstractStrategy
 {
 public:
 	CyborgStrategy() {}
-	~CyborgStrategy()
-	{
-		std::cout << "~CyborgStrategy()" << std::endl;
-	}
+	~CyborgStrategy() {}
 
 	virtual void changeOrders(AllOrders &newallorders)
 	{ //just like startTurn;

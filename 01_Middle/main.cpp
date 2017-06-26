@@ -16,6 +16,7 @@
 #include <vector>
 #include "genetic_game_master.h"
 #include "battle_arena.h"
+#include <ctime>
 
 SDL_Window *win; //pointer to window
 SDL_GLContext context; //id of context created for opengl (also a pointer)
@@ -43,14 +44,6 @@ int quit_from_app(int stages = 4, const char* errormessage = "", const char* err
 
 int main( int argc, char* args[] )
 {
-	{
-		std::shared_ptr<AbstractPlayer> p0 = std::make_shared<SimplePlayer>();
-		std::shared_ptr<AbstractPlayer> p1 = std::make_shared<HumanPlayer>();
-		{
-			BattleArena game(p0, p1, 5, ROCK, SCISSOR, Dir(1,2), Dir(3,2));
-		}
-		
-	}
 	if(SDL_Init(SDL_INIT_VIDEO) == -1)	quit_from_app(0, "[SDL indítása]Hiba az SDL inicializálása közben: ", SDL_GetError());
 	// Setting up OpenGL framebuffers
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -92,13 +85,15 @@ int main( int argc, char* args[] )
 	
 /*  ============================
 /*  Add tasks here: */
-
+	srand((int)time(0));
 	Updater gametasks;
 
 	//gametasks.AddCyborgVsHeuristics(10);
 
-	GeneticGameMaster ggm = GeneticGameMaster(5, 4);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 9);
 	//ggm.createGames(1);
+	ggm.addGames(gametasks);
+	ggm.addGames(gametasks);
 	ggm.addGames(gametasks);
 	ggm.addGames(gametasks);
 	ggm.addGames(gametasks);

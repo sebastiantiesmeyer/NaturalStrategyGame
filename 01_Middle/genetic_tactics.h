@@ -10,18 +10,15 @@ class GeneticTactics : public AbstractTactic
 public:
 
 	GeneticTactics(int n_input=13, int n_output = 5, float scope = 0.2);
-	~GeneticTactics()
-	{
-		std::cout << "~GeneticTactics()" << std::endl;
-	}
+	~GeneticTactics() {}
 	typedef std::vector<float> strang;
 	typedef std::vector<strang> matrix;
 
-	std::vector<float> wpass(std::vector<int> input);
+	std::vector<float> wpass(const std::vector<int> &input);
 
 	void initiate_weights(float scope);
-	void GeneticTactics::initiate_w0(float scope);
-	void GeneticTactics::initiate_w1(float scope);
+	void initiate_w0(float scope);
+	void initiate_w1(float scope);
 
 	std::vector<float>  forward_pass(const matrix &lweights, const std::vector<int> &input);
 
