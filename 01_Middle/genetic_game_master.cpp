@@ -106,7 +106,7 @@ void GeneticGameMaster::addGames(Updater &games)
 
 }
 
-void GeneticGameMaster::save_matrix(matrix m, std::string filename) {
+void GeneticGameMaster::save_matrix(const matrix &m, const std::string &filename) {
 	std::ofstream outfile;
 	outfile.open(filename);
 	for (strang s : m) {
@@ -119,7 +119,7 @@ void GeneticGameMaster::save_matrix(matrix m, std::string filename) {
 	outfile.close();
 }
 
-matrix GeneticGameMaster::load_matrix(matrix m, std::string filename) {
+matrix GeneticGameMaster::load_matrix(const matrix &m, const std::string &filename) {
 
 	std::ifstream infile;
 	infile.open(filename);

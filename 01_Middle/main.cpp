@@ -103,11 +103,7 @@ int main( int argc, char* args[] )
 	
 	GeneticGameMaster::strategy_wrapper winner = ggm.get_winner();
 	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
-	GeneticGameMaster::save_matrix(winner.gs->weights, "best_strategy.txt");
-	GeneticGameMaster::save_matrix(winner.gt->weights0, "best_tactics_0.txt");
-	GeneticGameMaster::save_matrix(winner.gt->weights1, "best_tactics_1.txt");
 
-	std::cout << "Saved the most valuable player";
 	gametasks.SetToFirstTask();
 
 /*  =============================  */
@@ -140,6 +136,12 @@ int main( int argc, char* args[] )
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on
 	}
+
+	GeneticGameMaster::save_matrix(winner.gs->weights, "best_strategy.txt");
+	GeneticGameMaster::save_matrix(winner.gt->weights0, "best_tactics_0.txt");
+	GeneticGameMaster::save_matrix(winner.gt->weights1, "best_tactics_1.txt");
+	std::cout << "Saved the most valuable player" << std::endl;
+
 	quit_from_app(); //clenup
 	return 0;
 }
