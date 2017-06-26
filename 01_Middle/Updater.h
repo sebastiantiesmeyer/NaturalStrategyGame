@@ -4,11 +4,10 @@
 #include <functional>
 #include "genetic_game_master.h"
 
-typedef std::function<bool(int)> update_function_type; //Function type that return true when done, see Updater class.
-
 class Updater
 {
 public:
+typedef std::function<bool(int)> update_function_type; //Function type that return true when done, see Updater class.
 	void AddHumanVsHuman(int game_size);
 	void AddCyborgVsHeuristics(int game_size);
 	void AddCyborgVsHuman(int game_size);

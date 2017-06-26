@@ -45,7 +45,7 @@ public: // AbstractGame and its children should call these functions only
 	}
 
 	// Depricted. Use Render() and Update() instead !!
-	bool RenderUpdate() = delete;
+	//bool RenderUpdate() = delete;
 
 	//Returns the command queue, call only when Update() already returned true!
 	std::shared_ptr<const CommandQueue> GetCommandQueue() const
