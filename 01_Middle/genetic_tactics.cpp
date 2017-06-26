@@ -11,8 +11,19 @@ GeneticTactics::GeneticTactics(int input, int output, float scope)
 
 
 //Weight matrix forward pass
-std::vector<float> GeneticTactics::wpass(const std::vector<int> &input) {
-	return forward_pass(weights0,  input);
+std::vector<float> GeneticTactics::w0pass(const std::vector<int> &input) {
+	std::vector<float> converted_input(input.begin(), input.end());
+	return wpass(weights0, converted_input);
+}
+
+//Weight matrix forward pass
+std::vector<float> GeneticTactics::w1pass(std::vector<float> input) {
+	return wpass(weights1, input);
+}
+
+std::vector<float> GeneticTactics::forward_pass(std::vector<int> input) {
+	std::vector<float> inter = w0pass(input);
+	return w1pass(inter);
 }
 
 //initiate weightts with some randomness
@@ -43,10 +54,10 @@ void GeneticTactics::initiate_abst_weights(matrix &lweights, int height, int wid
 }
 
 
-std::vector<float> GeneticTactics::forward_pass(const matrix &lweights, const std::vector<int> &input)
+std::vector<float> GeneticTactics::wpass(const matrix &lweights, const std::vector<float> &input)
 {
-	assert(lweights.size() == n_output && lweights[0].size() == input.size());
-	std::vector<float> output(n_output, 0);
+	//assert(lweights.size() == n_output && lweights[0].size() == input.size());
+	std::vector<float> output(lweights.size(), 0);
 	for (int o = 0; o < output.size(); o++) {
 		for (int a = 0; a < input.size(); a++) {
 			output[o] += input[a] * lweights[o][a];
@@ -136,7 +147,7 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 
 
 
-	std::vector<float> output = wpass(input);
+	std::vector<float> output = forward_pass(input);
 
 	//Options options = output;
 
@@ -158,6 +169,5 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 		//cmd.dir[1] = (cmd_int / 2) * 2 - 1;
 	
 	cmd.id = unit.id;
-	//std::cout << "Today's tactics is " << cmd.dir[0] << "," << cmd.dir[1] << ".\n";
 	return cmd;
 }
