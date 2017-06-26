@@ -4,8 +4,8 @@
 #include "genetic_tactics.h"
 #include "genetic_strategy.h"
 #include <random>
-#include "Updater.h"
 #include "official_game.h"
+#include "Updater.h"
 
 struct strategy_wrapper
 {
@@ -44,8 +44,7 @@ private:
 	const int speedup = 5;
 public:
 
-	GeneticGameMaster(int board_size, int player_count) : board_size(board_size), strategy_pool(player_count)
-	{}
+	GeneticGameMaster(int board_size, int player_count) : board_size(board_size), strategy_pool(player_count) {}
 
 	//void play(int games);
 	void initiate_players(int player_count);
@@ -58,6 +57,9 @@ private:
 
 	std::vector<strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
 	int board_size;
+
+public:
+	strategy_wrapper get_winner();
 
 };
 

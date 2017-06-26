@@ -2,6 +2,7 @@
 #include <vector>
 #include <list>
 #include <functional>
+#include "genetic_game_master.h"
 
 typedef std::function<bool(int)> update_function_type; //Function type that return true when done, see Updater class.
 
@@ -11,6 +12,7 @@ public:
 	void AddHumanVsHuman(int game_size);
 	void AddCyborgVsHeuristics(int game_size);
 	void AddCyborgVsHuman(int game_size);
+	void AddMutantvsHuman(int game_size, strategy_wrapper player);
 
 	//Add an std::function object to the tasks
 	//The function should return true until the task is completed
