@@ -49,6 +49,7 @@ void AbstractGame::Render()
 {
 	if (ImGui::Begin("Game Master"))
 	{
+		ImGui::ProgressBar(this->GetProgress(), { -1,0 });
 		view_board(*board);
 	}
 	ImGui::End();

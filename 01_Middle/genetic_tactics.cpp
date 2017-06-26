@@ -8,18 +8,6 @@ GeneticTactics::GeneticTactics()
 	initiate_weights(scope);
 }
 
-/*
-//Weight matrix forward pass
-std::vector<float> GeneticTactics::w0pass(const std::vector<int> &input) {
-	std::vector<float> converted_input(input.begin(), input.end());
-	return wpass(weights0, converted_input);
-}
-
-//Weight matrix forward pass
-std::vector<float> GeneticTactics::w1pass(const std::vector<float> &input) {
-	return wpass(weights1, input);
-}*/
-
 inline strang matvecmul(const matrix &M, const strang &x)
 {
 	strang y(M.size(), 0.f);
@@ -50,20 +38,6 @@ void GeneticTactics::initiate_weights(float scope) {
 	for(auto &row : weights1)for(auto &elm : row)
 			elm = get_rand(-scope, scope);
 }
-
-
-/*
-std::vector<float> GeneticTactics::wpass(const matrix &lweights, const std::vector<float> &input)
-{
-	//assert(lweights.size() == n_output && lweights[0].size() == input.size());
-	std::vector<float> output(lweights.size(), 0);
-	for (int o = 0; o < output.size(); o++) {
-		for (int a = 0; a < input.size(); a++) {
-			output[o] += input[a] * lweights[o][a];
-		}
-	}
-	return output;
-}*/
 
 //mutate weights
 void GeneticTactics::mutate(float scope)
@@ -119,48 +93,12 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			else input[2 + i] = (unit.type - other_unit->type + 3) % 3;
 		}
 	}
-	int index = 0;
-	//surrounding squares:
-	/*for (int i = -1; i <= 1; i++) {
-		for (int j = -1; j <= 1; j++) {
-			if (i == 0 && j == 0) {
-				//own position
-				input[index] = unit.pos.x;
-				index++;
-				input[index] = unit.pos.y;
-				index++;
-			}
-			else {
-				//rule out off-board commands
-				Position pos = Position(unit.pos.x - i, unit.pos.y - j);
-				if(pos.x < 0 || pos.y < 0 || pos.x >= board->size() || pos.y >= board->size())
-				{
-					input[index] = -2;
-				}
-				else {
-					Unit *other_unit = (board-> at(Position(unit.pos.x - i, unit.pos.y - j))).unit;
-					if (!other_unit)   input[index] = 0;
-					else if (other_unit && other_unit->player == unit.player) input[index] = -1;
-					else input[index] = (unit.type - other_unit->type) % 3 + 2;
-				}
-				index++;
-			}
-		}
-	}*/
+
 	input[10] = unit.type;
 	input[11] = order_list[0].instruction[0];
 	input[12] = order_list[0].instruction[1];
 	input[13] = order_list[0].instruction[2];
 	input[14] = 1;
-
-	/*input[index] = unit.type;
-	index++;
-	for (auto order : order_list) {
-		input[index] = order_list[0].instruction[0];
-	}
-	index++;
-	input[index] = 1;
-	index++;*/
 
 	std::vector<float> output = forward_pass(input);
 
@@ -180,9 +118,6 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 	else if (cmd_int == 2) cmd.dir = Dir{ 0,-1 };
 	else if (cmd_int == 3) cmd.dir = Dir{ 0,1 };
 
-		//[0] = (cmd_int % 2) * 2 - 1;
-		//cmd.dir[1] = (cmd_int / 2) * 2 - 1;
-	
 	cmd.id = unit.id;
 	return cmd;
 }

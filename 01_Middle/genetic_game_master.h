@@ -4,7 +4,6 @@
 #include "genetic_tactics.h"
 #include "genetic_strategy.h"
 #include <random>
-#include "official_game.h"
 #include "Updater.h"
 
 //static std::default_random_engine rnd_engine;
@@ -34,17 +33,17 @@ public:
 			//we need this, so std::less can work with it
 			return fitness < p.fitness;
 		};
-		bool operator >(const strategy_wrapper& p) const
-		{	//const after the function means that it does not change the class.
-			//we need this, so std::less can work with it
-			return fitness > p.fitness;
-		};
+		strategy_wrapper() = default;
+		strategy_wrapper(const strategy_wrapper &other)
+			:gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs)), fitness(0)
+		{}
 	};
 private:
-	const int speedup = 5;
 public:
+	int speedup = 100;
+	int skip = 1;
 
-	GeneticGameMaster(int board_size, int player_count) : board_size(board_size), strategy_pool(player_count) {}
+	GeneticGameMaster(int board_size, int player_count);
 
 	//void play(int games);
 	void initiate_players(int player_count);
@@ -52,14 +51,17 @@ public:
 	//std::shared_ptr<AbstractGame> game = nullptr;
 
 	void addGames(Updater &games);
+	void addSort(Updater & games);
+	void addSimpleGames(Updater & games);
+
+	void addSimpleGames2(Updater & games);
 
 private:
-
+	std::shared_ptr<AbstractPlayer> train_h1;
 	std::vector<strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
 	int board_size;
 
 public:
-	strategy_wrapper get_winner();
-
+	const strategy_wrapper& get_winner();
 };
 

@@ -25,6 +25,7 @@ public:
 	//Returns score of the players. Player 0 is x, and player 1 is y.
 	//	Inharited class has to implement it
 	virtual glm::dvec2 getPlayerScore() const = 0;
+	inline float GetProgress() const { return cycle / (float)max_cycles; }
 protected:
 	//Implement it for rules that are not implemented in the AbstractGame();
 	virtual void extra_rules() = 0; //eg. train units, check winning, and outposts

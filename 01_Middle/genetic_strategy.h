@@ -7,10 +7,11 @@ class GeneticStrategy : public AbstractStrategy
 private:
 	int n_output = 4;
 	int n_input = 16;
-	float scope = 8.f;
+	float scope = 4.f;
 public:
 
 	GeneticStrategy();
+	GeneticStrategy(const GeneticStrategy& other) = default;
 	~GeneticStrategy() {}
 	void activate();
 
