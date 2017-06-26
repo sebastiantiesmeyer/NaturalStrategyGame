@@ -60,6 +60,7 @@ public:
 	//void save_players();
 
 	std::vector<Parameters> params;
+	//std::shared_ptr<AbstractGame> game = nullptr;
 
 	void addGames(Updater &games);
 

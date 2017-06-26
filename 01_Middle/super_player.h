@@ -30,7 +30,10 @@ class SuperPlayer : public AbstractPlayer
 public:
 	SuperPlayer(std::shared_ptr<AbstractStrategy> &strategy, std::shared_ptr<AbstractTactic> &tactic)
 		: strategy(strategy), tactic(tactic) {};
-
+	~SuperPlayer()
+	{
+		std::cout << "~SuperPlayer()" << std::endl;
+	}
 	virtual void setPlayerParameters(std::shared_ptr<const Board>_board, std::shared_ptr<const Units>_units, std::shared_ptr<UnitProgress>_unit_progress, int _player) {
 		//AbstractPlayer::setPlayerParameters(_board, _units, _unit_progress, _player);
 		strategy->setParams(queue, _board, _units, _unit_progress, _player);

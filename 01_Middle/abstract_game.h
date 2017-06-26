@@ -16,6 +16,10 @@ class AbstractGame
 {
 public:
 	AbstractGame(const std::shared_ptr<AbstractPlayer> &, const std::shared_ptr<AbstractPlayer> &, int board_size);
+	virtual ~AbstractGame()
+	{
+		std::cout << "~AbstractGame()" << std::endl;
+	}
 	//This has to be called every frame for the game to progress
 	//	 Returns true when game ends
 	bool Update();
@@ -38,10 +42,10 @@ private:	//following functions are used internally
 	void move_unit(Unit &unit, const Position &newpos);
 protected:
 	glm::dvec2 score = glm::dvec2(0.0, 0.0); //This is the game status. Modify to end game!!
-	UnitProgress unit_progress[2]; //change it as needed!
+	std::shared_ptr<UnitProgress> unit_progress[2]; //change it as needed!
 
-	Units units; //CHANGE THROUGH create_unit() only!!
-	Board board; //DON'T CHANGE 
+	std::shared_ptr<Units> units; //CHANGE THROUGH create_unit() only!!
+	std::shared_ptr<Board> board; //DON'T CHANGE 
 
 	int cycle = 0; //DON'T CHANGE the turn current turn or cycle number:
 	const int max_cycles = 500; //game ends after max_cycles turnes/cycles.

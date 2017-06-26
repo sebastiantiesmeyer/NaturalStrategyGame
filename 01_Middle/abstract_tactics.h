@@ -13,6 +13,10 @@ class AbstractTactic
 {
 public:
 	AbstractTactic() : board(std::shared_ptr<Board>()){}
+	virtual ~AbstractTactic()
+	{
+		std::cout << "~AbstractStrategy()" << std::endl;
+	}
 	void setBoard(std::shared_ptr<const Board> nboard) { board = nboard; }
 	//implement the following function to create a tactic:
 	virtual Command step(const Unit &unit, const OrderList &order_list) = 0;

@@ -6,7 +6,10 @@ class GeneticStrategy : public AbstractStrategy {
 public:
 
 	GeneticStrategy(int n_input=16, int n_output = 5, float scope = 0.2);
-
+	~GeneticStrategy()
+	{
+		std::cout << "~GeneticStrategy()" << std::endl;
+	}
 	void activate();
 
 	void mutate(float scope);

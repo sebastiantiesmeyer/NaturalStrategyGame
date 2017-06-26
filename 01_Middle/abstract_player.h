@@ -7,7 +7,10 @@ class AbstractPlayer
 {
 public: // AbstractGame and its children should call these functions only
 	AbstractPlayer() : queue(std::make_shared<CommandQueue>()) {}
-
+	virtual ~AbstractPlayer()
+	{
+		std::cout << "~AbstractPlayer()" << std::endl;
+	}
 	//virtual void setPlayerParameters(const Board & _board, const Units &_units, UnitProgress &const _unit_progress, int _player)
 	virtual void setPlayerParameters(const std::shared_ptr<const Board> & _board, const std::shared_ptr<const Units> &_units,
 									 const std::shared_ptr<UnitProgress> & _unit_progress, int _player)

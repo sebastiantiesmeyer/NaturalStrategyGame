@@ -7,7 +7,10 @@ class HumanPlayer : public AbstractPlayer
 {
 public:
 	HumanPlayer() = default;
-
+	~HumanPlayer()
+	{
+		std::cout << "~HumanPlayer()" << std::endl;
+	}
 	virtual void do_StartTurn();
 	virtual void do_Render();
 	virtual bool do_Update(){return endturn;}

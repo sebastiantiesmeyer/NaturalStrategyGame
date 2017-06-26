@@ -9,9 +9,11 @@
 class AbstractStrategy
 {
 public:
-	AbstractStrategy()
-	//	: units(std::shared_ptr<Units>()), board(std::shared_ptr<Board>()), unit_progress(std::shared_ptr<UnitProgress>()), queue(std::shared_ptr<CommandQueue>())
-	{};
+	AbstractStrategy(){};
+	virtual ~AbstractStrategy()
+	{
+		std::cout << "~AbstractStrategy()" << std::endl;
+	}
 	// The parameters for the strategy should be set via this function
 	// ATTENTION! if you use the same instance for both of the players, you
 	//			  have to call this function all the time

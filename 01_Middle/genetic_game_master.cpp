@@ -20,17 +20,22 @@ void GeneticGameMaster::addGames(Updater &games)
 		{
 			games.AddTask( /*LAMBDA START*/ [this, s1, s2](int iterations)->bool
 			{
-				std::shared_ptr<AbstractPlayer> p1, p2;
-				static std::shared_ptr<AbstractGame> game = nullptr;
-				
+				//static std::shared_ptr<OfficialGame> game = nullptr;
+				static OfficialGame * game = nullptr;
 				//INIT
 				if(iterations == 0)
 				{
-					p1 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(strategy_pool[s1].gs),
-													   std::static_pointer_cast<AbstractTactic  >(strategy_pool[s1].gt));
-					p2 = std::make_shared<SuperPlayer>(std::static_pointer_cast<AbstractStrategy>(strategy_pool[s2].gs),
-													   std::static_pointer_cast<AbstractTactic  >(strategy_pool[s2].gt));
-					game = std::make_shared<OfficialGame>(p1, p2, board_size);
+					std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(
+													std::static_pointer_cast<AbstractStrategy>(strategy_pool[s1].gs),
+													std::static_pointer_cast<AbstractTactic  >(strategy_pool[s1].gt));
+					std::shared_ptr<AbstractPlayer> p2 = std::make_shared<SuperPlayer>(
+													std::static_pointer_cast<AbstractStrategy>(strategy_pool[s2].gs),
+													std::static_pointer_cast<AbstractTactic  >(strategy_pool[s2].gt));
+					//game.reset();
+					//std::shared_ptr<AbstractGame> tmp = std::make_shared<OfficialGame>(p1, p2, board_size);
+					//game = tmp;
+					//tmp.reset();
+					game = new OfficialGame(p1, p2, board_size);
 				}
 
 				//UPDATE
@@ -44,6 +49,11 @@ void GeneticGameMaster::addGames(Updater &games)
 				if(score != glm::dvec2(0))
 				{
 					//delete game;			   //update player fitness:
+
+					delete game;
+
+					std::cout << "deleted" << std::endl;
+
 					strategy_pool[s1].fitness += (score[0] - score[1]);
 					strategy_pool[s2].fitness += (score[1] - score[0]);
 				}
