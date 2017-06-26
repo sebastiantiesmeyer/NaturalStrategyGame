@@ -1,19 +1,37 @@
 #include "official_game.h"
 #include <iostream>
 
+void OfficialGame::extra_rules()
+{
+	train_for_player(queue0->train, *unit_progress[0], 0);
+	train_for_player(queue1->train, *unit_progress[1], 1);
+	set_outpost_ownership();
+
+	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
+	if(p1 && p2) score = glm::dvec2(1.0, 1.0); //Draw
+	else if(p2) score = glm::dvec2(1.0, 0.0); //p2 lost p1 won
+	else if(p1) score = glm::dvec2(0.0, 1.0); //vice versa
+	if(++cycle > max_cycles) score = glm::dvec2(1.0, 1.0);
+}
+
+glm::dvec2 OfficialGame::getPlayerScore() const
+{
+	return score;
+}
+
 bool OfficialGame::did_loose_player(int player)
 {
 	//int id = board[auto_rotate(Position(0, 0), i)].id; //base of player i
-	Unit * unitptr = board(Position(0, 0), player).unit; //pointer to the unit on that position
+	Unit * unitptr = board->operator()(Position(0, 0), player).unit; //pointer to the unit on that position
 	if (unitptr == nullptr || unitptr->player == player)
 	{
-		unit_progress[player].our_base_captured = 0; //enemy standing on our base
-		unit_progress[1 - player].enemy_base_captured = 0;
+		unit_progress[player]->our_base_captured = 0; //enemy standing on our base
+		unit_progress[1 - player]->enemy_base_captured = 0;
 		return false;
 	}
-	++unit_progress[player].our_base_captured; //enemy standing on our base
-	unit_progress[1 - player].enemy_base_captured = unit_progress[player].our_base_captured;
-	return unit_progress[player].our_base_captured > board.size();
+	++unit_progress[player]->our_base_captured; //enemy standing on our base
+	unit_progress[1 - player]->enemy_base_captured = unit_progress[player]->our_base_captured;
+	return unit_progress[player]->our_base_captured > board->size();
 }
 
 void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_progress, int player)
@@ -22,10 +40,10 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 
 	++unit_progress.progress[what_to_train];
 	Position pos = Position(0, 0);
-	if (board(pos, player).unit != nullptr) return; //cell not empty, do nothing else
+	if (board->operator()(pos, player).unit != nullptr) return; //cell not empty, do nothing else
 	int numoops = 0;
-	numoops += (int)(board.getPlayerAtOutpost(0, 0) == 0);
-	numoops += (int)(board.getPlayerAtOutpost(1, 0) == 0);
+	numoops += (int)(board->getPlayerAtOutpost(0, 0) == 0);
+	numoops += (int)(board->getPlayerAtOutpost(1, 0) == 0);
 	//int numoops = (int)(board.outposts[0] == player) + (int)(board.outposts[1] == player);
 	unit_progress.current_train_time = (int)(unit_progress.total_time * multipiers[numoops]);
 
@@ -50,28 +68,10 @@ void OfficialGame::train_for_player(UNIT_TYPE what_to_train, UnitProgress &unit_
 
 void OfficialGame::set_outpost_ownership()
 {
-	Position p01 = Position(0, board.size() - 1);
-	if (board.at(p01).unit != nullptr)
-		board.outposts[0] = board.at(p01).unit->player;
-	Position p10 = Position(board.size() - 1, 0);
-	if (board.at(p10).unit != nullptr)
-		board.outposts[1] = board.at(p10).unit->player;
-}
-
-void OfficialGame::extra_rules()
-{
-	train_for_player(queue0->train, unit_progress[0], 0);
-	train_for_player(queue1->train, unit_progress[1], 1);
-	set_outpost_ownership();
-
-	bool p1 = did_loose_player(0), p2 = did_loose_player(1);
-	if (p1 && p2) score = glm::dvec2(1.0, 1.0); //Draw
-	else if (p2) score = glm::dvec2(1.0, 0.0); //p2 lost p1 won
-	else if (p1) score = glm::dvec2(0.0, 1.0); //vice versa
-	if (++cycle > max_cycles) score = glm::dvec2(1.0, 1.0);
-}
-
-glm::dvec2 OfficialGame::getPlayerScore() const
-{
-	return score;
+	Position p01 = Position(0, board->size() - 1);
+	if (board->at(p01).unit != nullptr)
+		board->outposts[0] = board->at(p01).unit->player;
+	Position p10 = Position(board->size() - 1, 0);
+	if (board->at(p10).unit != nullptr)
+		board->outposts[1] = board->at(p10).unit->player;
 }

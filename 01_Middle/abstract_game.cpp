@@ -2,6 +2,25 @@
 #include "board_viewer.h"
 #include <iostream>
 
+
+AbstractGame::AbstractGame(const std::shared_ptr<AbstractPlayer> &p0, const std::shared_ptr<AbstractPlayer> &p1, int board_size)
+{
+	board = std::make_shared<Board>();
+	units = std::make_shared<Units>();
+	unit_progress[0] = std::make_shared<UnitProgress>();
+	unit_progress[1] = std::make_shared<UnitProgress>();
+	board->resize(board_size);
+	player[0] = p0;
+	player[1] = p1;
+	//const std::shared_ptr<const Board> pb(&board);
+	//const std::shared_ptr<const Units> pu(&units);
+
+	player[0]->setPlayerParameters(board, units, unit_progress[0], 0);
+	player[1]->setPlayerParameters(board, units, unit_progress[1], 1);
+	player[0]->StartTurn();
+	player[1]->StartTurn();
+}
+
 bool AbstractGame::Update()
 {
 	if (score != glm::dvec2(0.0, 0.0)) return true;
@@ -30,30 +49,11 @@ void AbstractGame::Render()
 {
 	if (ImGui::Begin("Game Master"))
 	{
-		ImGui::TextColored({ 1,0,0,1 }, "TODO:");
-		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "Fast end game when no more players!");
-		ImGui::Bullet(); ImGui::TextColored({ 1,0,0,1 }, "This Render function");
-		ImGui::Bullet(); ImGui::TextColored({ 0,0,1,1 }, "Time measurement");
-		view_board(board);
+		view_board(*board);
 	}
 	ImGui::End();
 	player[0]->Render();
 	player[1]->Render();
-}
-
-AbstractGame::AbstractGame(const std::shared_ptr<AbstractPlayer> &p0, const std::shared_ptr<AbstractPlayer> &p1, int board_size)
-{
-	board.resize(board_size);
-	player[0] = p0;
-	player[1] = p1;
-	const std::shared_ptr<const Board> pb(&board);
-	const std::shared_ptr<const Units> pu(&units);
-	std::shared_ptr<UnitProgress> pp0(&unit_progress[0]);
-	std::shared_ptr<UnitProgress> pp1(&unit_progress[1]);
-	player[0]->setPlayerParameters(pb, pu, pp0, 0);
-	player[1]->setPlayerParameters(pb, pu, pp1, 1);
-	player[0]->StartTurn();
-	player[1]->StartTurn();
 }
 
 void AbstractGame::simulate_board()
@@ -71,7 +71,7 @@ void AbstractGame::simulate_board()
 	for (; j != queue1->unitcmds.size(); ++j)
 		execute_command(queue1->unitcmds[j], 1);
 
-	for (auto &id_unit : units) //we forgot to set the unit movements back to false!
+	for (auto &id_unit : *units) //we forgot to set the unit movements back to false!
 		id_unit.second.moved = false;
 
 	extra_rules(); // Implementation
@@ -80,8 +80,8 @@ void AbstractGame::simulate_board()
 
 void AbstractGame::execute_command(const Command & command, int player)
 {
-	if (units.count(command.id) == 0) return;
-	Unit &unit = units.at(command.id); //the command commands this unit
+	if (units->count(command.id) == 0) return;
+	Unit &unit = units->at(command.id); //the command commands this unit
 	Dir dir = command.dir;
 	dir.x = glm::clamp(dir.x, -1, 1); //no cheating
 	dir.y = glm::clamp(dir.y, -1, 1);
@@ -90,16 +90,16 @@ void AbstractGame::execute_command(const Command & command, int player)
 	if (!unit.moved						//unit did not move in this cycle
 		&& unit.player == player				//cannot move enemy's player!! we forgot this as well
 		&& norm1(dir) == 1	//no diagonal move
-		&& 0 <= newpos.x && newpos.x < board.size()
-		&& 0 <= newpos.y && newpos.y < board.size())
+		&& 0 <= newpos.x && newpos.x < board->size()
+		&& 0 <= newpos.y && newpos.y < board->size())
 	{ //othervise we dont move
-		if (board(newpos, player).unit == nullptr) //empty cell
+		if (board->operator()(newpos, player).unit == nullptr) //empty cell
 		{
 			move_unit(unit, newpos);
 		}
 		else
 		{
-			Unit &other_unit = *board(newpos, player).unit; //the unit on the target cell
+			Unit &other_unit = *board->operator()(newpos, player).unit; //the unit on the target cell
 			if (other_unit.player != player) //enemy
 			{
 				switch ((unit.type - other_unit.type + 3) % 3)
@@ -124,32 +124,31 @@ void AbstractGame::execute_command(const Command & command, int player)
 
 void AbstractGame::kill_unit(Unit & unit)
 {
-	board(unit.pos, unit.player).id = 0;
-	board(unit.pos, unit.player).unit = nullptr;
-	units.erase(unit.id);
+	board->operator()(unit.pos, unit.player).id = 0;
+	board->operator()(unit.pos, unit.player).unit = nullptr;
+	units->erase(unit.id);
 }
 
 void AbstractGame::move_unit(Unit & unit, const Position & newpos)
 {
-	if (board(newpos, unit.player).unit != nullptr) throw std::exception("Not an empty cell!");
-	board(newpos, unit.player).id = board(unit.pos, unit.player).id;
-	board(unit.pos, unit.player).id = 0;
-	board(newpos, unit.player).unit = board(unit.pos, unit.player).unit;
-	board(unit.pos, unit.player).unit = nullptr;
+	if (board->operator()(newpos, unit.player).unit != nullptr) throw std::exception("Not an empty cell!");
+	board->operator()(newpos, unit.player).id = board->operator()(unit.pos, unit.player).id;
+	board->operator()(unit.pos, unit.player).id = 0;
+	board->operator()(newpos, unit.player).unit = board->operator()(unit.pos, unit.player).unit;
+	board->operator()(unit.pos, unit.player).unit = nullptr;
 	unit.pos = newpos;
 	unit.moved = true;
 }
 
 bool AbstractGame::create_unit(const Position &rel_pos, int player, UNIT_TYPE type, Unit *extra)
 {
-	if(board(rel_pos, player).unit != nullptr) return false;
+	if(board->operator()(rel_pos, player).unit != nullptr) return false;
 	largest_id[player] += (player == 0 ? 1 : -1);
 	Unit unit = (extra ? *extra : Unit());
 	unit.player = player;	unit.id = largest_id[player];
 	unit.pos = rel_pos;		unit.type = type;
 	unit.moved = false;
-	std::cout << "unit count" << units.size();
-	board(rel_pos, player).id = largest_id[player]; //the following is tricky:
+	board->operator()(rel_pos, player).id = largest_id[player]; //the following is tricky:
 	//Right side inserts the unit into the map, and returns where it was inserted, which is used to get the pointer
-	board(rel_pos, player).unit = &units.insert_or_assign(largest_id[player], unit).first->second;
+	board->operator()(rel_pos, player).unit = &units->insert_or_assign(largest_id[player], unit).first->second;
 }
