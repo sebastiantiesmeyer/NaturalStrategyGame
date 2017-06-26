@@ -17,6 +17,7 @@
 #include "genetic_game_master.h"
 #include "battle_arena.h"
 #include <ctime>
+#include "Updater.h"
 
 SDL_Window *win; //pointer to window
 SDL_GLContext context; //id of context created for opengl (also a pointer)
@@ -90,7 +91,7 @@ int main( int argc, char* args[] )
 
 	const int rounds = 30;
 
-	//gametasks.AddCyborgVsHeuristics(10);
+	//.AddCyborgVsHeuristics(10);
 
 	GeneticGameMaster ggm = GeneticGameMaster(5, 12);
 	//ggm.createGames(1);
@@ -98,7 +99,10 @@ int main( int argc, char* args[] )
 	{
 		ggm.addGames(gametasks);
 	}
-
+	
+	GeneticGameMaster::strategy_wrapper winner = ggm.get_winner();
+	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
+	
 	gametasks.SetToFirstTask();
 
 /*  =============================  */
