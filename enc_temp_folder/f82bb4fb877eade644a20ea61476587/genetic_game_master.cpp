@@ -161,8 +161,7 @@ void GeneticGameMaster::addGames(Updater &games)
 					strategy_pool[s2].gs->activate();
 					game->Update();
 					score = game->getPlayerScore();
-				}
-				if(ImGui::Begin("Game Master"))
+				}			if(ImGui::Begin("Game Master"))
 				{
 					ImGui::TextUnformatted("Aganist each other");
 				}

@@ -16,13 +16,12 @@ public:
 	{
 		float fitness = 0;
 
-		int n_input_strategy = 12;
+		/*int n_input_strategy = 12;
 		int n_output_strategy = 7;
 
 		int n_input_tactics = 12;
 		int n_output_tactics = 5;
-		float scope = 3.f;
-
+		float scope = 3.f;*/
 
 		std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>();
 
@@ -35,8 +34,9 @@ public:
 		};
 		strategy_wrapper() = default;
 		strategy_wrapper(const strategy_wrapper &other)
-			:gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs)), fitness(0)
+			:gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs)), fitness(other.fitness)
 		{}
+		//const strategy_wrapper & operator=(const strategy_wrapper& other) = default;
 	};
 private:
 public:
@@ -62,9 +62,9 @@ private:
 	int board_size;
 
 public:
-	strategy_wrapper get_winner();
-	static void save_matrix(matrix m, std::string name);
-	static matrix load_matrix(matrix m, std::string filename);
+	const strategy_wrapper& get_winner();
+	static void save_matrix(const matrix &m, const std::string &name);
+	static matrix load_matrix(matrix &m, const std::string &filename);
 };
 
 

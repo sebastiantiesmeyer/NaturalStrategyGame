@@ -60,7 +60,7 @@ int main( int argc, char* args[] )
 	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS,  1);
 	SDL_GL_SetSwapInterval(0);
 	// Creating an SDL window
-    win = SDL_CreateWindow( "Hello SDL&OpenGL&Imgui!",100,100,800,600,SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
+    win = SDL_CreateWindow( "Hello SDL&OpenGL&Imgui!",100,100,300,400,SDL_WINDOW_OPENGL | SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	if(win == 0) quit_from_app(1, "[Creating window] Error creating SDL window", SDL_GetError());
 	// Creating the virtual 'workplace' for opengl to operate in 
 	context	= SDL_GL_CreateContext(win);
@@ -92,7 +92,7 @@ int main( int argc, char* args[] )
 
 	const int rounds = 50;
 
-	GeneticGameMaster ggm = GeneticGameMaster(5, 15);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 21);
 	//ggm.createGames(1);
 	for(int i=0; i < rounds; ++i)
 			ggm.addSimpleGames(gametasks);
@@ -107,7 +107,7 @@ int main( int argc, char* args[] )
 		ggm.addGames(gametasks);
 		ggm.addSort(gametasks);
 	}
-	const GeneticGameMaster::strategy_wrapper& winner = ggm.get_winner();
+	const GeneticGameMaster::strategy_wrapper& winner = ggm.get_winner(); // Deap copy!!
 	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
 /*  =============================  */
 	gametasks.SetToFirstTask();
@@ -137,8 +137,8 @@ int main( int argc, char* args[] )
 		gametasks.Update(); //don't change
 		if(ImGui::Begin("Game Master"))
 		{
-			ImGui::SliderInt("skip", &ggm.skip, 1, 250, "%1f");
-			ImGui::SliderInt("speedup", &ggm.speedup, 1, 250, "%1f");
+			ImGui::SliderInt("skip", &ggm.skip, 1, 300, "%1f");
+			ImGui::SliderInt("speedup", &ggm.speedup, 1, 502, "%1f");
 			ImGui::ProgressBar(gametasks.GetProgress(), { -1,0 });
 		}
 		ImGui::End();
@@ -146,7 +146,7 @@ int main( int argc, char* args[] )
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on
 	}
-	GeneticGameMaster::save_matrix(winner.gs->weights, "best_strategy.txt");
+	GeneticGameMaster::save_matrix(winner.gs->weights,  "best_strategy.txt");
 	GeneticGameMaster::save_matrix(winner.gt->weights0, "best_tactics_0.txt");
 	GeneticGameMaster::save_matrix(winner.gt->weights1, "best_tactics_1.txt");
 
