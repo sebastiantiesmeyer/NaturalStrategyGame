@@ -12,7 +12,7 @@ typedef std::function<bool(int)> update_function_type; //Function type that retu
 	void AddHumanVsHuman(int game_size);
 	void AddCyborgVsHeuristics(int game_size);
 	void AddCyborgVsHuman(int game_size);
-	void AddMutantvsHuman(int game_size, std::shared_ptr<GeneticTactics>  gt, std::shared_ptr<GeneticStrategy> gs);
+	//void AddMutantvsHuman(int game_size, std::shared_ptr<GeneticTactics>  gt, std::shared_ptr<GeneticStrategy> gs);
 
 	//Add an std::function object to the tasks
 	//The function should return true until the task is completed

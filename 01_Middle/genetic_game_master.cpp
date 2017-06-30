@@ -43,7 +43,6 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 	{
 		games.AddTask( /*LAMBDA START*/ [this, s](int iterations)->bool
 		{
-			//static std::shared_ptr<OfficialGame> game = nullptr;
 			static OfficialGame * game = nullptr;
 			//INIT
 			if(iterations == 0)
@@ -61,17 +60,13 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 				game->Update();
 				score = game->getPlayerScore();
 			}
-			if(ImGui::Begin("Game Master"))
-			{
-				ImGui::TextUnformatted("Aganist heuristics");
-			}
+			if(ImGui::Begin("Game Master")) ImGui::TextUnformatted("Aganist heuristics");
 			ImGui::End();
 			game->Render();
 
 			//CLEAN
 			if(score != glm::dvec2(0))
 			{
-				//delete game;			   //update player fitness:
 				float score1 = calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
 				strategy_pool[s].fitness += score1;
 
@@ -87,10 +82,8 @@ void GeneticGameMaster::addSimpleGames2(Updater &games)
 {
 	for(int s = 0; s < strategy_pool.size(); s++)
 	{
-
 		games.AddTask( /*LAMBDA START*/ [this, s](int iterations)->bool
 		{
-			//static std::shared_ptr<OfficialGame> game = nullptr;
 			static OfficialGame * game = nullptr;
 			//INIT
 			if(iterations == 0)
@@ -108,18 +101,13 @@ void GeneticGameMaster::addSimpleGames2(Updater &games)
 				game->Update();
 				score = game->getPlayerScore();
 			}
-			if(ImGui::Begin("Game Master"))
-			{
-				ImGui::TextUnformatted("Aganist heuristics");
-			}
+			if(ImGui::Begin("Game Master")) ImGui::TextUnformatted("Aganist heuristics");
 			ImGui::End();
 			game->Render();
 
 			//CLEAN
 			if(score != glm::dvec2(0))
 			{
-				//delete game;			   //update player fitness:
-
 				float score1 = calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
 				strategy_pool[s].fitness += score1;
 
@@ -140,7 +128,6 @@ void GeneticGameMaster::addGames(Updater &games)
 			if(s1 == s2) continue;
 			games.AddTask( /*LAMBDA START*/ [this, s1, s2](int iterations)->bool
 			{
-				//static std::shared_ptr<OfficialGame> game = nullptr;
 				static OfficialGame * game = nullptr;
 				//INIT
 				if(iterations == 0)
@@ -162,19 +149,14 @@ void GeneticGameMaster::addGames(Updater &games)
 					game->Update();
 					score = game->getPlayerScore();
 				}
-				if(ImGui::Begin("Game Master"))
-				{
-					ImGui::TextUnformatted("Aganist each other");
-				}
+				if(ImGui::Begin("Game Master")) ImGui::TextUnformatted("Aganist each other");
 				ImGui::End();
 				game->Render();
 
 				//CLEAN
 				if(score != glm::dvec2(0))
 				{
-					//delete game;			   //update player fitness:
-
-					float score0 = score[0];//calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
+					float score0 = calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
 					strategy_pool[s1].fitness += score0;
 
 					float score1 = score[1];//calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
@@ -197,37 +179,74 @@ void GeneticGameMaster::addSort(Updater &games)
 	{
 		std::sort(strategy_pool.begin(), strategy_pool.end()); //first is the best
 
-		const float replace_ratio = 0.3; //The worst performing 2/3 goes extinct :oC
+		std::cout << "Best " << strategy_pool[0].fitness << std::endl;
+
+		const float replace_ratio = 0.33333333333333; //The worst performing 2/3 goes extinct :oC
 		const int initial_pop = strategy_pool.size();
 		for(int i = 0; i < initial_pop * replace_ratio; i++)
-		{
 			strategy_pool.pop_back();
-		}
 
 		// ... and is replaced by copies of the best performing third 
 		for(int i = 0; i < initial_pop * replace_ratio; i++)
-		{
 			strategy_pool.push_back(strategy_pool[i]);
-		}
-		int i = 0;
+		//int i = 0;
 		//Some mutations & cross-overs ( -> love <3 )
 		for(strategy_wrapper &sw : strategy_pool)
 		{
-			std::cout << "Player " << i << " fitness: " << sw.fitness << std::endl;
-			++i;
-			sw.gs->mutate(0.1f);
-			sw.gt->mutate(0.1f);
+			//std::cout << "Player " << i << " fitness: " << sw.fitness << std::endl;
+			//++i;
+			sw.gs->mutate(0.05f);
+			sw.gt->mutate(0.05f);
 
 			int n = (int)(std::rand() % strategy_pool.size());
 
-			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.05f);
-			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt->weights1, 0.05f);
+			sw.gs->cross_over(strategy_pool[n].gs->weights, 0.07f);
+			sw.gt->cross_over(strategy_pool[n].gt->weights0, strategy_pool[n].gt->weights1, 0.07f);
 			sw.fitness = 0;
 		}
 
 		return true;
 	} /*LAMBDA END*/ );
+}
+#include "cyborg_strategy.h"
+#include "probabilistic_tactic.h"
 
+void GeneticGameMaster::addCyborgWithBest(Updater &games)
+{
+	std::shared_ptr<AbstractPlayer> op = std::make_shared<SuperPlayer>(
+		std::static_pointer_cast<AbstractStrategy>(std::make_shared<CyborgStrategy>()),
+		std::static_pointer_cast<AbstractTactic>(std::make_shared<ProbabilisticTactic>()));
+	games.AddTask( /*LAMBDA START*/ [this, op](int iterations)->bool
+	{
+		static OfficialGame * game = nullptr;
+		//INIT
+		if(iterations == 0)
+		{
+			std::shared_ptr<AbstractPlayer> p = std::make_shared<SuperPlayer>(
+				std::static_pointer_cast<AbstractStrategy>(strategy_pool[0].gs),
+				std::static_pointer_cast<AbstractTactic>(strategy_pool[0].gt));
+			game = new OfficialGame(p,op, board_size);
+		}
+		//UPDATE
+
+		strategy_pool[0].gs->activate();
+		game->Update();
+		glm::dvec2 score = game->getPlayerScore();
+
+		if(ImGui::Begin("Game Master")) ImGui::TextUnformatted("Aganist human");
+		ImGui::End();
+
+		game->Render();
+
+		//CLEAN
+		if(score != glm::dvec2(0))
+		{
+			float score1 = calculate_player_fittnes(score, 0, game->get_secondary_score(1), game->GetProgress());
+			std::cout << "P" << 0 << " score: " << score1 << " fitness: " << strategy_pool[0].fitness << std::endl;
+			delete game;
+		}
+		return score != glm::dvec2(0);
+	} /*LAMBDA END*/);
 }
 
 void GeneticGameMaster::save_matrix(const matrix &m, const std::string &filename) {

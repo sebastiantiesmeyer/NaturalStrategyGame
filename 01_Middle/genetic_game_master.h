@@ -33,14 +33,14 @@ public:
 			return fitness > p.fitness;
 		};
 		strategy_wrapper() = default;
-		strategy_wrapper(const strategy_wrapper &other)
-			:gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs)), fitness(other.fitness)
+		strategy_wrapper(const strategy_wrapper &other) : fitness(other.fitness),
+			gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs))
 		{}
 		//const strategy_wrapper & operator=(const strategy_wrapper& other) = default;
 	};
 private:
 public:
-	int speedup = 100;
+	int speedup = 502;
 	int skip = 1;
 
 	GeneticGameMaster(int board_size, int player_count);
@@ -52,6 +52,7 @@ public:
 
 	void addGames(Updater &games);
 	void addSort(Updater & games);
+	void addCyborgWithBest(Updater & games);
 	void addSimpleGames(Updater & games);
 
 	void addSimpleGames2(Updater & games);

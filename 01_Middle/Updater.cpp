@@ -24,7 +24,7 @@ void Updater::AddHumanVsHuman(int game_size)
 		return game->getPlayerScore() != glm::dvec2(0);
 	});
 }
-
+/*
 void Updater::AddMutantvsHuman(int game_size, std::shared_ptr<GeneticTactics>  gt, std::shared_ptr<GeneticStrategy> gs) {
 	std::shared_ptr<AbstractGame> game = std::make_shared<OfficialGame>(
 		std::static_pointer_cast<AbstractPlayer>(std::make_shared < SuperPlayer>(
@@ -38,9 +38,9 @@ void Updater::AddMutantvsHuman(int game_size, std::shared_ptr<GeneticTactics>  g
 		game->Update();
 		game->Render();
 		return game->getPlayerScore() != glm::dvec2(0);
-		
 	});
 }
+*/
 
 void Updater::AddCyborgVsHeuristics(int game_size)
 {

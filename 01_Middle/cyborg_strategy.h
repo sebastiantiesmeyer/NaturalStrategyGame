@@ -33,7 +33,7 @@ public:
 public:
 	AllOrders allorders;
 	bool endturn = false;
-	int wait = 100;
+	int wait = 1000000;
 	int iterations = 0;
 	UNIT_TYPE whattotrain = ROCK;
 };

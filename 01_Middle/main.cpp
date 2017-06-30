@@ -90,7 +90,7 @@ int main( int argc, char* args[] )
 	srand((int)time(0));
 	Updater gametasks;
 
-	const int rounds = 50;
+	const int rounds = 5;
 
 	GeneticGameMaster ggm = GeneticGameMaster(7, 15);
 	//ggm.createGames(1);
@@ -99,7 +99,7 @@ int main( int argc, char* args[] )
 	//ggm.addSort(gametasks);
 	for(int i = 0; i < rounds; ++i)
 	{
-		for(int i = 0; i < rounds - i; ++i)
+		for(int j = 0; j < rounds - i; ++j)
 		{
 			ggm.addGames(gametasks);
 			ggm.addSort(gametasks);
@@ -107,8 +107,7 @@ int main( int argc, char* args[] )
 		ggm.addGames(gametasks);
 		ggm.addSort(gametasks);
 	}
-	const GeneticGameMaster::strategy_wrapper& winner = ggm.get_winner(); // Deap copy!!
-	gametasks.AddMutantvsHuman(5, winner.gt, winner.gs);
+	ggm.addCyborgWithBest(gametasks);
 /*  =============================  */
 	gametasks.SetToFirstTask();
 
@@ -137,8 +136,8 @@ int main( int argc, char* args[] )
 		gametasks.Update(); //don't change
 		if(ImGui::Begin("Game Master"))
 		{
-			ImGui::SliderInt("skip", &ggm.skip, 1, 300, "%1f");
-			ImGui::SliderInt("speedup", &ggm.speedup, 1, 502, "%1f");
+			ImGui::SliderInt("skip", &ggm.skip, 1, 300, "%.0f");
+			ImGui::SliderInt("speedup", &ggm.speedup, 1, 502, "%.0f");
 			ImGui::ProgressBar(gametasks.GetProgress(), { -1,0 });
 		}
 		ImGui::End();
@@ -146,9 +145,9 @@ int main( int argc, char* args[] )
 		ImGui::Render();
 		SDL_GL_SwapWindow(win);	//Swaps front and black buffers ==> Appears on screen, this waits if vsync is on
 	}
-	GeneticGameMaster::save_matrix(winner.gs->weights,  "best_strategy.txt");
-	GeneticGameMaster::save_matrix(winner.gt->weights0, "best_tactics_0.txt");
-	GeneticGameMaster::save_matrix(winner.gt->weights1, "best_tactics_1.txt");
+//	GeneticGameMaster::save_matrix(winner.gs->weights,  "best_strategy.txt");
+//	GeneticGameMaster::save_matrix(winner.gt->weights0, "best_tactics_0.txt");
+//	GeneticGameMaster::save_matrix(winner.gt->weights1, "best_tactics_1.txt");
 
 	quit_from_app(); //clenup
 	return 0;
