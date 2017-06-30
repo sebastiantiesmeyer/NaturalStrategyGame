@@ -24,12 +24,12 @@ const GeneticGameMaster::strategy_wrapper& GeneticGameMaster::get_winner()
 
 float calculate_player_fittnes(const glm::dvec2 &score, int player, float secondary_score, float progress)
 {
-	assert(secondary_score <= 0.3f && secondary_score >= 0.f);
-	assert(progress <= 1.f && progress >= 0.f);
-	assert(score.x <= 1.f && score.x >= 0.f);
-	assert(score.y <= 1.f && score.y >= 0.f);
-	assert(player == 0 || player == 1);
-	float fittness = (score[player] - score[!player])*10.f + secondary_score;
+	//assert(secondary_score <= 0.3f && secondary_score >= 0.f);
+	//assert(progress <= 1.f && progress >= 0.f);
+	//assert(score.x <= 1.f && score.x >= 0.f);
+	//assert(score.y <= 1.f && score.y >= 0.f);
+	//assert(player == 0 || player == 1);
+	float fittness = (score[player] - score[!player])*50.f + secondary_score;
 	if(score[player] == 1.f && score[!player] == 0.f)
 		fittness -= progress;
 	if(score[!player] == 1.f && score[player] == 0.f)
@@ -174,12 +174,12 @@ void GeneticGameMaster::addGames(Updater &games)
 				{
 					//delete game;			   //update player fitness:
 
-					float score0 = calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
+					float score0 = score[0];//calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
 					strategy_pool[s1].fitness += score0;
 
-					float score1 = calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
+					float score1 = score[1];//calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
 					strategy_pool[s2].fitness += score1;
-
+					std::cout << score[0] << " : " << score[1] << std::endl;
 					//std::cout << "P" << s1 << " score: " << score0 << "   VS   P" << s2 << " score: " << score1 << std::endl;
 					delete game;
 				}

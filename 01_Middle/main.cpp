@@ -92,16 +92,16 @@ int main( int argc, char* args[] )
 
 	const int rounds = 50;
 
-	GeneticGameMaster ggm = GeneticGameMaster(5, 21);
+	GeneticGameMaster ggm = GeneticGameMaster(7, 15);
 	//ggm.createGames(1);
-	for(int i=0; i < rounds; ++i)
-			ggm.addSimpleGames(gametasks);
-	ggm.addSort(gametasks);
+	//for(int i=0; i < rounds; ++i)
+	//		ggm.addSimpleGames(gametasks);
+	//ggm.addSort(gametasks);
 	for(int i = 0; i < rounds; ++i)
 	{
 		for(int i = 0; i < rounds - i; ++i)
 		{
-			ggm.addSimpleGames(gametasks);
+			ggm.addGames(gametasks);
 			ggm.addSort(gametasks);
 		}
 		ggm.addGames(gametasks);

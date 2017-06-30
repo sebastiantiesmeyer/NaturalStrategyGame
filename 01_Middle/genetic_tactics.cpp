@@ -90,7 +90,7 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 			Unit *other_unit = board->at(pos).unit;
 			if(!other_unit)   input[2 + i] = 0;
 			else if(other_unit && other_unit->player == unit.player) input[2+i] = -1;
-			else input[2 + i] = (unit.type - other_unit->type + 3) % 3;
+			else input[2 + i] = ((unit.type - other_unit->type + 3) % 3 - 2);
 		}
 	}
 
@@ -105,9 +105,9 @@ Command GeneticTactics::step(const Unit & unit, const OrderList & order_list)
 	//Options options = output;
 
 	int maxpos = 0;
-	float max = output[0];
+	float max = get_rand(0, output[0]);
 	for (int i = 0; i <output.size(); i++) {
-		if (output[i] > max) maxpos = i;
+		if (get_rand(0,output[i]) > max) maxpos = i;
 	}
 	int cmd_int = maxpos;
 
