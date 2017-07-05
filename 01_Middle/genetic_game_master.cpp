@@ -156,6 +156,9 @@ void GeneticGameMaster::addGames(Updater &games)
 				//CLEAN
 				if(score != glm::dvec2(0))
 				{
+					//delete game;			   //update player fitness:
+
+					float score0 = score[0];//calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
 					float score0 = calculate_player_fittnes(score, 0, game->get_secondary_score(0), game->GetProgress());
 					strategy_pool[s1].fitness += score0;
 
