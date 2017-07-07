@@ -93,8 +93,8 @@ int main( int argc, char* args[] )
 
 	const int rounds = 1;
 
-	GeneticGameMaster ggm = GeneticGameMaster(7, 15);
-	SilentGameMaster sggm = SilentGameMaster(7, 15);
+	GeneticGameMaster ggm = GeneticGameMaster(7, 6);
+	SilentGameMaster sggm = SilentGameMaster(7, 6);
 
 	//ggm.createGames(1);
 	//for(int i=0; i < rounds; ++i)

@@ -78,9 +78,9 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 	}
 }
 
-void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster* sgm)
+void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 {
-	std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool = sgm->strategy_pool;
+	std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm->strategy_pool;
 
 	for (int s = 0; s < strategy_pool.size(); s++)
 	{
