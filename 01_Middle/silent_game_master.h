@@ -1,18 +1,14 @@
 #pragma once
+#include "silent_genetic_strategy.h"
 #include "abstract_game.h"
 #include "super_player.h"
 #include "genetic_tactics.h"
-#include "genetic_strategy.h"
 #include <random>
 #include "Updater.h"
-#include "silent_game_master.h"
-//static std::default_random_engine rnd_engine;
 
-
-class GeneticGameMaster
-{
-private:
-	struct strategy_wrapper
+class SilentGameMaster{
+public:
+	struct silent_strategy_wrapper
 	{
 		float fitness = 0;
 
@@ -25,24 +21,25 @@ private:
 
 		std::shared_ptr<GeneticTactics> gt = std::make_shared<GeneticTactics>();
 
-		std::shared_ptr<GeneticStrategy> gs = std::make_shared<GeneticStrategy>();
+		std::shared_ptr<SilentGeneticStrategy> gs = std::make_shared<SilentGeneticStrategy>();
 
-		bool operator <(const strategy_wrapper& p) const
+		bool operator <(const silent_strategy_wrapper& p) const
 		{	//const after the function means that it does not change the class.
 			//we need this, so std::less can work with it
 			return fitness > p.fitness;
 		};
-		strategy_wrapper() = default;
-		strategy_wrapper(const strategy_wrapper &other) : fitness(other.fitness),
-			gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<GeneticStrategy>(*other.gs))
+		silent_strategy_wrapper() = default;
+		silent_strategy_wrapper(const silent_strategy_wrapper &other) : fitness(other.fitness),
+			gt(std::make_shared<GeneticTactics>(*other.gt)), gs(std::make_shared<SilentGeneticStrategy>(*other.gs))
 		{}
 		//const strategy_wrapper & operator=(const strategy_wrapper& other) = default;
 	};
+
 public:
-	int speedup = 1;
+	int speedup = 502;
 	int skip = 1;
 
-	GeneticGameMaster(int board_size, int player_count);
+	SilentGameMaster(int board_size, int player_count);
 
 	//void play(int games);
 	void initiate_players(int player_count);
@@ -53,18 +50,17 @@ public:
 	void addSort(Updater & games);
 	void addCyborgWithBest(Updater & games);
 	void addSimpleGames(Updater & games);
-
-	void addPoolGames(Updater & games, SilentGameMaster* sgm);
+	std::vector<silent_strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
+	void addSimpleGames2(Updater & games);
 
 protected:
 	std::shared_ptr<AbstractPlayer> train_h1;
-	std::vector<strategy_wrapper> strategy_pool;	//Gene pool of strategies/tactics.
+
 	int board_size;
 
 public:
-	const strategy_wrapper& get_winner();
+	const silent_strategy_wrapper& get_winner();
+	float calculate_player_fittnes(const glm::dvec2 & score, int player, float secondary_score, float progress);
 	static void save_matrix(const matrix &m, const std::string &name);
 	static matrix load_matrix(matrix &m, const std::string &filename);
 };
-
-

@@ -22,6 +22,9 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{bc55c78a-ffb5-4b33-bb6f-11758d1f249e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="scripts">
+      <UniqueIdentifier>{92f40fc9-6dbf-4cff-a578-93c24ba1d5af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
@@ -83,6 +86,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="train.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="silent_genetic_strategy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="silent_game_master.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -174,9 +183,20 @@
     <ClInclude Include="train.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="silent_genetic_strategy.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="silent_game_master.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
     <None Include="ClassDiagram1.cd" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test.py">
+      <Filter>scripts</Filter>
+    </Text>
   </ItemGroup>
 </Project>

@@ -1,20 +1,19 @@
 #pragma once
-#include "abstract_strategy.h"
+//#include "abstract_strategy.h"
 //#include "genetic_game_master.h"
+#include "genetic_strategy.h"
 
-class GeneticStrategy : public AbstractStrategy
+class SilentGeneticStrategy : public GeneticStrategy
 {
 private:
 	int n_output = 4;
 	int n_input = 16;
 	float scope = 4.f;
-
-
 public:
 
-	GeneticStrategy();
-	GeneticStrategy(const GeneticStrategy& other) = default;
-	~GeneticStrategy() {}
+	SilentGeneticStrategy();
+	SilentGeneticStrategy(const SilentGeneticStrategy& other) = default;
+	~SilentGeneticStrategy() {}
 	void activate();
 
 	void mutate(float scope);

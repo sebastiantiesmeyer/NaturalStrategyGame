@@ -16,6 +16,7 @@
 #include "Tester.h"
 #include <vector>
 #include "genetic_game_master.h"
+#include "silent_game_master.h"
 #include "battle_arena.h"
 #include <ctime>
 #include "Updater.h"
@@ -90,16 +91,30 @@ int main( int argc, char* args[] )
 	srand((int)time(0));
 	Updater gametasks;
 
-	const int rounds = 5;
+	const int rounds = 1;
 
 	GeneticGameMaster ggm = GeneticGameMaster(7, 15);
+	SilentGameMaster sggm = SilentGameMaster(7, 15);
+
 	//ggm.createGames(1);
 	//for(int i=0; i < rounds; ++i)
 	//		ggm.addSimpleGames(gametasks);
 	//ggm.addSort(gametasks);
-	for(int i = 0; i < rounds; ++i)
+
+	for (int i = 0; i < rounds; ++i)
 	{
-		for(int j = 0; j < rounds - i; ++j)
+		for (int j = 0; j < rounds - i; ++j)
+		{
+			sggm.addGames(gametasks);
+			sggm.addSort(gametasks);
+		}
+		sggm.addGames(gametasks);
+		sggm.addSort(gametasks);
+	}
+
+	for (int i = 0; i < rounds; ++i)
+	{
+		for (int j = 0; j < rounds - i; ++j)
 		{
 			ggm.addGames(gametasks);
 			ggm.addSort(gametasks);
@@ -107,7 +122,9 @@ int main( int argc, char* args[] )
 		ggm.addGames(gametasks);
 		ggm.addSort(gametasks);
 	}
-	ggm.addCyborgWithBest(gametasks);
+
+	//ggm.addCyborgWithBest(gametasks);
+	ggm.addPoolGames(gametasks, &sggm);
 /*  =============================  */
 	gametasks.SetToFirstTask();
 
@@ -136,8 +153,8 @@ int main( int argc, char* args[] )
 		gametasks.Update(); //don't change
 		if(ImGui::Begin("Game Master"))
 		{
-			ImGui::SliderInt("skip", &ggm.skip, 1, 300, "%.0f");
-			ImGui::SliderInt("speedup", &ggm.speedup, 1, 502, "%.0f");
+			ImGui::SliderInt("speedup", &ggm.skip, 1, 300, "%.0f");
+			ImGui::SliderInt("skip", &ggm.speedup, 1, 502, "%.0f");
 			ImGui::ProgressBar(gametasks.GetProgress(), { -1,0 });
 		}
 		ImGui::End();
