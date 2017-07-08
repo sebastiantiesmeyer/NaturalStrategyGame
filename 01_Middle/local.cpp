@@ -97,7 +97,8 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 	int ylb = std::max(unit.pos.y - window_size, 0);
 	int yub = std::min(unit.pos.y + window_size, board.size() - 1);
 	const float reaction[3] = { -1.f, -19.0f, +19.0f }; //{both die, we die, we win}
-	const float panicing[3] = { 0.9f, 1.3f, 0.2f }; //{both die, we die, we win}
+	//const float panicing[3] = { 0.9f, 1.3f, 0.2f }; //{both die, we die, we win}
+	const float panicing[3] = { -1.f, 0.1f, 1.f }; //{both die, we die, we win}
 	const float mid_favr = 1.f/(float)window_size;
 	glm::vec2 vec = glm::vec2(0);
 	float panic = 0.5; int num = 0;
@@ -111,7 +112,8 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 			float dist = powf((float)norm1(dir), 2) + 1.f;
 			int outcome = (unit.type - other_unit->type + 3) % 3;
 			vec += glm::vec2((float)dir.x, (float)dir.y) / dist * reaction[outcome];
-			panic *= panicing[outcome];
+			//panic *= panicing[outcome];
+			panic *= exp(panicing[outcome]/dist);
 			++num;
 		}
 		else if(other_unit)
@@ -120,7 +122,6 @@ void localNxN(const Unit& unit, const Board &board, Options &options)
 			vec += glm::vec2((float)dir.x, (float)dir.y)*mid_favr / dist;
 		}
 	}
-	Options ret = { panic, panic, 1.f/(panic + 1.0f), panic, panic };
 	options.down *= panic;
 	options.up *= panic;
 	options.right *= panic;

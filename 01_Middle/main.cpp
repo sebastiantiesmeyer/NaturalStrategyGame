@@ -100,6 +100,7 @@ int main( int argc, char* args[] )
 	//for(int i=0; i < rounds; ++i)
 	//		ggm.addSimpleGames(gametasks);
 	//ggm.addSort(gametasks);
+	gametasks.AddCyborgVsHeuristics(5);
 
 	for (int i = 0; i < rounds; ++i)
 	{
