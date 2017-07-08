@@ -14,11 +14,15 @@ AbstractGame::AbstractGame(const std::shared_ptr<AbstractPlayer> &p0, const std:
 	player[1] = p1;
 	//const std::shared_ptr<const Board> pb(&board);
 	//const std::shared_ptr<const Units> pu(&units);
-
-	player[0]->setPlayerParameters(board, units, unit_progress[0], 0);
-	player[1]->setPlayerParameters(board, units, unit_progress[1], 1);
+	SetPlayerParameters();
 	player[0]->StartTurn();
 	player[1]->StartTurn();
+}
+
+inline void AbstractGame::SetPlayerParameters()
+{
+	player[0]->setPlayerParameters(board, units, unit_progress[0], 0);
+	player[1]->setPlayerParameters(board, units, unit_progress[1], 1);
 }
 
 bool AbstractGame::Update()
