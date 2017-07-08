@@ -80,7 +80,7 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 
 void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 {
-	//std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm.strategy_pool;
+	//std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm->strategy_pool;
 
 	for (int s = 0; s < strategy_pool.size(); s++)
 	{
@@ -120,7 +120,7 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 					float score1 = calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
 					strategy_pool[s].fitness += score1;
 
-					std::cout << "P" << s << " s: " << score1 << " f: " << strategy_pool[s].fitness << " --- P" << t << " s: " << score0 << " f: " << strategy_pool[t].fitness  << std::endl;
+					std::cout << "P" << s << " s: " << score1 << " f: " << strategy_pool[s].fitness << " --- P" << t << " s: " << score0 << " f: " << sgm->strategy_pool[t].fitness  << std::endl;
 					delete game;
 				}
 				return score != glm::dvec2(0);

@@ -25,6 +25,7 @@ public:
 	//Returns score of the players. Player 0 is x, and player 1 is y.
 	//	Inharited class has to implement it
 	virtual glm::dvec2 getPlayerScore() const = 0;
+	//For visualizing the time needed to end the game by a draw
 	inline float GetProgress() const { return cycle / (float)max_cycles; }
 protected:
 	//Implement it for rules that are not implemented in the AbstractGame();
@@ -38,6 +39,8 @@ private:	//following functions are used internally
 	void execute_command(const Command &command, int player);
 	void kill_unit(Unit &unit);
 	void move_unit(Unit &unit, const Position &newpos);
+	//Makes sure players have the necessery pointers set up
+	void SetPlayerParameters();
 protected:
 	glm::dvec2 score = glm::dvec2(0.0, 0.0); //This is the game status. Modify to end game!!
 	std::shared_ptr<UnitProgress> unit_progress[2]; //change it as needed!
