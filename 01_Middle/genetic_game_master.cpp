@@ -80,12 +80,12 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 
 void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 {
-	std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm->strategy_pool;
+	//std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm->strategy_pool;
 
 	for (int s = 0; s < strategy_pool.size(); s++)
 	{
-		for (int t = 0; t < foreign_pool.size(); t++) {
-			games.AddTask( /*LAMBDA START*/ [this, s,t, foreign_pool](int iterations)->bool
+		for (int t = 0; t < sgm->strategy_pool.size(); t++) {
+			games.AddTask( /*LAMBDA START*/ [this, s,t, sgm](int iterations)->bool
 			{
 				static OfficialGame * game = nullptr;
 				//INIT
@@ -95,8 +95,8 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 						std::static_pointer_cast<AbstractStrategy>(strategy_pool[s].gs),
 						std::static_pointer_cast<AbstractTactic>(strategy_pool[s].gt));
 					std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(
-						std::static_pointer_cast<AbstractStrategy>(foreign_pool[t].gs),
-						std::static_pointer_cast<AbstractTactic>(foreign_pool[t].gt));
+						std::static_pointer_cast<AbstractStrategy>(sgm->strategy_pool[t].gs),
+						std::static_pointer_cast<AbstractTactic>(sgm->strategy_pool[t].gt));
 
 					game = new OfficialGame(p, p1, board_size);
 				}
@@ -105,7 +105,7 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 				for (int i = 0; iterations % skip == 0 && i < speedup && score == glm::dvec2(0); ++i)
 				{
 					strategy_pool[s].gs->activate();
-					foreign_pool[s].gs->activate();
+					sgm->strategy_pool[s].gs->activate();
 					game->Update();
 					score = game->getPlayerScore();
 				}
@@ -120,7 +120,7 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 					float score1 = calculate_player_fittnes(score, 1, game->get_secondary_score(1), game->GetProgress());
 					strategy_pool[s].fitness += score1;
 
-					std::cout << "P" << s << " s: " << score1 << " f: " << strategy_pool[s].fitness << " --- P" << t << " s: " << score0 << " f: " << strategy_pool[t].fitness  << std::endl;
+					std::cout << "P" << s << " s: " << score1 << " f: " << strategy_pool[s].fitness << " --- P" << t << " s: " << score0 << " f: " << sgm->strategy_pool[t].fitness  << std::endl;
 					delete game;
 				}
 				return score != glm::dvec2(0);

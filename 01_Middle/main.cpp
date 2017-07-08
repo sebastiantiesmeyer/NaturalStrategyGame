@@ -93,8 +93,8 @@ int main( int argc, char* args[] )
 
 	const int rounds = 1;
 
-	GeneticGameMaster ggm = GeneticGameMaster(7, 6);
-	SilentGameMaster sggm = SilentGameMaster(7, 6);
+	GeneticGameMaster ggm = GeneticGameMaster(5, 3);
+	SilentGameMaster sggm = SilentGameMaster(5, 3);
 
 	//ggm.createGames(1);
 	//for(int i=0; i < rounds; ++i)
@@ -103,22 +103,12 @@ int main( int argc, char* args[] )
 
 	for (int i = 0; i < rounds; ++i)
 	{
-		for (int j = 0; j < rounds - i; ++j)
-		{
-			sggm.addGames(gametasks);
-			sggm.addSort(gametasks);
-		}
 		sggm.addGames(gametasks);
 		sggm.addSort(gametasks);
 	}
 
 	for (int i = 0; i < rounds; ++i)
 	{
-		for (int j = 0; j < rounds - i; ++j)
-		{
-			ggm.addGames(gametasks);
-			ggm.addSort(gametasks);
-		}
 		ggm.addGames(gametasks);
 		ggm.addSort(gametasks);
 	}
