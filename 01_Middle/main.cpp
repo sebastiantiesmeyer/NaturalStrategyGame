@@ -91,15 +91,26 @@ int main( int argc, char* args[] )
 	srand((int)time(0));
 	Updater gametasks;
 
-	const int rounds = 1;
+	const int rounds = 30;
 
-	GeneticGameMaster ggm = GeneticGameMaster(7, 6);
-	SilentGameMaster sggm = SilentGameMaster(7, 6);
+	GeneticGameMaster ggm = GeneticGameMaster(18, 25);
+	SilentGameMaster sggm = SilentGameMaster(18, 25);
 
 	//ggm.createGames(1);
 	//for(int i=0; i < rounds; ++i)
 	//		ggm.addSimpleGames(gametasks);
 	//ggm.addSort(gametasks);
+
+	for (int i = 0; i < rounds; ++i)
+	{
+		for (int j = 0; j < rounds - i; ++j)
+		{
+			ggm.addGames(gametasks);
+			ggm.addSort(gametasks);
+		}
+		ggm.addGames(gametasks);
+		ggm.addSort(gametasks);
+	}
 
 	for (int i = 0; i < rounds; ++i)
 	{
@@ -112,16 +123,6 @@ int main( int argc, char* args[] )
 		sggm.addSort(gametasks);
 	}
 
-	for (int i = 0; i < rounds; ++i)
-	{
-		for (int j = 0; j < rounds - i; ++j)
-		{
-			ggm.addGames(gametasks);
-			ggm.addSort(gametasks);
-		}
-		ggm.addGames(gametasks);
-		ggm.addSort(gametasks);
-	}
 
 	//ggm.addCyborgWithBest(gametasks);
 	ggm.addPoolGames(gametasks, &sggm);

@@ -54,7 +54,7 @@ public:
 	void addCyborgWithBest(Updater & games);
 	void addSimpleGames(Updater & games);
 
-	void addPoolGames(Updater & games, SilentGameMaster* sgm);
+	void addPoolGames(Updater & games, SilentGameMaster * sgm);
 
 protected:
 	std::shared_ptr<AbstractPlayer> train_h1;

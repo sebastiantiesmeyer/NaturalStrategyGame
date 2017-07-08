@@ -5,7 +5,7 @@
 class GeneticStrategy : public AbstractStrategy
 {
 private:
-	int n_output = 4;
+	int n_output = 6;
 	int n_input = 16;
 	float scope = 4.f;
 

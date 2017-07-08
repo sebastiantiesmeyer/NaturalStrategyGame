@@ -187,7 +187,7 @@ void SilentGameMaster::addSort(Updater &games)
 
 		std::cout << "Best " << strategy_pool[0].fitness << std::endl;
 
-		const float replace_ratio = 0.33333333333333; //The worst performing 2/3 goes extinct :oC
+		const float replace_ratio = 0.2; //The worst performing 2/3 goes extinct :oC
 		const int initial_pop = strategy_pool.size();
 		for (int i = 0; i < initial_pop * replace_ratio; i++)
 			strategy_pool.pop_back();

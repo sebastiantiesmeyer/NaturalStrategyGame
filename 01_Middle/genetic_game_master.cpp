@@ -80,12 +80,12 @@ void GeneticGameMaster::addSimpleGames(Updater &games)
 
 void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 {
-	std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm->strategy_pool;
+	//std::vector<SilentGameMaster::silent_strategy_wrapper> foreign_pool  = sgm.strategy_pool;
 
 	for (int s = 0; s < strategy_pool.size(); s++)
 	{
-		for (int t = 0; t < foreign_pool.size(); t++) {
-			games.AddTask( /*LAMBDA START*/ [this, s,t, foreign_pool](int iterations)->bool
+		for (int t = 0; t < sgm->strategy_pool.size(); t++) {
+			games.AddTask( /*LAMBDA START*/ [this, s,t, sgm](int iterations)->bool
 			{
 				static OfficialGame * game = nullptr;
 				//INIT
@@ -95,8 +95,8 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 						std::static_pointer_cast<AbstractStrategy>(strategy_pool[s].gs),
 						std::static_pointer_cast<AbstractTactic>(strategy_pool[s].gt));
 					std::shared_ptr<AbstractPlayer> p1 = std::make_shared<SuperPlayer>(
-						std::static_pointer_cast<AbstractStrategy>(foreign_pool[t].gs),
-						std::static_pointer_cast<AbstractTactic>(foreign_pool[t].gt));
+						std::static_pointer_cast<AbstractStrategy>(sgm->strategy_pool[t].gs),
+						std::static_pointer_cast<AbstractTactic>(sgm->strategy_pool[t].gt));
 
 					game = new OfficialGame(p, p1, board_size);
 				}
@@ -105,7 +105,7 @@ void GeneticGameMaster::addPoolGames(Updater &games, SilentGameMaster *sgm)
 				for (int i = 0; iterations % skip == 0 && i < speedup && score == glm::dvec2(0); ++i)
 				{
 					strategy_pool[s].gs->activate();
-					foreign_pool[s].gs->activate();
+					sgm->strategy_pool[t].gs->activate();
 					game->Update();
 					score = game->getPlayerScore();
 				}
@@ -194,7 +194,7 @@ void GeneticGameMaster::addSort(Updater &games)
 
 		std::cout << "Best " << strategy_pool[0].fitness << std::endl;
 
-		const float replace_ratio = 0.33333333333333; //The worst performing 2/3 goes extinct :oC
+		const float replace_ratio = 0.2; //The worst performing 2/3 goes extinct :oC
 		const int initial_pop = strategy_pool.size();
 		for(int i = 0; i < initial_pop * replace_ratio; i++)
 			strategy_pool.pop_back();
